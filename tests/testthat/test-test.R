@@ -12,19 +12,18 @@ test_that('fnames_get() works', {
   expect_true('module_install' %in% res)
 })
 context('Testing \'test\'')
-# TODO: install() -- should it be part of devtools?
-# test_that('install_test() works', {
-#   with_mock(
-#     `outsider:::install` = function(...) stop(''),
-#     `outsider::module_uninstall` = function(...) FALSE,
-#     expect_error(outsider.devtools:::install_test(repo = '', tag = 'latest'))
-#   )
-#   with_mock(
-#     `outsider:::install` = function(...) TRUE,
-#     `outsider::module_uninstall` = function(...) TRUE,
-#     expect_true(outsider.devtools:::install_test(repo = '', tag = 'latest'))
-#   )
-# })
+test_that('install_test() works', {
+  with_mock(
+    `outsider.devtools:::install` = function(...) stop(''),
+    `outsider.devtools:::uninstall` = function(...) FALSE,
+    expect_error(outsider.devtools:::install_test(repo = '', tag = 'latest'))
+  )
+  with_mock(
+    `outsider.devtools:::install` = function(...) TRUE,
+    `outsider.devtools:::uninstall` = function(...) TRUE,
+    expect_true(outsider.devtools:::install_test(repo = '', tag = 'latest'))
+  )
+})
 # TODO: module_import() -- should it be part of devtools?
 # test_that('import_test() works', {
 #   with_mock(

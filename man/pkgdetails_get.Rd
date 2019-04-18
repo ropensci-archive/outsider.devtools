@@ -19,9 +19,9 @@ DESCRIPTION file.
 \seealso{
 Other private: \code{\link{default_log_set}},
   \code{\link{examples_test}}, \code{\link{file_create}},
-  \code{\link{fnames_get}}, \code{\link{import_test}},
-  \code{\link{install_test}}, \code{\link{is_filepath}},
-  \code{\link{log_get}}, \code{\link{string_replace}},
+  \code{\link{fnames_get}}, \code{\link{install_test}},
+  \code{\link{is_filepath}}, \code{\link{log_get}},
+  \code{\link{string_replace}},
   \code{\link{templates_get}}, \code{\link{test}},
   \code{\link{to_basename}}
 }

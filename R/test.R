@@ -48,25 +48,25 @@ ex_source <- function(file) {
   source(file = file, local = TRUE)
 }
 
-#' @name import_test
-#' @title Test whether module functions can be imported
-#' @description Return TRUE if all of the outsider module functions are
-#' successfully imported.
-#' @param repo Module repo
-#' @return logical
-#' @family private
-import_test <- function(repo) {
-  res <- TRUE
-  fnames <- fnames_get(repo = repo)
-  for (fname in fnames) {
-    foo <- module_import(fname = fname, repo = repo)
-    if (!inherits(foo, 'function')) {
-      message('Unable to import `', fname, '` correctly')
-      res <- FALSE
-    }
-  }
-  res
-}
+# @name import_test
+# @title Test whether module functions can be imported
+# @description Return TRUE if all of the outsider module functions are
+# successfully imported.
+# @param repo Module repo
+# @return logical
+# @family private
+# import_test <- function(repo) {
+#   res <- TRUE
+#   fnames <- fnames_get(repo = repo)
+#   for (fname in fnames) {
+#     foo <- module_import(fname = fname, repo = repo)
+#     if (!inherits(foo, 'function')) {
+#       message('Unable to import `', fname, '` correctly')
+#       res <- FALSE
+#     }
+#   }
+#   res
+# }
 
 #' @name install_test
 #' @title Test whether module can be installed
@@ -76,7 +76,7 @@ import_test <- function(repo) {
 #' @return logical
 #' @family private
 install_test <- function(repo, tag) {
-  module_uninstall(repo = repo)
+  uninstall(repo = repo)
   install(repo = repo, tag = tag)
   TRUE
 }

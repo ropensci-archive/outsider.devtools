@@ -1,2 +1,2 @@
 library(testthat)
-test_check("outsider")
+test_check("outsider.devtools")

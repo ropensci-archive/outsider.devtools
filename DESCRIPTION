@@ -26,6 +26,7 @@ Imports:
     callr (>= 3.0.0),
     withr (>= 2.0),
     stevedore,
+    stringr,
     tibble,
     cli,
     praise

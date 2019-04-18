@@ -13,13 +13,12 @@ Description: This is my package
 '
 
 # Running ----
-# TODO: module_uninstall() -- should it be part of devtools?
 # test_that('test() works', {
 #   tags <- tibble::as_tibble(list(repo = c('test/repo', 'test/repo'),
 #                                  tag = c('latest', '1.0'),
 #                                  download_url = c('test.com', 'test.com')))
 #   with_mock(
-#     `outsider.devtools:::module_uninstall` = function(...) TRUE,
+#     `outsider.devtools:::uninstall` = function(...) TRUE,
 #     `outsider.devtools:::examples_test` = function(...) TRUE,
 #     `outsider.devtools:::import_test` = function(...) TRUE,
 #     `outsider.devtools:::install_test` = function(...) TRUE,
@@ -27,7 +26,7 @@ Description: This is my package
 #     expect_true(outsider.devtools:::test(repo = 'test/repo'))
 #   )
 #   with_mock(
-#     `outsider.devtools:::module_uninstall` = function(...) TRUE,
+#     `outsider.devtools:::uninstall` = function(...) TRUE,
 #     `outsider.devtools:::examples_test` = function(...) FALSE,
 #     `outsider.devtools:::import_test` = function(...) TRUE,
 #     `outsider.devtools:::install_test` = function(...) TRUE,
@@ -35,7 +34,7 @@ Description: This is my package
 #     expect_error(outsider.devtools:::test(repo = 'test/repo'))
 #   )
 #   with_mock(
-#     `outsider.devtools:::module_uninstall` = function(...) TRUE,
+#     `outsider.devtools:::uninstall` = function(...) TRUE,
 #     `outsider.devtools:::examples_test` = function(...) TRUE,
 #     `outsider.devtools:::import_test` = function(...) FALSE,
 #     `outsider.devtools:::install_test` = function(...) TRUE,
@@ -43,7 +42,7 @@ Description: This is my package
 #     expect_error(outsider.devtools:::test(repo = 'test/repo'))
 #   )
 #   with_mock(
-#     `outsider.devtools:::module_uninstall` = function(...) TRUE,
+#     `outsider.devtools:::uninstall` = function(...) TRUE,
 #     `outsider.devtools:::examples_test` = function(...) TRUE,
 #     `outsider.devtools:::import_test` = function(...) TRUE,
 #     `outsider.devtools:::install_test` = function(...) stop(),
