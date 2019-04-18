@@ -7,7 +7,7 @@ blastdir_get <- function() {
     stop('Not a UNIX system')
   }
   res <- sys::exec_internal(cmd = 'which', args = 'blastn')
-  outsider::.dirpath_get(rawToChar(res[['stdout']]))
+  outsider.devtools:::.dirpath_get(rawToChar(res[['stdout']]))
 }
 
 # Setup and run ----

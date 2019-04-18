@@ -1,5 +1,5 @@
 # LIBS
-library(outsider)
+library(outsider.devtools)
 library(testthat)
 
 # RUNNING
@@ -7,11 +7,11 @@ context('Testing \'args\'')
 test_that('to_basename() works', {
   expctd <- list.files(getwd())[1]
   args <- c(file.path(getwd(), expctd), 'arg1', 'arg2')
-  expect_true(outsider:::to_basename(args)[1] == expctd)
+  expect_true(outsider.devtools:::to_basename(args)[1] == expctd)
 })
 test_that('is_filepath() works', {
   files <- list.files(getwd())
-  expect_true(all(outsider:::is_filepath(files)))
+  expect_true(all(outsider.devtools:::is_filepath(files)))
 })
 test_that('.args_get() works', {
   res <- .arglist_get(outsider:::gh_api_url, 'b', 'c')
@@ -54,7 +54,7 @@ test_that('.dirpath_get() works', {
   # nothin in, nothin out
   expect_equal(.dirpath_get(character(0)), character())
   # if dirpath already, dirpath returned
-  datapth <- outsider:::datadir_get()
+  datapth <- outsider.devtools:::datadir_get()
   expect_equal(.dirpath_get(datapth), datapth)
   # drop filename
   expect_equal(.dirpath_get(paste0(datapth, 'afile.txt')), datapth)
@@ -63,7 +63,7 @@ test_that('.arglist_parse() works', {
   # nothin in, nothin out
   expect_equal(.arglist_parse(character(0)), character())
   # path normalisation
-  res <- .arglist_parse(arglist = paste0(outsider:::datadir_get()))
+  res <- .arglist_parse(arglist = paste0(outsider.devtools:::datadir_get()))
   expect_equal(res, 'data')
   res <- .arglist_parse(arglist = 'not/a/real/file/path')
   expect_equal(res, 'not/a/real/file/path')
