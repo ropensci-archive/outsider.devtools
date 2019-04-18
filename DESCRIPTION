@@ -1,0 +1,36 @@
+Package: outsider.devtools
+Type: Package
+Title: Build 'outsider' Modules
+Version: 0.1.0
+Authors@R: person("Dom", "Bennett", role = c("aut", "cre"),
+    email = "dominic.john.bennett@gmail.com",
+    comment = c(ORCID = "0000-0003-2722-1359"))
+Maintainer: Dom Bennett <dominic.john.bennett@gmail.com>
+Description: Developer functions and resources for building 'outsider' modules.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+SystemRequirements: docker (>=18.0.0)
+URL: https://antonellilab.github.io/outsider.devtools
+BugReports: https://github.com/antonellilab/outsider.devtools/issues
+Language: en-GB
+Depends:
+    R (>= 3.3.0)
+Imports:
+    utils (>= 3.1),
+    crayon,
+    devtools (>= 1.1),
+    jsonlite (>= 1.1),
+    sys (>= 2.1),
+    yaml (>= 2.0),
+    callr (>= 3.0.0),
+    withr (>= 2.0),
+    stevedore,
+    tibble,
+    cli,
+    praise
+Suggests:
+    testthat (>= 2.0),
+    knitr (>= 1.0),
+    outsider
+RoxygenNote: 6.1.1
