@@ -132,7 +132,7 @@ file_create <- function(x, flpth) {
 }
 
 # Public (hidden from general user) ----
-#' @name .module_skeleton
+#' @name module_skeleton
 #' @title Generate a skeleton for a module
 #' @description Create all the base files and folders to kickstart the
 #' development of a new outsider module.
@@ -145,8 +145,8 @@ file_create <- function(x, flpth) {
 #' @param docker_user Developer's username for Docker
 #' @return Logical
 #' @export
-#' @family developer
-.module_skeleton <- function(program_name, github_user, docker_user,
+#' @family public
+module_skeleton <- function(program_name, github_user, docker_user,
                              flpth = getwd()) {
   r_version <- paste0(version[['major']], '.', version[['minor']])
   mdlnm <- paste0('om..', program_name)
@@ -167,7 +167,7 @@ file_create <- function(x, flpth) {
   invisible(TRUE)
 }
 
-#' @name .module_travis
+#' @name module_travis
 #' @title Generate Travis-CI file
 #' @description Write .travis.yml to working directory.
 #' @details All validated outsider modules must have a .travis.yml in their
@@ -176,8 +176,8 @@ file_create <- function(x, flpth) {
 #' @param flpth Directory in which to create .travis.yml
 #' @return Logical
 #' @export
-#' @family developer
-.module_travis <- function(repo, flpth = getwd()) {
+#' @family public
+module_travis <- function(repo, flpth = getwd()) {
   url <- paste0('https://raw.githubusercontent.com/DomBennett/',
                 'om..hello.world/master/.travis.yml')
   travis_text <- paste0(readLines(url), collapse = '\n')
@@ -187,7 +187,7 @@ file_create <- function(x, flpth) {
   invisible(file.exists(file.path(flpth, '.travis.yml')))
 }
 
-#' @name .module_identities
+#' @name module_identities
 #' @title Return identities for a module
 #' @description Returns a list of the identities (GitHub repo, Package name,
 #' Docker images) for an outsider module. Works for modules in development.
@@ -195,8 +195,8 @@ file_create <- function(x, flpth) {
 #' @param flpth File path to location of module
 #' @return Logical
 #' @export
-#' @family developer
-.module_identities <- function(flpth) {
+#' @family public
+module_identities <- function(flpth) {
   # TODO: come-up with better class name than "ids"
   res <- list()
   pkg_details <- pkgdetails_get(flpth = flpth)
@@ -211,20 +211,20 @@ file_create <- function(x, flpth) {
   structure(res, class = 'ids')
 }
 
-#' @name .module_check
+#' @name module_check
 #' @title Check names and structure of a module
 #' @description Returns TRUE if all the names and structure of an outsider
 #' module are correct.
 #' @param flpth File path to location of module
 #' @return Logical
 #' @export
-#' @family developer
-#' @example examples/.module_build.R
-.module_check <- function(flpth = NULL) {
+#' @family public
+#' @example examples/module_build.R
+module_check <- function(flpth = NULL) {
   TRUE
 }
 
-#' @name .module_test
+#' @name module_test
 #' @title Test an outsider module
 #' @description Ensure an outsider module builds, imports correctly and all
 #' its functions successfully complete.
@@ -234,9 +234,9 @@ file_create <- function(x, flpth) {
 #' @param verbose Print docker and program info to console
 #' @return Logical
 #' @export
-#' @example examples/.module_test.R
-#' @family developer
-.module_test <- function(repo, verbose = FALSE) {
+#' @example examples/module_test.R
+#' @family public
+module_test <- function(repo, verbose = FALSE) {
   res <- FALSE
   on.exit(expr = {
     if (res) {

@@ -2,15 +2,15 @@
 % Please edit documentation in R/outsider.R
 \name{outsider-class}
 \alias{outsider-class}
-\alias{.outsider_init}
+\alias{outsider_init}
 \alias{outsider-methods}
-\alias{.run.outsider}
+\alias{run.outsider}
 \title{Construct outsider object}
 \usage{
-.outsider_init(repo, cmd = NA, arglist = NULL, wd = NULL,
+outsider_init(repo, cmd = NA, arglist = NULL, wd = NULL,
   files_to_send = NULL, ignore_errors = FALSE)
 
-\method{.run}{outsider}(x)
+\method{run}{outsider}(x)
 }
 \arguments{
 \item{repo}{Repository of the outsider module}
@@ -70,13 +70,13 @@ defined for the outsider to be run.
 # 
 # # Run echo
 # # create a outsider object that contains argument and Docker container details
-# otsdr <- outsider::.outsider_init(repo = repo, cmd = 'echo',
-#                                   arglist = c('hello world!'))
+# otsdr <- outsider::outsider_init(repo = repo, cmd = 'echo',
+#                                  arglist = c('hello world!'))
 # # check details
 # print(otsdr)
 # # run the command
 # # NOT RUN
-# # outsider::.run(otsdr)
+# # outsider::run(otsdr)
 # 
 # # Send a file
 # # an existing outsider object can be modified
@@ -89,7 +89,7 @@ defined for the outsider to be run.
 # # check details
 # print(otsdr)
 # # run the command
-# outsider::.run(otsdr)
+# outsider::run(otsdr)
 # 
 # # Return a file
 # # an existing outsider object can be modified
@@ -100,7 +100,7 @@ defined for the outsider to be run.
 # # check details
 # print(otsdr)
 # # run the command
-# outsider::.run(otsdr)
+# outsider::run(otsdr)
 # # check if 'newfile' exists in tempdir()
 # nwflpth <- file.path(tmppth, 'newfile')
 # (file.exists(nwflpth))
@@ -112,13 +112,12 @@ defined for the outsider to be run.
 # module_uninstall(repo)
 }
 \seealso{
-Other developer: \code{\link{.arglist_get}},
-  \code{\link{.arglist_parse}}, \code{\link{.dirpath_get}},
-  \code{\link{.filestosend_get}},
-  \code{\link{.module_check}},
-  \code{\link{.module_identities}},
-  \code{\link{.module_skeleton}},
-  \code{\link{.module_test}}, \code{\link{.module_travis}},
-  \code{\link{.wd_get}}
+Other public: \code{\link{arglist_get}},
+  \code{\link{arglist_parse}}, \code{\link{dirpath_get}},
+  \code{\link{filestosend_get}},
+  \code{\link{module_check}},
+  \code{\link{module_identities}},
+  \code{\link{module_skeleton}}, \code{\link{module_test}},
+  \code{\link{module_travis}}, \code{\link{wd_get}}
 }
-\concept{developer}
+\concept{public}

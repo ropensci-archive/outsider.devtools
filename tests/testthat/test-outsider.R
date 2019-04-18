@@ -9,7 +9,7 @@ test_that("outsider class and methods works", {
   # test init
   otsdr <- with_mock(
     `outsider.devtools:::container_init` = function(...) container,
-    .outsider_init(repo = 'user/repo')
+    outsider_init(repo = 'user/repo')
   )
   expect_true(inherits(otsdr, 'outsider'))
   # test print
@@ -24,7 +24,7 @@ test_that("outsider class and methods works", {
     `outsider.devtools:::halt.container` = function(x, ...) TRUE,
     `outsider.devtools:::copy.container` = function(x, ...) TRUE,
     `outsider.devtools:::run.container` = function(x, ...) TRUE,
-    expect_true(.run(otsdr))
+    expect_true(run(otsdr))
   )
   otsdr$files_to_send <- 'file'
   with_mock(
@@ -32,7 +32,7 @@ test_that("outsider class and methods works", {
     `outsider.devtools:::halt.container` = function(x, ...) TRUE,
     `outsider.devtools:::copy.container` = function(x, ...) TRUE,
     `outsider.devtools:::run.container` = function(x, ...) TRUE,
-    expect_true(.run(otsdr))
+    expect_true(run(otsdr))
   )
   otsdr$wd <- 'wd'
   with_mock(
@@ -40,21 +40,21 @@ test_that("outsider class and methods works", {
     `outsider.devtools:::halt.container` = function(x, ...) TRUE,
     `outsider.devtools:::copy.container` = function(x, ...) TRUE,
     `outsider.devtools:::run.container` = function(x, ...) TRUE,
-    expect_true(.run(otsdr))
+    expect_true(run(otsdr))
   )
   with_mock(
     `outsider.devtools:::start.container` = function(x, ...) TRUE,
     `outsider.devtools:::halt.container` = function(x, ...) TRUE,
     `outsider.devtools:::copy.container` = function(x, ...) TRUE,
     `outsider.devtools:::run.container` = function(x, ...) FALSE,
-    expect_false(.run(otsdr))
+    expect_false(run(otsdr))
   )
   with_mock(
     `outsider.devtools:::start.container` = function(x, ...) FALSE,
     `outsider.devtools:::halt.container` = function(x, ...) TRUE,
     `outsider.devtools:::copy.container` = function(x, ...) TRUE,
     `outsider.devtools:::run.container` = function(x, ...) TRUE,
-    expect_false(.run(otsdr))
+    expect_false(run(otsdr))
   )
   with_mock(
     `outsider.devtools:::start.container` = function(x, ...) TRUE,
@@ -62,6 +62,6 @@ test_that("outsider class and methods works", {
     `outsider.devtools:::copy.container` = function(x, ...) TRUE,
     `outsider.devtools:::exec.container` = function(x, ...) stop(),
     `outsider.devtools:::status.container` = function(...) 'This is a mock',
-    expect_error(outsider.devtools:::.run.outsider(otsdr))
+    expect_error(outsider.devtools:::run.outsider(otsdr))
   )
 })

@@ -52,10 +52,10 @@ NULL
 #' \item{ignore_errors}{Prevent errors being raised}
 #' @export
 #' @example examples/outsider-class.R
-#' @family developer
+#' @family public
 # TODO: example needs to avoid pulling from GitHub over and over.
-.outsider_init <- function(repo, cmd = NA, arglist = NULL, wd = NULL,
-                           files_to_send = NULL, ignore_errors = FALSE) {
+outsider_init <- function(repo, cmd = NA, arglist = NULL, wd = NULL,
+                          files_to_send = NULL, ignore_errors = FALSE) {
   pkgnm <- repo_to_pkgnm(repo = repo)
   container <- container_init(pkgnm = pkgnm)
   parts <- list(repo = repo, pkgnm = pkgnm, cmd = cmd, arglist = arglist,
@@ -65,14 +65,14 @@ NULL
 }
 
 #' @export
-.run <- function(x) {
-  UseMethod('.run', x)
+run <- function(x, ...) {
+  UseMethod('run', x)
 }
 
 #' @rdname outsider-class
 #' @param x outsider object
 #' @export
-.run.outsider <- function(x) {
+run.outsider <- function(x) {
   if (is.na(x[['cmd']])) {
     stop('Command not set')
   }

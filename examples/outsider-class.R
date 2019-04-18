@@ -9,13 +9,13 @@
 # 
 # # Run echo
 # # create a outsider object that contains argument and Docker container details
-# otsdr <- outsider::.outsider_init(repo = repo, cmd = 'echo',
-#                                   arglist = c('hello world!'))
+# otsdr <- outsider::outsider_init(repo = repo, cmd = 'echo',
+#                                  arglist = c('hello world!'))
 # # check details
 # print(otsdr)
 # # run the command
 # # NOT RUN
-# # outsider::.run(otsdr)
+# # outsider::run(otsdr)
 # 
 # # Send a file
 # # an existing outsider object can be modified
@@ -28,7 +28,7 @@
 # # check details
 # print(otsdr)
 # # run the command
-# outsider::.run(otsdr)
+# outsider::run(otsdr)
 # 
 # # Return a file
 # # an existing outsider object can be modified
@@ -39,7 +39,7 @@
 # # check details
 # print(otsdr)
 # # run the command
-# outsider::.run(otsdr)
+# outsider::run(otsdr)
 # # check if 'newfile' exists in tempdir()
 # nwflpth <- file.path(tmppth, 'newfile')
 # (file.exists(nwflpth))

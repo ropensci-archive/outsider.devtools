@@ -83,40 +83,40 @@ test_that('file_create() works', {
   expect_true(file.exists(flpth))
   unlink(x = 'dir1', recursive = TRUE, force = TRUE)
 })
-test_that('.module_skeleton() works', {
-  .module_skeleton(program_name = 'newprogram', github_user = 'ghuser',
+test_that('module_skeleton() works', {
+  module_skeleton(program_name = 'newprogram', github_user = 'ghuser',
                    docker_user = 'dhuser')
   expect_true(dir.exists('om..newprogram'))
   unlink(x = 'om..newprogram', recursive = TRUE, force = TRUE)
 })
-test_that('.module_travis() works', {
+test_that('module_travis() works', {
   flpth <- file.path('travis_test', '.travis.yml')
   outsider.devtools:::file_create(x = '', flpth = flpth)
-  expect_true(.module_travis(repo = 'test/om..newprogram',
+  expect_true(module_travis(repo = 'test/om..newprogram',
                              flpth = 'travis_test'))
   unlink(x = 'travis_test', recursive = TRUE, force = TRUE)
 })
-test_that('.module_identities() works', {
+test_that('module_identities() works', {
   pkgdetails <- list('Package' = NA,
                      'Docker' = NA)
   res <- with_mock(
     `outsider.devtools:::pkgdetails_get` = function(...) pkgdetails,
     `outsider.devtools:::pkgnm_to_repo` = function(...) 'test/om..newprogram',
     `outsider.devtools:::pkgnm_to_img` = function(...) 'test/om_newprogram',
-    .module_identities(flpth = '')
+    module_identities(flpth = '')
   )
   expect_true(inherits(res, 'ids'))
 })
-test_that('.module_check() works', {
-  expect_true(.module_check())
+test_that('module_check() works', {
+  expect_true(module_check())
 })
-test_that('.module_test() works', {
+test_that('module_test() works', {
   with_mock(
     `outsider.devtools:::test` = function(...) TRUE,
-    expect_true(.module_test(repo = '', verbose = TRUE))
+    expect_true(module_test(repo = '', verbose = TRUE))
   )
   with_mock(
     `outsider.devtools:::test` = function(...) FALSE,
-    expect_false(.module_test(repo = '', verbose = FALSE))
+    expect_false(module_test(repo = '', verbose = FALSE))
   )
 })

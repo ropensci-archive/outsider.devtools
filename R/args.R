@@ -27,34 +27,34 @@ is_filepath <- function(x) {
 }
 
 
-# Public (hidden from general user) ----
-#' @name .arglist_get
+# Public ----
+#' @name arglist_get
 #' @title Generate vector of arguments
 #' @description Convert all the arguments passed to this function, including
 #' those contained in '...', into character vector.
 #' @param ... Any number of arguments
 #' @return Character vector
-#' @example examples/.arglist_get.R
+#' @example examples/arglist_get.R
 #' @export
-#' @family developer
-.arglist_get <- function(...) {
+#' @family public
+arglist_get <- function(...) {
   arglist <- as.list(substitute(list(...)))[-1L]
   arglist <- lapply(X = arglist, FUN = eval)
   arglist <- vapply(X = arglist, FUN = as.character, FUN.VALUE = character(1))
   arglist
 }
 
-#' @name .filestosend_get
+#' @name filestosend_get
 #' @title Determine which arguments are filepaths
 #' @description Return filepaths from arguments. These filepaths can then be
 #' used to identify files/folders for sending to the Docker container.
 #' @param arglist Character vector of arguments
 #' @param wd Working directory in which to look for files
 #' @return Character vector
-#' @example examples/.filestosend_get.R
+#' @example examples/filestosend_get.R
 #' @export
-#' @family developer
-.filestosend_get <- function(arglist, wd = NULL) {
+#' @family public
+filestosend_get <- function(arglist, wd = NULL) {
   if (length(arglist) == 0) {
     return(character(0))
   }
@@ -73,7 +73,7 @@ is_filepath <- function(x) {
   res
 }
 
-#' @name .wd_get
+#' @name wd_get
 #' @title Return working directory
 #' @description Utility function for determining the working directory from 
 #' arglist. The working directory can be determined from the arglist either by
@@ -83,7 +83,7 @@ is_filepath <- function(x) {
 #' Alternatively, the working directory may be determined by the first argument
 #' (e.g. an input file), in which case setting \code{i=1} will return the first
 #' argument in the arglist.
-#' If an input file is returned, a user can use \code{\link{.dirpath_get}} to
+#' If an input file is returned, a user can use \code{\link{dirpath_get}} to
 #' convert the file path to a directory path.
 #' If both \code{key} and \code{i} are provided, \code{key} takes precedence.
 #' If no \code{key} or \code{i} is provided and/or no working directory is
@@ -94,10 +94,10 @@ is_filepath <- function(x) {
 #' @param key Argument key identifying the working directory, e.g. -wd
 #' @param i Index in the arglist that determines the working directory, e.g. 1.
 #' @return Character
-#' @example examples/.wd_get.R
+#' @example examples/wd_get.R
 #' @export
-#' @family developer
-.wd_get <- function(arglist, key = NULL, i = NULL) {
+#' @family public
+wd_get <- function(arglist, key = NULL, i = NULL) {
   if (length(arglist) == 0) {
     return(character(0))
   }
@@ -113,7 +113,7 @@ is_filepath <- function(x) {
   wd
 }
 
-#' @name .dirpath_get
+#' @name dirpath_get
 #' @title Convert file path to directory path
 #' @description Takes a file path and converts it to its directory path by
 #' dropping the file name and extension. If \code{flpth} is already a directory
@@ -122,9 +122,9 @@ is_filepath <- function(x) {
 #' @param flpth File path for which directory path will be returned.
 #' @return Character
 #' @export
-#' @example examples/.dirpath_get.R
-#' @family developer
-.dirpath_get <- function(flpth) {
+#' @example examples/dirpath_get.R
+#' @family public
+dirpath_get <- function(flpth) {
   if (length(flpth) == 0) {
     return(character(0))
   }
@@ -140,7 +140,7 @@ is_filepath <- function(x) {
   res
 }
 
-#' @name .arglist_parse
+#' @name arglist_parse
 #' @title Normalise arguments for docker container
 #' @description Utility function for parsing the arguments provided by a user.
 #' Drop any specified key:value pairs with \code{keyvals_to_drop} or drop any
@@ -149,7 +149,7 @@ is_filepath <- function(x) {
 #' @details It is important the file paths are normalised, because they will
 #' not be available to the Docker container. The only files available will
 #' be those that have been transferred to the container as determined through
-#' the \code{\link{.outsider_init}}. These files will be located in the
+#' the \code{\link{outsider_init}}. These files will be located in the
 #' same directory as where the function is called and require no absolute
 #' file path.
 #' @param arglist Arguments as character vector
@@ -157,10 +157,10 @@ is_filepath <- function(x) {
 #' @param vals_to_drop Specific values to drop, e.g. --verbose.
 #' @param normalise_paths Reduce paths to basenames? Default, TRUE.
 #' @return Character vector
-#' @example examples/.arglist_parse.R
+#' @example examples/arglist_parse.R
 #' @export
-#' @family developer
-.arglist_parse <- function(arglist, keyvals_to_drop = NULL, vals_to_drop = NULL,
+#' @family public
+arglist_parse <- function(arglist, keyvals_to_drop = NULL, vals_to_drop = NULL,
                            normalise_paths = TRUE) {
   if (length(arglist) == 0) {
     return(character(0))

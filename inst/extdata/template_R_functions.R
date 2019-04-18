@@ -6,11 +6,11 @@
 #' @export
 %program_name% <- function(...) {
   # convert the ... into a argument list
-  arglist <- outsider.devtools::.arglist_get(...)
+  arglist <- outsider.devtools::arglist_get(...)
   # create an outsider object: describe the arguments and program
   otsdr <- outsider.devtools::outsider_init(repo = '%repo%',
                                             cmd = '%program_name%',
                                             arglist = arglist)
   # run the command
-  outsider.devtools::.run(otsdr)
+  outsider.devtools::run(otsdr)
 }
