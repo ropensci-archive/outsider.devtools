@@ -25,13 +25,12 @@ Imports:
     yaml (>= 2.0),
     callr (>= 3.0.0),
     withr (>= 2.0),
-    stevedore,
     stringr,
     tibble,
     cli,
     praise
 Suggests:
+    stevedore,
     testthat (>= 2.0),
-    knitr (>= 1.0),
-    outsider
+    knitr (>= 1.0)
 RoxygenNote: 6.1.1

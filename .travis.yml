@@ -17,7 +17,7 @@ services:
   
 r_github_packages:
   - jimhester/covr
-  - AntonelliLab/outsider
+  - AntonelliLab/outsider@review_changes
 
 after_success:
 - Rscript -e 'covr::coveralls()'

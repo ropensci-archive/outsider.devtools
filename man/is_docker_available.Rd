@@ -10,7 +10,6 @@ is_docker_available()
 Raises an error if docker is not available.
 }
 \seealso{
-Other private-check: \code{\link{is_docker_installed}},
-  \code{\link{is_docker_running}}
+Other private-check: \code{\link{is_docker_installed}}
 }
 \concept{private-check}

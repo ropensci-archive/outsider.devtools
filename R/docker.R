@@ -38,9 +38,9 @@ is_docker_installed <- function() {
   success <- tryCatch(expr = {
     res <- sys::exec_internal(cmd = 'docker', args = '--help')
     res[['status']] == 0
-    }, error = function(e) {
-      FALSE
-    })
+  }, error = function(e) {
+    FALSE
+  })
   success
 }
 
