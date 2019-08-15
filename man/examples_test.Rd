@@ -7,7 +7,7 @@
 examples_test(flpth)
 }
 \arguments{
-\item{repo}{Module repo}
+\item{flpth}{File path to location of module}
 }
 \value{
 logical
@@ -18,7 +18,7 @@ run.
 }
 \seealso{
 Other private: \code{\link{file_create}},
-  \code{\link{fnames_get}}, \code{\link{pkgdetails_get}},
+  \code{\link{pkgdetails_get}},
   \code{\link{string_replace}},
   \code{\link{templates_get}}, \code{\link{test}}
 }

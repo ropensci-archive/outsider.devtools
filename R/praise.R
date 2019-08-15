@@ -2,7 +2,7 @@ celebrate <- function() {
   template <- paste0("${Exclamation}!", " The module works!",
                      " You are ${adjective}!")
   mssg <- praise::praise(template = template)
-  outsider.base::cat_line(crayon::green(mssg))
+  cat_line(crayon::green(mssg))
 }
 
 comfort <- function() {
@@ -13,5 +13,5 @@ comfort <- function() {
   template <- "But keep on ${creating}! You're doing ${adverb_manner}!"
   mssg <- paste0(sample(phrases, 1), " The module is not working....\n",
                  praise::praise(template = template))
-  outsider.base::cat_line(crayon::blue(mssg))
+  cat_line(crayon::blue(mssg))
 }

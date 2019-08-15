@@ -18,8 +18,7 @@ DESCRIPTION file.
 }
 \seealso{
 Other private: \code{\link{examples_test}},
-  \code{\link{file_create}}, \code{\link{fnames_get}},
-  \code{\link{string_replace}},
+  \code{\link{file_create}}, \code{\link{string_replace}},
   \code{\link{templates_get}}, \code{\link{test}}
 }
 \concept{private}

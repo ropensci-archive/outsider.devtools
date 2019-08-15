@@ -7,7 +7,7 @@ is_running_on_travis <- function() {
 #' @title Test a module
 #' @description Test an outsider module by making sure it installs,
 #' imports and its examples run correctly.
-#' @param repo Repository
+#' @param flpth File path to location of module
 #' @return logical
 #' @family private
 test <- function(flpth) {
@@ -28,7 +28,7 @@ test <- function(flpth) {
                                      ". See error below:\n\n"))
                       stop(e)
                     })
-    res3 <- examples_test(repo = repo)
+    res3 <- examples_test(flpth = flpth)
     if (!res3) {
       stop('Unable to run all module examples! ', tag_msg, call. = FALSE)
     }
@@ -40,7 +40,7 @@ test <- function(flpth) {
 #' @title Run each example of an outsider module
 #' @description Return TRUE if all of the outsider module functions successfully
 #' run.
-#' @param repo Module repo
+#' @param flpth File path to location of module
 #' @return logical
 #' @family private
 examples_test <- function(flpth) {

@@ -21,8 +21,7 @@ For a given character string, replace patterns with values.
 }
 \seealso{
 Other private: \code{\link{examples_test}},
-  \code{\link{file_create}}, \code{\link{fnames_get}},
-  \code{\link{pkgdetails_get}},
+  \code{\link{file_create}}, \code{\link{pkgdetails_get}},
   \code{\link{templates_get}}, \code{\link{test}}
 }
 \concept{private}

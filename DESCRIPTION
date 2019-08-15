@@ -22,9 +22,10 @@ Imports:
     withr (>= 2.0),
     praise,
     roxygen2,
+    yaml,
+    crayon,
     devtools
 Suggests:
-    stevedore,
     testthat (>= 2.0),
     knitr (>= 1.0)
 RoxygenNote: 6.1.1

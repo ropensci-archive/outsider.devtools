@@ -1,7 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-vignettes/
-examples/
-other/
-pkgdown/
-.travis.yml
+^vignettes$
+^examples$
+^other$
+^pkgdown$
+^docs$
+.travis.yml$

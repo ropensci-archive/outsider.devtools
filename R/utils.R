@@ -13,30 +13,14 @@ examples_get <- function(flpth) {
   file.path(flpth, list.files(flpth))
 }
 
-#' @name fnames_get
-#' @title Function names for module
-#' @description Return function names of all available functions for an
-#' installed outsider modules
-#' @param repo Module repo
-#' @return character vector
-#' @family private
-fnames_get <- function(repo) {
-  pkgnm <- outsider:::pkgnm_guess(repo = repo)
-  ns <- suppressMessages(loadNamespace(pkgnm))
-  ls(ns)
+yaml_get <- function(flpth) {
+  yaml::read_yaml(file.path(flpth, 'inst', 'om.yml'))
 }
 
-#' @name pkgdetails_get
-#' @title Read the package description
-#' @description Return a list of all package details based on a package's
-#' DESCRIPTION file.
-#' @param flpth Path to package
-#' @return logical
-#' @family private
-pkgdetails_get <- function(flpth) {
+description_get <- function(flpth) {
   flpth <- file.path(flpth, 'DESCRIPTION')
   if (!file.exists(flpth)) {
-    stop('Invalid R package path provided.', call. = FALSE)
+    stop('Invalid R package path provided: No DESCRIPTION', call. = FALSE)
   }
   lines <- readLines(con = flpth)
   lines <- strsplit(x = lines, split = ':')
@@ -50,20 +34,32 @@ pkgdetails_get <- function(flpth) {
   vals
 }
 
-#' @export
-print.ids <- function(x, ...) {
-  for (i in seq_along(x)) {
-    msg <- names(x)[[i]]
-    if (length(x[[i]]) == 1) {
-      cat_line(msg, ': ', char(x[[i]]))
-    } else {
-      cat_line(msg, ' ... ')
-      for (j in seq_along(x[[i]])) {
-        msg <- names(x[[i]])[[j]]
-        cat_line('... ', msg, ': ', char(x[[i]][[j]]))
-      }
-    }
-  }
+# @name fnames_get
+# @title Function names for module
+# @description Return function names of all available functions for an
+# installed outsider modules
+# @param repo Module repo
+# @return character vector
+# @family private
+# fnames_get <- function(repo) {
+#   pkgnm <- outsider:::pkgnm_guess(repo = repo)
+#   ns <- suppressMessages(loadNamespace(pkgnm))
+#   ls(ns)
+# }
+
+#' @name pkgdetails_get
+#' @title Read the package description
+#' @description Return a list of all package details based on a package's
+#' DESCRIPTION file.
+#' @param flpth Path to package
+#' @return logical
+#' @family private
+pkgdetails_get <- function(flpth) {
+  res <- list()
+  res[['description']] <- as.list(description_get(flpth = flpth))
+  res[['yaml']] <- yaml_get(flpth = flpth)
+  res[['tags']] <- tags_get(flpth = flpth)
+  res
 }
 
 #' @name templates_get
@@ -80,7 +76,7 @@ templates_get <- function() {
                    x = destpths)
   for (i in seq_along(fls)) {
     flpth <- system.file("extdata", fls[[i]], package = "outsider")
-    templates[[i]] <- stringr::str_c(readLines(con = flpth), collapse = '\n')
+    templates[[i]] <- paste0(readLines(con = flpth), collapse = '\n')
   }
   names(templates) <- destpths
   templates

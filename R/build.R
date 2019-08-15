@@ -61,18 +61,31 @@ module_travis <- function(repo, flpth = getwd()) {
 #' @return Logical
 #' @export
 module_identities <- function(flpth) {
-  # TODO: come-up with better class name than "ids"
   res <- list()
   pkg_details <- pkgdetails_get(flpth = flpth)
-  pkgnm <- pkg_details[['Package']]
-  docker_user <- pkg_details[['Docker']]
+  pkgnm <- pkg_details[['description']][['Package']]
+  docker_user <- pkg_details[['yaml']][['docker']]
   res[['R package name']] <- pkgnm
-  repo <- pkgnm_to_repo(pkgnm = pkgnm)
-  res[['GitHub repo']] <- repo
-  dockerdirs <- list.files(file.path(flpth, 'dockerfiles'))
-  img <- pkgnm_to_img(pkgnm = pkgnm, docker_user = docker_user)
-  res[['Docker images']] <- paste0(img, ':', dockerdirs)
-  structure(res, class = 'ids')
+  res[['URL']] <- pkg_details[['yaml']][['url']]
+  img <- gsub(pattern = '\\.+', replacement = '_', x =  pkgnm)
+  res[['Docker images']] <- paste0(pkg_details[['yaml']][['docker']], '/',
+                                   img, ':', pkg_details[['tags']])
+  structure(res, class = 'identities')
+}
+#' @export
+print.identities <- function(x, ...) {
+  for (i in seq_along(x)) {
+    msg <- names(x)[[i]]
+    if (length(x[[i]]) == 1) {
+      cat_line(msg, ': ', char(x[[i]]))
+    } else {
+      cat_line(msg, ' ... ')
+      for (j in seq_along(x[[i]])) {
+        msg <- names(x[[i]])[[j]]
+        cat_line('... ', msg, ': ', char(x[[i]][[j]]))
+      }
+    }
+  }
 }
 
 #' @name module_check
@@ -93,7 +106,7 @@ module_check <- function(flpth = NULL) {
 #' its functions successfully complete.
 #' @details Success or fail, the module is uninstalled from the machine after
 #' the test is run.
-#' @param repo Module repo
+#' @param flpth File path to location of module
 #' @param verbose Print docker and program info to console
 #' @return Logical
 #' @export

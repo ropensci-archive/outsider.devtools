@@ -16,7 +16,7 @@ Write x to a filepath. Forces creation of directories.
 }
 \seealso{
 Other private: \code{\link{examples_test}},
-  \code{\link{fnames_get}}, \code{\link{pkgdetails_get}},
+  \code{\link{pkgdetails_get}},
   \code{\link{string_replace}},
   \code{\link{templates_get}}, \code{\link{test}}
 }

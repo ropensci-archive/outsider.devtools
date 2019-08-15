@@ -7,9 +7,9 @@
 module_test(flpth = getwd(), verbose = FALSE)
 }
 \arguments{
-\item{verbose}{Print docker and program info to console}
+\item{flpth}{File path to location of module}
 
-\item{repo}{Module repo}
+\item{verbose}{Print docker and program info to console}
 }
 \value{
 Logical
