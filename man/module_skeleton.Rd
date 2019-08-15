@@ -27,13 +27,3 @@ development of a new outsider module.
 Module developers must have a GitHub and Docker-Hub account.
 For more detailed information, see online.
 }
-\seealso{
-Other public: \code{\link{arglist_get}},
-  \code{\link{arglist_parse}}, \code{\link{dirpath_get}},
-  \code{\link{filestosend_get}},
-  \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_test}}, \code{\link{module_travis}},
-  \code{\link{outsider-class}}, \code{\link{wd_get}}
-}
-\concept{public}

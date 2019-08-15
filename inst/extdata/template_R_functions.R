@@ -4,13 +4,12 @@
 #' @param ... Arguments
 #' @example /examples/example.R
 #' @export
-%program_name% <- function(...) {
+%program_name% <- function(args = ...) {
   # convert the ... into a argument list
-  arglist <- outsider.devtools::arglist_get(...)
+  arglist <- arglist_get(args)
   # create an outsider object: describe the arguments and program
-  otsdr <- outsider.devtools::outsider_init(repo = '%repo%',
-                                            cmd = '%program_name%',
-                                            arglist = arglist)
+  otsdr <- outsider_init(pkgnm = '%pkgnm%', cmd = '%program_name%',
+                         arglist = arglist)
   # run the command
-  outsider.devtools::run(otsdr)
+  run(otsdr)
 }

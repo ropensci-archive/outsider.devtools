@@ -4,12 +4,12 @@
 \alias{module_test}
 \title{Test an outsider module}
 \usage{
-module_test(repo, verbose = FALSE)
+module_test(flpth = getwd(), verbose = FALSE)
 }
 \arguments{
-\item{repo}{Module repo}
-
 \item{verbose}{Print docker and program info to console}
+
+\item{repo}{Module repo}
 }
 \value{
 Logical
@@ -30,14 +30,3 @@ repo <- 'dombennett/om..hello.world'
 # NOT RUN
 # module_test(repo = repo, verbose = TRUE)
 }
-\seealso{
-Other public: \code{\link{arglist_get}},
-  \code{\link{arglist_parse}}, \code{\link{dirpath_get}},
-  \code{\link{filestosend_get}},
-  \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}},
-  \code{\link{module_travis}},
-  \code{\link{outsider-class}}, \code{\link{wd_get}}
-}
-\concept{public}

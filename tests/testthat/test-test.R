@@ -24,19 +24,6 @@ test_that('install_test() works', {
     expect_true(outsider.devtools:::install_test(repo = '', tag = 'latest'))
   )
 })
-# TODO: module_import() -- should it be part of devtools?
-# test_that('import_test() works', {
-#   with_mock(
-#     `outsider.devtools:::fnames_get` = function(...) 'foo',
-#     `outsider::module_import` = function(...) NULL,
-#     expect_false(outsider.devtools:::import_test(repo = ''))
-#   )
-#   with_mock(
-#     `outsider.devtools:::fnames_get` = function(...) 'foo',
-#     `outsider::module_import` = function(...) function() {},
-#     expect_true(outsider.devtools:::import_test(repo = repo))
-#   )
-# })
 test_that('examples_test() works', {
   with_mock(
     `outsider.devtools:::fnames_get` = function(...) 'foo',
@@ -48,11 +35,4 @@ test_that('examples_test() works', {
     `outsider.devtools:::ex_source` = function(...) NULL,
     expect_true(outsider.devtools:::examples_test(repo = ''))
   )
-})
-context('Testing \'unittest\'')
-test_that('datadir_get() works', {
-  expect_true(grepl(pattern = 'data', x = outsider.devtools:::datadir_get()))
-})
-test_that('vars_get() works', {
-  expect_true(grepl(pattern = 'hello', x = outsider.devtools:::vars_get('repo')))
 })

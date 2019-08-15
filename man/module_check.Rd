@@ -36,13 +36,3 @@ module_check(flpth = mdl_pth)
 # clean-up
 unlink(x = mdl_pth, recursive = TRUE)
 }
-\seealso{
-Other public: \code{\link{arglist_get}},
-  \code{\link{arglist_parse}}, \code{\link{dirpath_get}},
-  \code{\link{filestosend_get}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}}, \code{\link{module_test}},
-  \code{\link{module_travis}},
-  \code{\link{outsider-class}}, \code{\link{wd_get}}
-}
-\concept{public}

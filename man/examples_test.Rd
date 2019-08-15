@@ -4,7 +4,7 @@
 \alias{examples_test}
 \title{Run each example of an outsider module}
 \usage{
-examples_test(repo)
+examples_test(flpth)
 }
 \arguments{
 \item{repo}{Module repo}
@@ -17,12 +17,9 @@ Return TRUE if all of the outsider module functions successfully
 run.
 }
 \seealso{
-Other private: \code{\link{default_log_set}},
-  \code{\link{file_create}}, \code{\link{fnames_get}},
-  \code{\link{install_test}}, \code{\link{is_filepath}},
-  \code{\link{log_get}}, \code{\link{pkgdetails_get}},
+Other private: \code{\link{file_create}},
+  \code{\link{fnames_get}}, \code{\link{pkgdetails_get}},
   \code{\link{string_replace}},
-  \code{\link{templates_get}}, \code{\link{test}},
-  \code{\link{to_basename}}
+  \code{\link{templates_get}}, \code{\link{test}}
 }
 \concept{private}

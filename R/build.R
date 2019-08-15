@@ -1,137 +1,4 @@
-# Developer build functions
 
-# Private ----
-#' @name test
-#' @title Test a module
-#' @description Test an outsider module by making sure it installs,
-#' imports and its examples run correctly.
-#' @param repo Repository
-#' @return logical
-#' @family private
-test <- function(repo) {
-  on.exit(uninstall(repo = repo))
-  # TODO: add tag functionality
-  # tags <- tags(repos = repo)
-  # -- Pre-review outsider ---
-  # for (i in seq_len(nrow(tags))) {
-    #tag <- tags[i, 'tag'][[1]]
-  # -- patch ---
-  tag <- 'latest'
-  for (i in 1) {
-    tag_msg <- paste0('Tag = ', char(tag))
-  # ~~~~~~~~~~
-    res <- tryCatch(install_test(repo = repo, tag = tag),
-                    error = function(e) {
-                      message(paste0('Unable to install module! ', tag_msg,
-                                     ". See error below:\n\n"))
-                      stop(e)
-                    })
-    # TODO: fix testing
-    # res <- import_test(repo = repo)
-    res <- TRUE
-    if (!res) {
-      stop('Unable to import all module functions! ', tag_msg, call. = FALSE)
-    }
-    res <- examples_test(repo = repo)
-    if (!res) {
-      stop('Unable to run all module examples! ', tag_msg, call. = FALSE)
-    }
-  }
-  invisible(res)
-}
-
-#' @name pkgdetails_get
-#' @title Read the package description
-#' @description Return a list of all package details based on a package's
-#' DESCRIPTION file.
-#' @param flpth Path to package
-#' @return logical
-#' @family private
-pkgdetails_get <- function(flpth) {
-  flpth <- file.path(flpth, 'DESCRIPTION')
-  if (!file.exists(flpth)) {
-    stop('Invalid R package path provided.', call. = FALSE)
-  }
-  lines <- readLines(con = flpth)
-  lines <- strsplit(x = lines, split = ':')
-  pull <- vapply(X = lines, FUN = length, FUN.VALUE = integer(1)) == 2
-  lines <- lines[pull]
-  nms <- vapply(X = lines, FUN = '[[', FUN.VALUE = character(1), 1)
-  nms <- trimws(nms)
-  vals <- vapply(X = lines, FUN = '[[', FUN.VALUE = character(1), 2)
-  vals <- trimws(vals)
-  names(vals) <- nms
-  vals
-}
-
-#' @export
-print.ids <- function(x, ...) {
-  for (i in seq_along(x)) {
-    msg <- names(x)[[i]]
-    if (length(x[[i]]) == 1) {
-      cat_line(msg, ': ', char(x[[i]]))
-    } else {
-      cat_line(msg, ' ... ')
-      for (j in seq_along(x[[i]])) {
-        msg <- names(x[[i]])[[j]]
-        cat_line('... ', msg, ': ', char(x[[i]][[j]]))
-      }
-    }
-  }
-}
-
-#' @name templates_get
-#' @title Retrieve template files
-#' @description Return template files for an outsider module.
-#' @return character vector
-#' @family private
-templates_get <- function() {
-  fls <- list.files(path = system.file("extdata", package = "outsider"),
-                    pattern = 'template_')
-  templates <- vector(mode = 'list', length = length(fls))
-  destpths <- sub(pattern = 'template_', replacement = '', x = fls)
-  destpths <- gsub(pattern = '_', replacement = .Platform$file.sep,
-                   x = destpths)
-  for (i in seq_along(fls)) {
-    flpth <- system.file("extdata", fls[[i]], package = "outsider")
-    templates[[i]] <- stringr::str_c(readLines(con = flpth), collapse = '\n')
-  }
-  names(templates) <- destpths
-  templates
-}
-
-#' @name string_replace
-#' @title Replace patterns in a string
-#' @description For a given character string, replace patterns with values.
-#' @return character
-#' @param string Text
-#' @param patterns Patterns to replace with values
-#' @param values Values to be put in place
-#' @family private
-string_replace <- function(string, patterns, values) {
-  for (i in seq_along(values)) {
-    string <- stringr::str_replace_all(string = string,
-                                       pattern = patterns[[i]],
-                                       replacement = values[[i]])
-  }
-  string
-}
-
-#' @name file_create
-#' @title Create file
-#' @description Write x to a filepath. Forces creation of directories.
-#' @param x Text for writing to file
-#' @param flpth File path to be created
-#' @return NULL
-#' @family private
-file_create <- function(x, flpth) {
-  basefl <- basename(path = flpth)
-  dirpth <- sub(pattern = basefl, replacement = '', x = flpth)
-  suppressWarnings(dir.create(path = dirpth, recursive = TRUE))
-  write(x = x, file = flpth)
-}
-
-# Public (hidden from general user) ----
 #' @name module_skeleton
 #' @title Generate a skeleton for a module
 #' @description Create all the base files and folders to kickstart the
@@ -145,9 +12,8 @@ file_create <- function(x, flpth) {
 #' @param docker_user Developer's username for Docker
 #' @return Logical
 #' @export
-#' @family public
 module_skeleton <- function(program_name, github_user, docker_user,
-                             flpth = getwd()) {
+                            flpth = getwd()) {
   r_version <- paste0(version[['major']], '.', version[['minor']])
   mdlnm <- paste0('om..', program_name)
   if (!dir.exists(file.path(flpth, mdlnm))) {
@@ -176,7 +42,6 @@ module_skeleton <- function(program_name, github_user, docker_user,
 #' @param flpth Directory in which to create .travis.yml
 #' @return Logical
 #' @export
-#' @family public
 module_travis <- function(repo, flpth = getwd()) {
   url <- paste0('https://raw.githubusercontent.com/DomBennett/',
                 'om..hello.world/master/.travis.yml')
@@ -195,7 +60,6 @@ module_travis <- function(repo, flpth = getwd()) {
 #' @param flpth File path to location of module
 #' @return Logical
 #' @export
-#' @family public
 module_identities <- function(flpth) {
   # TODO: come-up with better class name than "ids"
   res <- list()
@@ -218,7 +82,6 @@ module_identities <- function(flpth) {
 #' @param flpth File path to location of module
 #' @return Logical
 #' @export
-#' @family public
 #' @example examples/module_build.R
 module_check <- function(flpth = NULL) {
   TRUE
@@ -235,8 +98,7 @@ module_check <- function(flpth = NULL) {
 #' @return Logical
 #' @export
 #' @example examples/module_test.R
-#' @family public
-module_test <- function(repo, verbose = FALSE) {
+module_test <- function(flpth = getwd(), verbose = FALSE) {
   res <- FALSE
   on.exit(expr = {
     if (res) {
@@ -251,6 +113,6 @@ module_test <- function(repo, verbose = FALSE) {
     temp_opts <- list(program_out = FALSE, program_err = FALSE,
                       docker_out = FALSE, docker_err = FALSE)
   }
-  res <- withr::with_options(new = temp_opts, code = test(repo = repo))
+  res <- withr::with_options(new = temp_opts, code = test(flpth = flpth))
   invisible(res)
 }

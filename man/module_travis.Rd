@@ -21,13 +21,3 @@ Write .travis.yml to working directory.
 All validated outsider modules must have a .travis.yml in their
 repository. These .travis.yml must be generated using this function.
 }
-\seealso{
-Other public: \code{\link{arglist_get}},
-  \code{\link{arglist_parse}}, \code{\link{dirpath_get}},
-  \code{\link{filestosend_get}},
-  \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}}, \code{\link{module_test}},
-  \code{\link{outsider-class}}, \code{\link{wd_get}}
-}
-\concept{public}

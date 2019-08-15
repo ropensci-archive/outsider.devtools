@@ -1,0 +1,14 @@
+# descriptive name of the program
+# (The explicit name of the program is determined from the R package name
+#  specified in the DESCRIPTION.)
+program: %program_name%
+# any details about the program
+details: TODO write a detailed description advertising what this module does!
+    Note, newlines should be followed by four spaces.
+# the dockerhub username (optional)
+docker: 
+# the github username (optional)
+github: 
+# other options: gitlab, bitbucket
+# the repo URL (optional)
+url: 
