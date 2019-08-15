@@ -100,9 +100,9 @@ work for you, you will need to change "dombennett" to your own usernames.
 (Note, your usernames may differ for GitHub and Docker Hub).
 
 ```{r skeleton}
-library(outsider)
-.module_skeleton(github_user = 'dombennett', program_name = 'echo',
-                 docker_user = 'dombennett', flpth = getwd())
+library(outsider.devtools)
+module_skeleton(repo_user = 'dombennett', program_name = 'echo',
+                docker_user = 'dombennett', flpth = getwd(), service = 'github')
 ```
 
 The above code will create an `outsider` module with the name `om..echo`.
@@ -113,11 +113,11 @@ and `functions.R`.
 > **Why `om..echo`?** All modules must start with "om.." in order for them to
 be discovered on GitHub.
 
-At this stage, we would then edit the `dockerfiles/latest/Dockerfile` and the
-`R/functions.R` to work for our chosen external program. But because `echo`, the
-program we wish to port through `outsider`, is so simple we don't actually have
-to make any changes to these files. By default, the `Dockerfile` is based on
-Ubuntu which ships with `echo` and our starting function in `functions.R` is
+At this stage, we would then edit the `inst/dockerfiles/latest/Dockerfile` and
+the `R/functions.R` to work for our chosen external program. But because `echo`,
+the program we wish to port through `outsider`, is so simple we don't actually
+have to make any changes to these files. By default, the `Dockerfile` is based
+on Ubuntu which ships with `echo` and our starting function in `functions.R` is
 based around running `echo`: it parses the arguments, creates an outsider
 object, and then launches the object.
 
@@ -125,13 +125,12 @@ object, and then launches the object.
 # The echo function in om..echo
 echo <- function(...) {
   # convert the ... into an argument list
-  arglist <- outsider::.arglist_get(...)
+  arglist <- arglist_get(...)
   # create an outsider object: describe the arguments and program
-  otsdr <- outsider::.outsider_init(repo = 'dombennett/om..echo',
-                                    cmd = 'echo',
-                                    arglist = arglist)
+  otsdr <- outsider_init(pkgnm = 'om..echo',
+                         cmd = 'echo', arglist = arglist)
   # run the command
-  outsider::.run(otsdr)
+  run(otsdr)
 }
 ```
 
@@ -196,7 +195,7 @@ In our example, we can run the following command in a terminal:
 ```{bash docker-build}
 # docker build -t [tagged name] [directory containing Dockerfile]
 # remember to change 'dombennett' to your Docker Hub
-docker build -t dombennett/om_echo:latest om..echo/dockerfiles/latest/.
+docker build -t dombennett/om_echo:latest om..echo/inst/dockerfiles/latest/.
 ```
 
 > **What is a tag?** A Docker tag is akin to the version number of the image.
@@ -211,7 +210,7 @@ do this we can run some functions from within R using the [`devtools`](https://g
 # first document
 devtools::document('om..echo')
 # then install
-devtools::install('om..echo')
+devtools::install('om..echo', upgrade = 'never')
 ```
 
 > **What does `document()` do?** In addition to the core files indicated above,

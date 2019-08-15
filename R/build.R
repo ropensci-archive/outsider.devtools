@@ -12,17 +12,34 @@
 #' @param docker_user Developer's username for Docker
 #' @return Logical
 #' @export
-module_skeleton <- function(program_name, github_user, docker_user,
-                            flpth = getwd()) {
+module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
+                            flpth = getwd(), service = c('github', 'gitlab',
+                                                         'bitbucket')) {
+  service <- match.arg(service)
   r_version <- paste0(version[['major']], '.', version[['minor']])
   mdlnm <- paste0('om..', program_name)
   if (!dir.exists(file.path(flpth, mdlnm))) {
     dir.create(file.path(flpth, mdlnm))
   }
-  package_name <- paste0(mdlnm, '..', github_user)
-  repo <- paste0(github_user, '/', mdlnm)
-  values <- mget(c('repo', 'package_name', 'r_version', 'docker_user',
-                   'github_user', 'program_name'))
+  package_name <- paste0(mdlnm)
+  if (is.null(docker_user)) {
+    docker_info <- '#docker: '
+  } else {
+    docker_info <- paste0('docker: ', docker_user)
+  }
+  if (is.null(repo_user)) {
+    repo_info <- '#github:\n#url:'
+  } else {
+    url <- switch(service, github = paste0('https://github.com/', repo_user,
+                                           '/', package_name),
+                  gitlab = paste0('https://gitlab.com/', repo_user,
+                                  '/', package_name),
+                  bitbucket = paste0('https://bitbucket.org/', repo_user,
+                                     '/', package_name))
+    repo_info <- paste0(service, ': ', repo_user, '\nurl: ', url)
+  }
+  values <- mget(c('repo_info', 'package_name', 'r_version', 'docker_info',
+                   'program_name'))
   patterns <- paste0('%', names(values), '%')
   templates <- templates_get()
   for (i in seq_along(templates)) {

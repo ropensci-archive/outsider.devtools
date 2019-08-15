@@ -68,14 +68,14 @@ pkgdetails_get <- function(flpth) {
 #' @return character vector
 #' @family private
 templates_get <- function() {
-  fls <- list.files(path = system.file("extdata", package = "outsider"),
+  fls <- list.files(path = system.file("extdata", package = "outsider.devtools"),
                     pattern = 'template_')
   templates <- vector(mode = 'list', length = length(fls))
   destpths <- sub(pattern = 'template_', replacement = '', x = fls)
   destpths <- gsub(pattern = '_', replacement = .Platform$file.sep,
                    x = destpths)
   for (i in seq_along(fls)) {
-    flpth <- system.file("extdata", fls[[i]], package = "outsider")
+    flpth <- system.file("extdata", fls[[i]], package = "outsider.devtools")
     templates[[i]] <- paste0(readLines(con = flpth), collapse = '\n')
   }
   names(templates) <- destpths

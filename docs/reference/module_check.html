@@ -153,16 +153,20 @@ module are correct.</p>
 #&gt; <span class='message'>- Note: be sure of which modules you install</span></div><div class='input'><span class='co'># build a skeleton package</span>
 <span class='no'>flpth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
 <span class='fu'><a href='module_skeleton.html'>module_skeleton</a></span>(<span class='kw'>program_name</span> <span class='kw'>=</span> <span class='st'>'example'</span>, <span class='kw'>github_user</span> <span class='kw'>=</span> <span class='st'>'github_user'</span>,
-                <span class='kw'>docker_user</span> <span class='kw'>=</span> <span class='st'>'docker_user'</span>, <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>flpth</span>)
-<span class='co'># look-up module user and program name/ids</span>
-<span class='co'># note: "om.." is added to the beginning of the program name</span>
-<span class='no'>mdl_pth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>flpth</span>, <span class='st'>'om..example'</span>)
-(<span class='no'>ids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='module_identities.html'>module_identities</a></span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>mdl_pth</span>))</div><div class='output co'>#&gt; <span class='error'>Error: Invalid R package path provided.</span></div><div class='input'><span class='co'># generate .travis.yml</span>
-<span class='fu'><a href='module_travis.html'>module_travis</a></span>(<span class='kw'>repo</span> <span class='kw'>=</span> <span class='no'>ids</span>$<span class='no'>`GitHub repo`</span>, <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>mdl_pth</span>)</div><div class='output co'>#&gt; <span class='error'>Error in sub(pattern = "DomBennett/om\\.\\.hello\\.world", replacement = repo,     x = travis_text, ignore.case = TRUE): object 'ids' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>mdl_pth</span>, <span class='st'>'.travis.yml'</span>)), <span class='kw'>sep</span> <span class='kw'>=</span> <span class='st'>'\n'</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot open file '/tmp/RtmpOBY81k/om..example/.travis.yml': No such file or directory</span></div><div class='output co'>#&gt; <span class='error'>Error in file(con, "r"): cannot open the connection</span></div><div class='input'><span class='co'># check the package is formatted correctly</span>
-<span class='fu'>module_check</span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>mdl_pth</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+                <span class='kw'>docker_user</span> <span class='kw'>=</span> <span class='st'>'docker_user'</span>, <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>flpth</span>)</div><div class='output co'>#&gt; <span class='error'>Error in module_skeleton(program_name = "example", github_user = "github_user",     docker_user = "docker_user", flpth = flpth): unused argument (github_user = "github_user")</span></div><div class='input'># look-up module user and program name/ids
+# note: "om.." is added to the beginning of the program name
+# mdl_pth <- file.path(flpth, 'om..example')
+# (ids <- module_identities(flpth = mdl_pth))
+# # generate .travis.yml
+# module_travis(repo = ids$`GitHub repo`, flpth = mdl_pth)
+# cat(readLines(file.path(mdl_pth, '.travis.yml')), sep = '\n')
+# # check the package is formatted correctly
+# module_check(flpth = mdl_pth)
 
-<span class='co'># clean-up</span>
-<span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mdl_pth</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+
+# clean-up
+# unlink(x = mdl_pth, recursive = TRUE)
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
