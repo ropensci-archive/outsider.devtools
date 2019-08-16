@@ -8,7 +8,7 @@
   # convert the ... into a argument list
   arglist <- arglist_get(...)
   # create an outsider object: describe the arguments and program
-  otsdr <- outsider_init(pkgnm = '%package_name%', cmd = '%program_name%',
+  otsdr <- outsider_init(pkgnm = '%package_name%', cmd = '%cmd%',
                          arglist = arglist)
   # run the command
   run(otsdr)

@@ -2,12 +2,12 @@
 % Please edit documentation in R/build.R
 \name{module_travis}
 \alias{module_travis}
-\title{Generate Travis-CI file}
+\title{Generate Travis-CI file (GitHub only)}
 \usage{
 module_travis(repo, flpth = getwd())
 }
 \arguments{
-\item{repo}{Repository}
+\item{repo}{GitHub repository}
 
 \item{flpth}{Directory in which to create .travis.yml}
 }
@@ -18,6 +18,6 @@ Logical
 Write .travis.yml to working directory.
 }
 \details{
-All validated outsider modules must have a .travis.yml in their
+Validated outsider modules must have a .travis.yml in their
 repository. These .travis.yml must be generated using this function.
 }

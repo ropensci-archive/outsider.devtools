@@ -24,6 +24,8 @@ Imports:
     roxygen2,
     yaml,
     crayon,
+    getPass,
+    sys,
     devtools
 Suggests:
     testthat (>= 2.0),

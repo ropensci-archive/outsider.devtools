@@ -4,26 +4,33 @@
 \alias{module_skeleton}
 \title{Generate a skeleton for a module}
 \usage{
-module_skeleton(program_name, github_user, docker_user, flpth = getwd())
+module_skeleton(program_name, repo_user = NULL, docker_user = NULL,
+  flpth = getwd(), module_name = NULL, cmd = program_name,
+  service = c("github", "gitlab", "bitbucket"))
 }
 \arguments{
-\item{program_name}{Name of the command-line program}
+\item{program_name}{Name of the command-line program.}
 
-\item{github_user}{Developer's username for GitHub}
+\item{repo_user}{Developer's username for code sharing service. If NULL, no
+code sharing site information is added.}
 
-\item{docker_user}{Developer's username for Docker}
+\item{docker_user}{Developer's username for Docker. If NULL, no docker 
+information is added.}
 
 \item{flpth}{File path to location of where module will be created, default
 current working directory.}
+
+\item{module_name}{Name of the module, if NULL rendered as
+"om..[program_name]"}
+
+\item{cmd}{Command-line call for program, default [program_name]}
+
+\item{service}{Code-sharing site.}
 }
 \value{
-Logical
+Character
 }
 \description{
 Create all the base files and folders to kickstart the
-development of a new outsider module.
-}
-\details{
-Module developers must have a GitHub and Docker-Hub account.
-For more detailed information, see online.
+development of a new outsider module. Returns file path to new module.
 }

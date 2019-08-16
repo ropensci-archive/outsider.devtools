@@ -10,7 +10,7 @@ is_running_on_travis <- function() {
 #' @param flpth File path to location of module
 #' @return logical
 #' @family private
-test <- function(flpth) {
+test <- function(flpth, pull = FALSE) {
   pkgnm <- pkgnm_get(flpth = flpth)
   res1 <- tryCatch(outsider.base::pkg_install(flpth = flpth, verbose = TRUE),
                    error = function(e) {
@@ -22,7 +22,8 @@ test <- function(flpth) {
   tags <- tags_get(flpth = flpth)
   for (tag in tags) {
     tag_msg <- paste0('Tag = ', char(tag))
-    res2 <- tryCatch(outsider.base::image_install(pkgnm = pkgnm, tag = tag),
+    res2 <- tryCatch(outsider.base::image_install(pkgnm = pkgnm, tag = tag,
+                                                  pull = pull),
                     error = function(e) {
                       message(paste0('Unable to install image! ', tag_msg,
                                      ". See error below:\n\n"))
