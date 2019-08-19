@@ -72,17 +72,14 @@ module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
 #' @title Generate Travis-CI file (GitHub only)
 #' @description Write .travis.yml to working directory.
 #' @details Validated outsider modules must have a .travis.yml in their
-#' repository. These .travis.yml must be generated using this function.
-#' @param repo GitHub repository
+#' repository. These .travis.yml can be generated using this function.
 #' @param flpth Directory in which to create .travis.yml
 #' @return Logical
 #' @export
-module_travis <- function(repo, flpth = getwd()) {
+module_travis <- function(flpth = getwd()) {
   url <- paste0('https://raw.githubusercontent.com/DomBennett/',
                 'om..hello.world/master/.travis.yml')
   travis_text <- paste0(readLines(url), collapse = '\n')
-  travis_text <- sub(pattern = 'DomBennett/om\\.\\.hello\\.world',
-                     replacement = repo, x = travis_text, ignore.case = TRUE)
   write(x = travis_text, file = file.path(flpth, '.travis.yml'))
   invisible(file.exists(file.path(flpth, '.travis.yml')))
 }
@@ -151,6 +148,7 @@ module_check <- function(flpth) {
   fls <- list.files(file.path(flpth, 'inst'))
   res4 <- 'om.yml' %in% fls
   msg(res4, file.path('inst', 'om.yml'))
+  yaml::read_yaml(file.path(flpth, 'inst', 'om.yml'))
   res5 <- 'dockerfiles' %in% fls
   msg(res5, file.path('inst', 'dockerfiles'))
   fls <- list.files(file.path(flpth, 'inst', 'dockerfiles'))
@@ -197,16 +195,12 @@ module_build <- function(flpth, tag = NULL, build_documents = TRUE,
       stop('No Dockerfile found for tag: ', paste0(char(tag)), call. = FALSE)
     }
     pkgnm <- pkgnm_get(flpth = flpth)
-    if (!pkgnm %in% utils::installed.packages()) {
+    if (!outsider.base::is_installed(pkgnm = pkgnm)) {
       stop(paste0(char(pkgnm), ' is not an installed R package. Try ',
                   char('build_package = TRUE')))
     }
     info <- outsider.base::meta_get(pkgnm = pkgnm)
-    if (is.null(info[['docker']])) {
-      img <- info[['image']]
-    } else {
-      img <- paste0(info[['docker']], '/', info[['image']])
-    }
+    img <- info[['image']]
     dockerfile <- system.file('dockerfiles', tag, package = pkgnm)
     cat_line(cli::rule())
     cat_line('Running ', func('docker_build'))
@@ -245,4 +239,42 @@ module_test <- function(flpth = getwd(), verbose = FALSE, pull = FALSE) {
   res <- withr::with_options(new = temp_opts, code = test(flpth = flpth,
                                                           pull = pull))
   invisible(res)
+}
+
+#' @name module_upload
+#' @title Upload a module to code sharing site and DockerHub
+#' @description Look up usernames and other information contained in
+#' "om.yml" to upload module to a code sharing site and/or DockerHub.
+#' @param flpth File path to location of module
+#' @param code_sharing Upload to code sharing service?
+#' @param dockerhub Upload to DockerHub?
+#' @param verbose Print docker and program info to console
+#' @return Logical
+#' @export
+module_upload <- function(flpth, code_sharing = TRUE, dockerhub = TRUE,
+                          verbose = TRUE) {
+  pkgnm <- pkgnm_get(flpth = flpth)
+  if (!outsider.base::is_installed(pkgnm = pkgnm)) {
+    stop(paste0(char(pkgnm), ' is not an installed R package.'))
+  }
+  meta <- outsider.base::meta_get(pkgnm = pkgnm)
+  if (code_sharing) {
+    NULL
+  }
+  if (dockerhub) {
+    username <- meta[['docker']]
+    if (is.null(username)) {
+      stop(paste0('No docker username found for ', char(pkgnm)))
+    }
+    img <- meta[['image']]
+    avl_imgs <- outsider.base::docker_img_ls()
+    tag <- avl_imgs[['tag']][avl_imgs[['repository']] == img]
+    if (length(tag) == 0) {
+      stop(paste0('No docker image found for ', char(pkgnm)))
+    }
+    cat_line(cli::rule())
+    cat_line('Running ', func('docker_push'))
+    cat_line(cli::rule())
+    docker_push(username = username, img = img, tag = tag, verbose = verbose)
+  }
 }

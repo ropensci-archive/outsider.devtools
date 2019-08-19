@@ -4,7 +4,7 @@
 \alias{test}
 \title{Test a module}
 \usage{
-test(flpth)
+test(flpth, pull = FALSE)
 }
 \arguments{
 \item{flpth}{File path to location of module}

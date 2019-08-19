@@ -4,7 +4,7 @@
 \alias{module_test}
 \title{Test an outsider module}
 \usage{
-module_test(flpth = getwd(), verbose = FALSE)
+module_test(flpth = getwd(), verbose = FALSE, pull = FALSE)
 }
 \arguments{
 \item{flpth}{File path to location of module}

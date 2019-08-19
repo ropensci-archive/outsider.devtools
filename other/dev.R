@@ -7,7 +7,9 @@ module_path <- module_skeleton(program_name = 'echo', repo_user = 'dombennett',
 module_check(flpth = module_path)
 module_identities(flpth = module_path)
 module_build(flpth = module_path, tag = 'latest')
-# TODO: make sure outsider modules with urls are discoverable by outsider
+
+
+
 module_test(flpth = module_path)
 module_upload(flpth = module_path)
 

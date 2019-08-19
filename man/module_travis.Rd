@@ -4,11 +4,9 @@
 \alias{module_travis}
 \title{Generate Travis-CI file (GitHub only)}
 \usage{
-module_travis(repo, flpth = getwd())
+module_travis(flpth = getwd())
 }
 \arguments{
-\item{repo}{GitHub repository}
-
 \item{flpth}{Directory in which to create .travis.yml}
 }
 \value{
@@ -19,5 +17,5 @@ Write .travis.yml to working directory.
 }
 \details{
 Validated outsider modules must have a .travis.yml in their
-repository. These .travis.yml must be generated using this function.
+repository. These .travis.yml can be generated using this function.
 }
