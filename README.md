@@ -1,5 +1,5 @@
 
-Development tools package for `outsider` <img src="https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/logo_inverse.png" height="200" align="right"/>
+Development tools package for `outsider` <img src="https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/logo_inverse.png" height="200" align="right"/>
 ----
 
 [![Build Status](https://travis-ci.org/AntonelliLab/outsider.devtools.svg?branch=master)](https://travis-ci.org/AntonelliLab/outsider.base) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/AntonelliLab/outsider.devtools?branch=master&svg=true)](https://ci.appveyor.com/project/DomBennett/outsider.devtools) [![Coverage Status](https://coveralls.io/repos/github/AntonelliLab/outsider.devtools/badge.svg?branch=master)](https://coveralls.io/github/AntonelliLab/outsider.devtools?branch=master)
@@ -12,7 +12,7 @@ test the module and upload it online.
 
 ## Install
 
-The `outsider` packages are all available via GitHub.
+The [`outsider`](https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-) packages are all available via GitHub.
 
 ```r
 # install.packages("remotes")
@@ -24,7 +24,7 @@ remotes::install_github("AntonelliLab/outsider.devtools")
 
 ## Quick guide
 
-Build an `outsider` module to run `echo` via Ubuntu in just a few function calls.
+Build an [`outsider`](https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-) module to run [`echo`](https://en.wikipedia.org/wiki/Echo_(command)) via Ubuntu in just a few function calls.
 
 ```r
 # make my own quick package
@@ -45,7 +45,7 @@ Visit the webpage ["Getting started"](https://antonellilab.github.io/outsider.de
 
 ## How do the `outsider` packages interact?
 
-![](https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/package_structures.png)
+![](https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/package_structures.png)
 
 ## Maintainer
 
