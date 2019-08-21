@@ -54,7 +54,7 @@
   <body>
     <div class="container template-reference-index">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -128,22 +128,16 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-build" class="hasAnchor"><a href="#section-build" class="anchor"></a>Build</h2>
+          <p class="section-desc"><p>Build, check, test and upload</p></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="examples_test.html">examples_test()</a></code> </p>
+          <p><code><a href="module_build.html">module_build()</a></code> </p>
         </td>
-        <td><p>Run each example of an outsider module</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="file_create.html">file_create()</a></code> </p>
-        </td>
-        <td><p>Create file</p></td>
+        <td><p>Build a module</p></td>
       </tr><tr>
         
         <td>
@@ -173,7 +167,101 @@
         <td>
           <p><code><a href="module_travis.html">module_travis()</a></code> </p>
         </td>
-        <td><p>Generate Travis-CI file</p></td>
+        <td><p>Generate Travis-CI file (GitHub only)</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="module_upload.html">module_upload()</a></code> </p>
+        </td>
+        <td><p>Upload a module to code sharing site and DockerHub</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-docker-git" class="hasAnchor"><a href="#section-docker-git" class="anchor"></a>Docker, git</h2>
+          <p class="section-desc"><p>Convinence functions</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="docker_build.html">docker_build()</a></code> </p>
+        </td>
+        <td><p>Build a Docker image</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="docker_cmd.html">docker_cmd()</a></code> </p>
+        </td>
+        <td><p>Send commands to Docker</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="docker_login.html">docker_login()</a></code> </p>
+        </td>
+        <td><p>Login to Docker</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="docker_push.html">docker_push()</a></code> </p>
+        </td>
+        <td><p>Push a Docker image to Docker Hub</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="git_upload.html">git_upload()</a></code> </p>
+        </td>
+        <td><p>Upload module to code-sharing service</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-private" class="hasAnchor"><a href="#section-private" class="anchor"></a>Private</h2>
+          <p class="section-desc"><p>Internal functions</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="celebrate.html">celebrate()</a></code> </p>
+        </td>
+        <td><p>Say nice things</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="comfort.html">comfort()</a></code> </p>
+        </td>
+        <td><p>Say consoling things</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="description_get.html">description_get()</a></code> </p>
+        </td>
+        <td><p>Return DESCRIPTION</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="examples_get.html">examples_get()</a></code> </p>
+        </td>
+        <td><p>Determine examples</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="examples_test.html">examples_test()</a></code> </p>
+        </td>
+        <td><p>Run each example of an outsider module</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="file_create.html">file_create()</a></code> </p>
+        </td>
+        <td><p>Create file</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="outsider.devtools.html">outsider.devtools</a></code> </p>
+        </td>
+        <td><p>outsider.devtools: Build 'outsider' Modules</p></td>
       </tr><tr>
         
         <td>
@@ -183,9 +271,21 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="pkgnm_get.html">pkgnm_get()</a></code> </p>
+        </td>
+        <td><p>Determine R package name</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="string_replace.html">string_replace()</a></code> </p>
         </td>
         <td><p>Replace patterns in a string</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tags_get.html">tags_get()</a></code> </p>
+        </td>
+        <td><p>Determine tags</p></td>
       </tr><tr>
         
         <td>
@@ -198,6 +298,12 @@
           <p><code><a href="test.html">test()</a></code> </p>
         </td>
         <td><p>Test a module</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="yaml_get.html">yaml_get()</a></code> </p>
+        </td>
+        <td><p>Return om.yml</p></td>
       </tr>
     </tbody>
     </table>
@@ -206,7 +312,9 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-build">Build</a></li>
+      <li><a href="#section-docker-git">Docker, git</a></li>
+      <li><a href="#section-private">Private</a></li>
     </ul>
   </div>
 </div>

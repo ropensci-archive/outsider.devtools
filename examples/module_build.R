@@ -1,8 +1,8 @@
 library(outsider)
 # build a skeleton package
 flpth <- tempdir()
-module_skeleton(program_name = 'example', github_user = 'github_user',
-                docker_user = 'docker_user', flpth = flpth)
+mdl_pth <- module_skeleton(program_name = 'example', repo_user = 'github_user',
+                           docker_user = 'docker_user', flpth = flpth)
 # look-up module user and program name/ids
 # note: "om.." is added to the beginning of the program name
 # mdl_pth <- file.path(flpth, 'om..example')
@@ -15,4 +15,4 @@ module_skeleton(program_name = 'example', github_user = 'github_user',
 
 
 # clean-up
-# unlink(x = mdl_pth, recursive = TRUE)
+unlink(x = mdl_pth, recursive = TRUE)

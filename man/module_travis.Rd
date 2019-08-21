@@ -19,3 +19,11 @@ Write .travis.yml to working directory.
 Validated outsider modules must have a .travis.yml in their
 repository. These .travis.yml can be generated using this function.
 }
+\seealso{
+Other build: \code{\link{module_build}},
+  \code{\link{module_check}},
+  \code{\link{module_identities}},
+  \code{\link{module_skeleton}}, \code{\link{module_test}},
+  \code{\link{module_upload}}
+}
+\concept{build}

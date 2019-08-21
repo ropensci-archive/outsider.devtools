@@ -10,6 +10,8 @@ module_test(flpth = getwd(), verbose = FALSE, pull = FALSE)
 \item{flpth}{File path to location of module}
 
 \item{verbose}{Print docker and program info to console}
+
+\item{pull}{Pull image from Docker Hub? T/F}
 }
 \value{
 Logical
@@ -30,3 +32,11 @@ repo <- 'dombennett/om..hello.world'
 # NOT RUN
 # module_test(repo = repo, verbose = TRUE)
 }
+\seealso{
+Other build: \code{\link{module_build}},
+  \code{\link{module_check}},
+  \code{\link{module_identities}},
+  \code{\link{module_skeleton}},
+  \code{\link{module_travis}}, \code{\link{module_upload}}
+}
+\concept{build}

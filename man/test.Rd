@@ -8,6 +8,8 @@ test(flpth, pull = FALSE)
 }
 \arguments{
 \item{flpth}{File path to location of module}
+
+\item{pull}{Pull Docker image from Docker Hub? T/F}
 }
 \value{
 logical
@@ -17,8 +19,6 @@ Test an outsider module by making sure it installs,
 imports and its examples run correctly.
 }
 \seealso{
-Other private: \code{\link{examples_test}},
-  \code{\link{file_create}}, \code{\link{pkgdetails_get}},
-  \code{\link{string_replace}}, \code{\link{templates_get}}
+Other testing: \code{\link{examples_test}}
 }
-\concept{private}
+\concept{testing}

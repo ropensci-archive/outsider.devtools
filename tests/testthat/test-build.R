@@ -73,37 +73,29 @@ test_that('file_create() works', {
   unlink(x = 'dir1', recursive = TRUE, force = TRUE)
 })
 test_that('module_skeleton() works', {
-  module_skeleton(program_name = 'newprogram', github_user = 'ghuser',
-                   docker_user = 'dhuser')
+  module_skeleton(program_name = 'newprogram', repo_user = 'ghuser',
+                  docker_user = 'dhuser', service = 'github')
   expect_true(dir.exists('om..newprogram'))
   unlink(x = 'om..newprogram', recursive = TRUE, force = TRUE)
 })
 test_that('module_travis() works', {
   flpth <- file.path('travis_test', '.travis.yml')
   outsider.devtools:::file_create(x = '', flpth = flpth)
-  expect_true(module_travis(repo = 'test/om..newprogram',
-                             flpth = 'travis_test'))
+  expect_true(module_travis(flpth = 'travis_test'))
   unlink(x = 'travis_test', recursive = TRUE, force = TRUE)
 })
-# test_that('module_identities() works', {
-#   flpth <- tempdir()
-#   
-#   module_skeleton(program_name = 'testing', github_user = 'testing',
-#                   docker_user = 'testing', flpth = '/home/Desktop')
-#   flpth <- file.path(flpth, 'om..testing')
-#   list.files(flpth)
-#   module_identities(flpth = flpth)
-#   pkgdetails <- list('Package' = NA, 'Docker' = NA)
-#   res <- with_mock(
-#     `outsider.devtools:::pkgdetails_get` = function(...) pkgdetails,
-#     `outsider.devtools:::pkgnm_to_repo` = function(...) 'test/om..newprogram',
-#     `outsider.devtools:::pkgnm_to_img` = function(...) 'test/om_newprogram',
-#     module_identities(flpth = '')
-#   )
-#   expect_true(inherits(res, 'ids'))
-# })
+test_that('module_identities() works', {
+  module_skeleton(program_name = 'newprogram', repo_user = 'ghuser',
+                  docker_user = 'dhuser', service = 'github')
+  res <- module_identities(flpth = 'om..newprogram')
+  unlink(x = 'om..newprogram', recursive = TRUE, force = TRUE)
+  expect_true(inherits(res, 'identities'))
+})
 test_that('module_check() works', {
-  expect_true(module_check())
+  module_skeleton(program_name = 'newprogram', repo_user = 'ghuser',
+                  docker_user = 'dhuser', service = 'github')
+  expect_true(module_check(flpth = 'om..newprogram'))
+  unlink(x = 'om..newprogram', recursive = TRUE, force = TRUE)
 })
 test_that('module_test() works', {
   with_mock(

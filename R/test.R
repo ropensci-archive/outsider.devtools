@@ -1,15 +1,12 @@
-# Ensure tests do not run on Travis-CI
-is_running_on_travis <- function() {
-  Sys.getenv("CI") == "true" && Sys.getenv("TRAVIS") == "true"
-}
 
 #' @name test
 #' @title Test a module
 #' @description Test an outsider module by making sure it installs,
 #' imports and its examples run correctly.
 #' @param flpth File path to location of module
+#' @param pull Pull Docker image from Docker Hub? T/F
 #' @return logical
-#' @family private
+#' @family testing
 test <- function(flpth, pull = FALSE) {
   pkgnm <- pkgnm_get(flpth = flpth)
   res1 <- tryCatch(outsider.base::pkg_install(flpth = flpth, verbose = TRUE),
@@ -43,7 +40,7 @@ test <- function(flpth, pull = FALSE) {
 #' run.
 #' @param flpth File path to location of module
 #' @return logical
-#' @family private
+#' @family testing
 examples_test <- function(flpth) {
   res <- TRUE
   example_scripts <- examples_get(flpth = flpth)

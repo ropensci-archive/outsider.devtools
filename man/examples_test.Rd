@@ -17,9 +17,6 @@ Return TRUE if all of the outsider module functions successfully
 run.
 }
 \seealso{
-Other private: \code{\link{file_create}},
-  \code{\link{pkgdetails_get}},
-  \code{\link{string_replace}},
-  \code{\link{templates_get}}, \code{\link{test}}
+Other testing: \code{\link{test}}
 }
-\concept{private}
+\concept{testing}

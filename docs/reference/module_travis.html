@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate Travis-CI file — module_travis • outsider.devtools</title>
+<title>Generate Travis-CI file (GitHub only) — module_travis • outsider.devtools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -35,7 +35,7 @@
 
 
 
-<meta property="og:title" content="Generate Travis-CI file — module_travis" />
+<meta property="og:title" content="Generate Travis-CI file (GitHub only) — module_travis" />
 
 <meta property="og:description" content="Write .travis.yml to working directory." />
 <meta name="twitter:card" content="summary" />
@@ -57,7 +57,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -117,7 +117,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate Travis-CI file</h1>
+    <h1>Generate Travis-CI file (GitHub only)</h1>
     
     <div class="hidden name"><code>module_travis.Rd</code></div>
     </div>
@@ -128,15 +128,11 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>module_travis</span>(<span class='no'>repo</span>, <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>())</pre>
+    <pre class="usage"><span class='fu'>module_travis</span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>repo</th>
-      <td><p>Repository</p></td>
-    </tr>
     <tr>
       <th>flpth</th>
       <td><p>Directory in which to create .travis.yml</p></td>
@@ -149,8 +145,16 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>All validated outsider modules must have a .travis.yml in their
-repository. These .travis.yml must be generated using this function.</p>
+    <p>Validated outsider modules must have a .travis.yml in their
+repository. These .travis.yml can be generated using this function.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other build: <code><a href='module_build.html'>module_build</a></code>,
+  <code><a href='module_check.html'>module_check</a></code>,
+  <code><a href='module_identities.html'>module_identities</a></code>,
+  <code><a href='module_skeleton.html'>module_skeleton</a></code>, <code><a href='module_test.html'>module_test</a></code>,
+  <code><a href='module_upload.html'>module_upload</a></code></p></div>
     
 
   </div>
@@ -162,6 +166,8 @@ repository. These .travis.yml must be generated using this function.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

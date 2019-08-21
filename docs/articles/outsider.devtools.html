@@ -26,7 +26,7 @@
 </head>
 <body>
     <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -137,6 +137,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
 <span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'echo'</span>,
                 <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>(), <span class="dt">service =</span> <span class="st">'github'</span>)</code></pre></div>
+<pre><code>## [1] "/home/dom/Coding/outsider.devtools/vignettes/om..echo"</code></pre>
 <p>The above code will create an <code>outsider</code> module with the name <code>om..echo</code>. After running the above code, you should take a minute to inspect the generated files. In particular you should look at the <code>DESCRIPTION</code> file, the <code>Dockerfile</code> and <code>functions.R</code>.</p>
 <blockquote>
 <p><strong>Why <code>om..echo</code>?</strong> All modules must start with “om..” in order for them to be discovered on GitHub.</p>
@@ -185,11 +186,11 @@ WORKDIR /working_dir</code></pre>
 ##  ---&gt; 16508e5c265d
 ## Step 2/3 : RUN mkdir /working_dir
 ##  ---&gt; Using cache
-##  ---&gt; cfa006a0c464
+##  ---&gt; 9672e5fb3b64
 ## Step 3/3 : WORKDIR /working_dir
 ##  ---&gt; Using cache
-##  ---&gt; 664bbfdd5b6f
-## Successfully built 664bbfdd5b6f
+##  ---&gt; df17a28219c0
+## Successfully built df17a28219c0
 ## Successfully tagged dombennett/om_echo:latest</code></pre>
 <blockquote>
 <p><strong>What is a tag?</strong> A Docker tag is akin to the version number of the image. By default, if no tag is provided, Docker will use ‘latest’.</p>
@@ -202,10 +203,12 @@ WORKDIR /working_dir</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># first document</span>
 devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/document.html">document</a></span>(<span class="st">'om..echo'</span>)</code></pre></div>
 <pre><code>## Updating om..echo documentation</code></pre>
+<pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
 <pre><code>## Updating roxygen version in /home/dom/Coding/outsider.devtools/vignettes/om..echo/DESCRIPTION</code></pre>
 <pre><code>## Writing NAMESPACE</code></pre>
 <pre><code>## Loading om..echo</code></pre>
-<pre><code>## Writing NAMESPACE</code></pre>
+<pre><code>## Writing NAMESPACE
+## Writing echo.Rd</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># then install</span>
 devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/install.html">install</a></span>(<span class="st">'om..echo'</span>, <span class="dt">upgrade =</span> <span class="st">'never'</span>)</code></pre></div>
 <pre><code>##   
@@ -234,7 +237,7 @@ devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/
    
 ## 
 Running /usr/lib/R/bin/R CMD INSTALL \
-##   /tmp/RtmpRFERTq/om..echo_0.0.1.tar.gz --install-tests 
+##   /tmp/RtmpdMkwiT/om..echo_0.0.1.tar.gz --install-tests 
 ## * installing to library ‘/home/dom/R/x86_64-pc-linux-gnu-library/3.6’
 ## * installing *source* package ‘om..echo’ ...
 ## ** using staged installation
@@ -259,7 +262,7 @@ Running /usr/lib/R/bin/R CMD INSTALL \
 <p>With a Docker image and an installed R package we are now ready to try out the module before we upload online.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider)</code></pre></div>
 <pre><code>## ----------------
-## outsider v 0.0.1
+## outsider v 0.1.0
 ## ----------------
 ## - Note: be sure of which modules you install</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># the repo always refers to the future github repo</span>

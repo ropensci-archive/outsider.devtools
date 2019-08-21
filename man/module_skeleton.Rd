@@ -34,3 +34,11 @@ Character
 Create all the base files and folders to kickstart the
 development of a new outsider module. Returns file path to new module.
 }
+\seealso{
+Other build: \code{\link{module_build}},
+  \code{\link{module_check}},
+  \code{\link{module_identities}},
+  \code{\link{module_test}}, \code{\link{module_travis}},
+  \code{\link{module_upload}}
+}
+\concept{build}

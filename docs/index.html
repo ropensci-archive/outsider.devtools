@@ -26,7 +26,7 @@
 </head>
 <body>
     <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -84,10 +84,52 @@
   <div class="contents col-md-9">
 <div id="development-tools-package-for-outsider" class="section level2">
 <h2 class="hasAnchor">
-<a href="#development-tools-package-for-outsider" class="anchor"></a>Development tools package for <code>outsider</code> <img src="https://raw.githubusercontent.com/AntonelliLab/outsider/master/logo.png" height="200" align="right">
+<a href="#development-tools-package-for-outsider" class="anchor"></a>Development tools package for <code>outsider</code> <img src="https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/logo_devtools.png" height="200" align="right">
 </h2>
 
-<p>Build your own modules for <code>outsider</code>! Visit the webpage <a href="https://antonellilab.github.io/outsider.devtools/articles/outsider.devtools.html">“Getting started”</a> to find out more.</p>
+<div id="build-outsider-modules" class="section level4">
+<h4 class="hasAnchor">
+<a href="#build-outsider-modules" class="anchor"></a>Build <a href="https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-"><code>outsider</code></a> modules!</h4>
+<p>This package aims to make it easier for <code>outsider</code> module developers to make their own modules. Build a module skeleton, check the file structures, test the module and upload it online.</p>
+</div>
+<div id="install" class="section level4">
+<h4 class="hasAnchor">
+<a href="#install" class="anchor"></a>Install</h4>
+<p>The <a href="https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-"><code>outsider</code></a> packages are all available via GitHub.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("remotes")</span>
+<span class="co"># requires outsider.base, outsider</span>
+remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"AntonelliLab/outsider.base"</span>)
+remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"AntonelliLab/outsider"</span>)
+remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"AntonelliLab/outsider.devtools"</span>)</code></pre></div>
+</div>
+<div id="quick-guide" class="section level4">
+<h4 class="hasAnchor">
+<a href="#quick-guide" class="anchor"></a>Quick guide</h4>
+<p>Build an <a href="https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-"><code>outsider</code></a> module to run <a href="https://en.wikipedia.org/wiki/Echo_(command)"><code>echo</code></a> via Ubuntu in just a few function calls.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make my own quick package</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
+<span class="co"># construct a skeleton file structure for the module</span>
+module_path &lt;-<span class="st"> </span><span class="kw"><a href="reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">program_name =</span> <span class="st">'echo'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>())
+<span class="co"># check the file structure</span>
+<span class="kw"><a href="reference/module_check.html">module_check</a></span>(<span class="dt">flpth =</span> module_path)
+<span class="co"># look-up key identifying names: R package name, Docker image name</span>
+<span class="kw"><a href="reference/module_identities.html">module_identities</a></span>(<span class="dt">flpth =</span> module_path)
+<span class="co"># build the R package and Docker image</span>
+<span class="kw"><a href="reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> module_path, <span class="dt">tag =</span> <span class="st">'latest'</span>)
+<span class="co"># test the module</span>
+<span class="kw"><a href="reference/module_test.html">module_test</a></span>(<span class="dt">flpth =</span> module_path)</code></pre></div>
+<p>Visit the webpage <a href="https://antonellilab.github.io/outsider.devtools/articles/outsider.devtools.html">“Getting started”</a> to find out more.</p>
+</div>
+<div id="how-do-the-outsider-packages-interact" class="section level4">
+<h4 class="hasAnchor">
+<a href="#how-do-the-outsider-packages-interact" class="anchor"></a>How do the <code>outsider</code> packages interact?</h4>
+<p><img src="https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/package_structures.png"></p>
+</div>
+<div id="maintainer" class="section level4">
+<h4 class="hasAnchor">
+<a href="#maintainer" class="anchor"></a>Maintainer</h4>
+<p><a href="https://github.com/dombennett/">Dom Bennett</a></p>
+</div>
 </div>
   </div>
 
@@ -118,7 +160,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/AntonelliLab/outsider.base"><img src="https://travis-ci.org/AntonelliLab/outsider.devtools.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://ci.appveyor.com/project/DomBennett/outsider.devtools"><embed src="https://ci.appveyor.com/api/projects/status/github/AntonelliLab/outsider.devtools?branch=master&amp;svg=true"></embed></a></li>
+<li><a href="https://ci.appveyor.com/project/DomBennett/outsider-devtools"><embed src="https://ci.appveyor.com/api/projects/status/github/AntonelliLab/outsider.devtools?branch=master&amp;svg=true"></embed></a></li>
 <li><a href="https://coveralls.io/github/AntonelliLab/outsider.devtools?branch=master"><img src="https://coveralls.io/repos/github/AntonelliLab/outsider.devtools/badge.svg?branch=master" alt="Coverage Status"></a></li>
 </ul>
 </div>
