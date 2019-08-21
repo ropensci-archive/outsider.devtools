@@ -244,7 +244,8 @@ module_test <- function(flpth = getwd(), verbose = FALSE, pull = FALSE) {
 #' @name module_upload
 #' @title Upload a module to code sharing site and DockerHub
 #' @description Look up usernames and other information contained in
-#' "om.yml" to upload module to a code sharing site and/or DockerHub.
+#' "om.yml" to upload module to a code sharing site (github, gitlab or
+#' bitbucket) and/or DockerHub.
 #' @param flpth File path to location of module
 #' @param code_sharing Upload to code sharing service?
 #' @param dockerhub Upload to DockerHub?
@@ -259,12 +260,24 @@ module_upload <- function(flpth, code_sharing = TRUE, dockerhub = TRUE,
   }
   meta <- outsider.base::meta_get(pkgnm = pkgnm)
   if (code_sharing) {
-    NULL
+    services <- c('github', 'gitlab', 'bitbucket')
+    pull <- services %in% names(meta)
+    if (sum(pull) == 0) {
+      stop('Unable to upload to a code-sharing serice',
+           '. No github/gitlab/bitbucket username in module metadata.')
+    }
+    service <- services[services %in% names(meta)][[1]]
+    username <- meta[[service]]
+    cat_line(cli::rule())
+    cat_line('Running ', func('git_upload'))
+    cat_line(cli::rule())
+    git_upload(flpth = flpth, username = username, service = service)
   }
   if (dockerhub) {
     username <- meta[['docker']]
     if (is.null(username)) {
-      stop(paste0('No docker username found for ', char(pkgnm)))
+      stop('Unable to upload to Docker-Hub.',
+           '. No docker username in module metadata.')
     }
     img <- meta[['image']]
     avl_imgs <- outsider.base::docker_img_ls()

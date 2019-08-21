@@ -4,8 +4,8 @@
 
 ```r
 library(outsider)
-module_install(repo = %repo%)
-module_help(repo = %repo%)
+module_install(repo = "%repo%")
+module_help(repo = "%repo%")
 ```
 
 See [`outsider`](https://github.com/AntonelliLab/outsider) documentation for more information.
