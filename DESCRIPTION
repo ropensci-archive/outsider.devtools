@@ -23,8 +23,12 @@ Imports:
     praise,
     roxygen2,
     yaml,
+    RCurl,
+    callr,
+    cli,
     crayon,
     getPass,
+    git2r,
     sys,
     devtools
 Suggests:

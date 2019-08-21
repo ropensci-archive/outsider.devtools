@@ -8,7 +8,17 @@ module_build(flpth, tag = NULL, build_documents = TRUE,
   build_package = TRUE, build_image = TRUE, verbose = TRUE)
 }
 \arguments{
-\item{flpth}{File path to location of module}
+\item{flpth}{File path to location of module.}
+
+\item{tag}{Docker tag, e.g. latest.}
+
+\item{build_documents}{Build R documentation? T/F}
+
+\item{build_package}{Build R package? T/F}
+
+\item{build_image}{Build Docker image? T/F}
+
+\item{verbose}{Be verbose? T/F}
 }
 \value{
 Logical
@@ -20,8 +30,8 @@ Do
 library(outsider)
 # build a skeleton package
 flpth <- tempdir()
-module_skeleton(program_name = 'example', github_user = 'github_user',
-                docker_user = 'docker_user', flpth = flpth)
+mdl_pth <- module_skeleton(program_name = 'example', repo_user = 'github_user',
+                           docker_user = 'docker_user', flpth = flpth)
 # look-up module user and program name/ids
 # note: "om.." is added to the beginning of the program name
 # mdl_pth <- file.path(flpth, 'om..example')
@@ -34,5 +44,12 @@ module_skeleton(program_name = 'example', github_user = 'github_user',
 
 
 # clean-up
-# unlink(x = mdl_pth, recursive = TRUE)
+unlink(x = mdl_pth, recursive = TRUE)
 }
+\seealso{
+Other build: \code{\link{module_check}},
+  \code{\link{module_identities}},
+  \code{\link{module_skeleton}}, \code{\link{module_test}},
+  \code{\link{module_travis}}, \code{\link{module_upload}}
+}
+\concept{build}

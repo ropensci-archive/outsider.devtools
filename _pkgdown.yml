@@ -1,5 +1,24 @@
+reference:
+- title: Build
+  desc: Build, check, test and upload
+  contents:
+    - starts_with("module_")
+- title: Docker, git
+  desc: Convinence functions
+  contents:
+    - starts_with("docker_")
+    - starts_with("git_")
+- title: Private
+  desc: Internal functions
+  contents:
+    - -starts_with("(docker_|module_|git_)")
+articles:
+- title: All articles
+  desc: Developing modules
+  contents:
+  - '`advanced_build`'
 navbar:
   type: inverse
-template:
-  params:
-    bootswatch: cyborg
+#template:
+#  params:
+#    bootswatch: sandstone

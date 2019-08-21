@@ -38,7 +38,7 @@
 <meta property="og:title" content="Generate a skeleton for a module — module_skeleton" />
 
 <meta property="og:description" content="Create all the base files and folders to kickstart the
-development of a new outsider module." />
+development of a new outsider module. Returns file path to new module." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -58,7 +58,7 @@ development of a new outsider module." />
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -126,42 +126,62 @@ development of a new outsider module." />
     <div class="ref-description">
     
     <p>Create all the base files and folders to kickstart the
-development of a new outsider module.</p>
+development of a new outsider module. Returns file path to new module.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>module_skeleton</span>(<span class='no'>program_name</span>, <span class='no'>github_user</span>, <span class='no'>docker_user</span>, <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>())</pre>
+    <pre class="usage"><span class='fu'>module_skeleton</span>(<span class='no'>program_name</span>, <span class='kw'>repo_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>docker_user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='kw'>module_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cmd</span> <span class='kw'>=</span> <span class='no'>program_name</span>,
+  <span class='kw'>service</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"github"</span>, <span class='st'>"gitlab"</span>, <span class='st'>"bitbucket"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>program_name</th>
-      <td><p>Name of the command-line program</p></td>
+      <td><p>Name of the command-line program.</p></td>
     </tr>
     <tr>
-      <th>github_user</th>
-      <td><p>Developer's username for GitHub</p></td>
+      <th>repo_user</th>
+      <td><p>Developer's username for code sharing service. If NULL, no
+code sharing site information is added.</p></td>
     </tr>
     <tr>
       <th>docker_user</th>
-      <td><p>Developer's username for Docker</p></td>
+      <td><p>Developer's username for Docker. If NULL, no docker 
+information is added.</p></td>
     </tr>
     <tr>
       <th>flpth</th>
       <td><p>File path to location of where module will be created, default
 current working directory.</p></td>
     </tr>
+    <tr>
+      <th>module_name</th>
+      <td><p>Name of the module, if NULL rendered as
+"om..[program_name]"</p></td>
+    </tr>
+    <tr>
+      <th>cmd</th>
+      <td><p>Command-line call for program, default [program_name]</p></td>
+    </tr>
+    <tr>
+      <th>service</th>
+      <td><p>Code-sharing site.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Logical</p>
+    <p>Character</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Module developers must have a GitHub and Docker-Hub account.
-For more detailed information, see online.</p>
+    <div class='dont-index'><p>Other build: <code><a href='module_build.html'>module_build</a></code>,
+  <code><a href='module_check.html'>module_check</a></code>,
+  <code><a href='module_identities.html'>module_identities</a></code>,
+  <code><a href='module_test.html'>module_test</a></code>, <code><a href='module_travis.html'>module_travis</a></code>,
+  <code><a href='module_upload.html'>module_upload</a></code></p></div>
     
 
   </div>
@@ -172,7 +192,7 @@ For more detailed information, see online.</p>
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

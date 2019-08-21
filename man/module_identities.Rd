@@ -17,3 +17,10 @@ Returns a list of the identities (GitHub repo, Package name,
 Docker images) for an outsider module. Works for modules in development.
 Requires module to have a file path.
 }
+\seealso{
+Other build: \code{\link{module_build}},
+  \code{\link{module_check}},
+  \code{\link{module_skeleton}}, \code{\link{module_test}},
+  \code{\link{module_travis}}, \code{\link{module_upload}}
+}
+\concept{build}

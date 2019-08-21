@@ -15,6 +15,7 @@
 #' @param cmd Command-line call for program, default [program_name]
 #' @param service Code-sharing site.
 #' @return Character
+#' @family build
 #' @export
 module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
                             flpth = getwd(), module_name = NULL,
@@ -75,6 +76,7 @@ module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
 #' repository. These .travis.yml can be generated using this function.
 #' @param flpth Directory in which to create .travis.yml
 #' @return Logical
+#' @family build
 #' @export
 module_travis <- function(flpth = getwd()) {
   url <- paste0('https://raw.githubusercontent.com/DomBennett/',
@@ -91,6 +93,7 @@ module_travis <- function(flpth = getwd()) {
 #' Requires module to have a file path.
 #' @param flpth File path to location of module
 #' @return Logical
+#' @family build
 #' @export
 module_identities <- function(flpth) {
   res <- list()
@@ -126,6 +129,7 @@ print.identities <- function(x, ...) {
 #' outsider module are correct.
 #' @param flpth File path to location of module
 #' @return Logical
+#' @family build
 #' @export
 #' @example examples/module_build.R
 module_check <- function(flpth) {
@@ -166,8 +170,14 @@ module_check <- function(flpth) {
 #' @name module_build
 #' @title Build a module
 #' @description Do
-#' @param flpth File path to location of module
+#' @param flpth File path to location of module.
+#' @param tag Docker tag, e.g. latest.
+#' @param build_documents Build R documentation? T/F
+#' @param build_package Build R package? T/F
+#' @param build_image Build Docker image? T/F
+#' @param verbose Be verbose? T/F
 #' @return Logical
+#' @family build
 #' @export
 #' @example examples/module_build.R
 module_build <- function(flpth, tag = NULL, build_documents = TRUE,
@@ -218,7 +228,9 @@ module_build <- function(flpth, tag = NULL, build_documents = TRUE,
 #' the test is run.
 #' @param flpth File path to location of module
 #' @param verbose Print docker and program info to console
+#' @param pull Pull image from Docker Hub? T/F
 #' @return Logical
+#' @family build
 #' @export
 #' @example examples/module_test.R
 module_test <- function(flpth = getwd(), verbose = FALSE, pull = FALSE) {
@@ -251,6 +263,7 @@ module_test <- function(flpth = getwd(), verbose = FALSE, pull = FALSE) {
 #' @param dockerhub Upload to DockerHub?
 #' @param verbose Print docker and program info to console
 #' @return Logical
+#' @family build
 #' @export
 module_upload <- function(flpth, code_sharing = TRUE, dockerhub = TRUE,
                           verbose = TRUE) {

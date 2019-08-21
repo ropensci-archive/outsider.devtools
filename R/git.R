@@ -1,9 +1,17 @@
-
-git_upload <- function(flpth, username = NULL, service = c('github', 'gitlab',
-                                                           'bitbucket')) {
-  if (is.null(username)) {
-    stop('No username provided for github/gitlab/bitbucket', call. = FALSE)
-  }
+#' @name git_upload
+#' @title Upload module to code-sharing service
+#' @description Upload module to a git-based code-sharing service. Initiate
+#' a git repo, add core module files, commit and push to remote.
+#' @details Remote URL is determined to be: code sharing URL + username + R
+#' package name.
+#' @param flpth File path to module.
+#' @param username Username for code-sharing service.
+#' @param service Code-sharing service
+#' @return Logical
+#' @family git
+#' @export
+git_upload <- function(flpth, username, service = c('github', 'gitlab',
+                                                    'bitbucket')) {
   repo <- file.path(flpth, '.git')
   if (!dir.exists(repo)) {
     git2r::init(path = flpth)
