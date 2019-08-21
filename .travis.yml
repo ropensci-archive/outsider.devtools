@@ -16,6 +16,8 @@ services:
   - docker
   
 r_github_packages:
+  - AntonelliLab/outsider.base
+  - AntonelliLab/outsider
   - jimhester/covr
 
 after_success:
