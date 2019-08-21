@@ -1,0 +1,5 @@
+navbar:
+  type: inverse
+template:
+  params:
+    bootswatch: cyborg

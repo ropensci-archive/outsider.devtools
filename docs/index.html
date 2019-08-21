@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cyborg/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
@@ -26,7 +26,7 @@
 </head>
 <body>
     <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -84,10 +84,52 @@
   <div class="contents col-md-9">
 <div id="development-tools-package-for-outsider" class="section level2">
 <h2 class="hasAnchor">
-<a href="#development-tools-package-for-outsider" class="anchor"></a>Development tools package for <code>outsider</code> <img src="https://raw.githubusercontent.com/AntonelliLab/outsider/master/logo.png" height="200" align="right">
+<a href="#development-tools-package-for-outsider" class="anchor"></a>Development tools package for <code>outsider</code> <img src="https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/logo_inverse.png" height="200" align="right">
 </h2>
 
-<p>Build your own modules for <code>outsider</code>! Visit the webpage <a href="https://antonellilab.github.io/outsider.devtools/articles/outsider.devtools.html">“Getting started”</a> to find out more.</p>
+<div id="build-outsider-modules" class="section level4">
+<h4 class="hasAnchor">
+<a href="#build-outsider-modules" class="anchor"></a>Build <a href="https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-"><code>outsider</code></a> modules!</h4>
+<p>This package aims to make it easier for <code>outsider</code> module developers to make their own modules. Build a module skeleton, check the file structures, test the module and upload it online.</p>
+</div>
+<div id="install" class="section level4">
+<h4 class="hasAnchor">
+<a href="#install" class="anchor"></a>Install</h4>
+<p>The <a href="https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-"><code>outsider</code></a> packages are all available via GitHub.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("remotes")</span>
+<span class="co"># requires outsider.base, outsider</span>
+remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"AntonelliLab/outsider.base"</span>)
+remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"AntonelliLab/outsider"</span>)
+remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"AntonelliLab/outsider.devtools"</span>)</code></pre></div>
+</div>
+<div id="quick-guide" class="section level4">
+<h4 class="hasAnchor">
+<a href="#quick-guide" class="anchor"></a>Quick guide</h4>
+<p>Build an <a href="https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-"><code>outsider</code></a> module to run <a href="https://en.wikipedia.org/wiki/Echo_(command)"><code>echo</code></a> via Ubuntu in just a few function calls.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make my own quick package</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
+<span class="co"># construct a skeleton file structure for the module</span>
+module_path &lt;-<span class="st"> </span><span class="kw"><a href="reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">program_name =</span> <span class="st">'echo'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>())
+<span class="co"># check the file structure</span>
+<span class="kw"><a href="reference/module_check.html">module_check</a></span>(<span class="dt">flpth =</span> module_path)
+<span class="co"># look-up key identifying names: R package name, Docker image name</span>
+<span class="kw"><a href="reference/module_identities.html">module_identities</a></span>(<span class="dt">flpth =</span> module_path)
+<span class="co"># build the R package and Docker image</span>
+<span class="kw"><a href="reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> module_path, <span class="dt">tag =</span> <span class="st">'latest'</span>)
+<span class="co"># test the module</span>
+<span class="kw"><a href="reference/module_test.html">module_test</a></span>(<span class="dt">flpth =</span> module_path)</code></pre></div>
+<p>Visit the webpage <a href="https://antonellilab.github.io/outsider.devtools/articles/outsider.devtools.html">“Getting started”</a> to find out more.</p>
+</div>
+<div id="how-do-the-outsider-packages-interact" class="section level4">
+<h4 class="hasAnchor">
+<a href="#how-do-the-outsider-packages-interact" class="anchor"></a>How do the <code>outsider</code> packages interact?</h4>
+<p><img src="https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/package_structures.png"></p>
+</div>
+<div id="maintainer" class="section level4">
+<h4 class="hasAnchor">
+<a href="#maintainer" class="anchor"></a>Maintainer</h4>
+<p><a href="https://github.com/dombennett/">Dom Bennett</a></p>
+</div>
 </div>
   </div>
 
