@@ -24,4 +24,7 @@ a git repo, add core module files, commit and push to remote.
 Remote URL is determined to be: code sharing URL + username + R
 package name.
 }
+\seealso{
+Other git: \code{\link{remote_git_exists}}
+}
 \concept{git}

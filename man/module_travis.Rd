@@ -17,7 +17,8 @@ Write .travis.yml to working directory.
 }
 \details{
 Validated outsider modules must have a .travis.yml in their
-repository. These .travis.yml can be generated using this function.
+repository. These .travis.yml are created with \link{module_skeleton} but
+can also be generated using this function.
 }
 \seealso{
 Other build: \code{\link{module_build}},

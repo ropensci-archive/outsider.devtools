@@ -73,15 +73,16 @@ module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
 #' @title Generate Travis-CI file (GitHub only)
 #' @description Write .travis.yml to working directory.
 #' @details Validated outsider modules must have a .travis.yml in their
-#' repository. These .travis.yml can be generated using this function.
+#' repository. These .travis.yml are created with \link{module_skeleton} but
+#' can also be generated using this function.
 #' @param flpth Directory in which to create .travis.yml
 #' @return Logical
 #' @family build
 #' @export
 module_travis <- function(flpth = getwd()) {
-  url <- paste0('https://raw.githubusercontent.com/DomBennett/',
-                'om..hello.world/master/.travis.yml')
-  travis_text <- paste0(readLines(url), collapse = '\n')
+  travis_flpth <- system.file("extdata", 'template_.travis.yml',
+                              package = "outsider.devtools")
+  travis_text <- paste0(readLines(travis_flpth), collapse = '\n')
   write(x = travis_text, file = file.path(flpth, '.travis.yml'))
   invisible(file.exists(file.path(flpth, '.travis.yml')))
 }

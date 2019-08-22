@@ -23,7 +23,7 @@ Imports:
     praise,
     roxygen2,
     yaml,
-    RCurl,
+    httr,
     callr,
     cli,
     crayon,

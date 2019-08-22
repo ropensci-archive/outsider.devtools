@@ -1,3 +1,24 @@
+#' @name remote_git_exists
+#' @title Does a remote git repo exist
+#' @description Return TRUE if request returns a 200 status code.
+#' @details Private repositories will not be discovered. Doesn't work for
+#' bitbucket.
+#' @param url URL to check
+#' @return Logical
+#' @family git
+# TODO: why not working for bitbucket?
+# 'https://bitbucket.org/dominicjbennett/om..hello.world.git' -- 400 code
+remote_git_exists <- function(url) {
+  res <- tryCatch(expr = {
+    httr::HEAD(url = url)[['status_code']] == 200
+    }, error = function(e) {
+      FALSE 
+    }, warning = function(e) {
+      FALSE
+    })
+  res
+}
+
 #' @name git_upload
 #' @title Upload module to code-sharing service
 #' @description Upload module to a git-based code-sharing service. Initiate
@@ -30,7 +51,7 @@ git_upload <- function(flpth, username, service = c('github', 'gitlab',
     git2r::commit(repo = repo, message = 'Commit from `module_upload()`')
   }
   remote_url <- git2r::remote_url(repo = repo, remote = 'origin')
-  if (!RCurl::url.exists(remote_url)) {
+  if (!remote_git_exists(remote_url)) {
     msg <- paste0('No repository found at: ', char(remote_url),
                   '\nDid you remember to create it online?')
     stop(msg, call. = FALSE)

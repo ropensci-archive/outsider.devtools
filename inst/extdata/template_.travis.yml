@@ -1,0 +1,24 @@
+language: r
+latex: false
+fortran: false
+pandoc: false
+
+warnings_are_errors: true
+sudo: required
+
+services:
+  - docker
+
+addons:
+  apt:
+    packages:
+      - libapparmor-dev
+  
+r_github_packages:
+  - antonellilab/outsider.base
+  - antonellilab/outsider
+  - antonellilab/outsider.devtools
+  
+script:
+  - Rscript -e 'outsider.devtools::module_test(getwd())'
+
