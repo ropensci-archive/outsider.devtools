@@ -1,17 +1,24 @@
-# LIBS
-library(outsider.devtools)
-library(testthat)
-
-# RUNNING
-context('Testing \'internal\'')
-# test_that('fnames_get() works', {
-#   res <- with_mock(
-#     `outsider.devtools:::repo_to_pkgnm` = function(...) 'outsider',
-#     outsider.devtools:::fnames_get(repo = '')
-#   )
-#   expect_true('module_install' %in% res)
-# })
 context('Testing \'test\'')
+test_that('test() works', {
+  flpth <- system.file('extdata', 'om..hello.world', package = 'outsider.base')
+  with_mock(
+    `outsider.base:::pkg_install` = function(...) stop(),
+    expect_error(outsider.devtools:::test(flpth = flpth, pull = FALSE))
+  )
+  with_mock(
+    `outsider.base:::pkg_install` = function(...) TRUE,
+    `outsider.base:::uninstall` = function(...) TRUE,
+    `outsider.base:::image_install` = function(...) stop(),
+    expect_error(outsider.devtools:::test(flpth = flpth, pull = FALSE))
+  )
+  with_mock(
+    `outsider.base:::pkg_install` = function(...) TRUE,
+    `outsider.base:::uninstall` = function(...) TRUE,
+    `outsider.base:::image_install` = function(...) TRUE,
+    `outsider.devtools:::examples_test` = function(...) FALSE,
+    expect_error(outsider.devtools:::test(flpth = flpth, pull = FALSE))
+  )
+})
 test_that('examples_test() works', {
   with_mock(
     `outsider.devtools:::examples_get` = function(...) 'foo.R',

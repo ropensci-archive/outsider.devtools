@@ -61,4 +61,5 @@ git_upload <- function(flpth, username, service = c('github', 'gitlab',
                                 password = getPass::getPass(msg = msg))
   git2r::push(object = repo, name = 'origin', set_upstream = TRUE,
               refspec = "refs/heads/master", credentials = cred)
+  invisible(TRUE)
 }

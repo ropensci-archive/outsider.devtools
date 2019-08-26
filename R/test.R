@@ -2,7 +2,7 @@
 #' @name test
 #' @title Test a module
 #' @description Test an outsider module by making sure it installs,
-#' imports and its examples run correctly.
+#' imports and its examples run correctly. Raises an error if a test fails.
 #' @param flpth File path to location of module
 #' @param pull Pull Docker image from Docker Hub? T/F
 #' @return logical
@@ -11,7 +11,7 @@ test <- function(flpth, pull = FALSE) {
   pkgnm <- pkgnm_get(flpth = flpth)
   res1 <- tryCatch(outsider.base::pkg_install(flpth = flpth, verbose = TRUE),
                    error = function(e) {
-                    message(paste0('Unable to install package!',
+                    message(paste0('Unable to install package! ',
                                    "See error below:\n\n"))
                     stop(e)
                   })
