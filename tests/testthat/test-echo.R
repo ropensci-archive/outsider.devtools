@@ -1,5 +1,6 @@
 context('Test the basic skeleton pipeline')
 test_that('om..echo can be built', {
+  skip_if(!outsider.base::is_docker_available(call_error = FALSE))
   module_path <- module_skeleton(program_name = 'echo', flpth = getwd())
   on.exit(unlink(x = module_path, recursive = TRUE, force = TRUE))
   expect_true(module_check(flpth = module_path))

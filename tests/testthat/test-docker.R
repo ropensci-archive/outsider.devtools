@@ -1,6 +1,7 @@
 context('Docker')
 test_that('docker_cmd() works', {
   with_mock(
+    `outsider.base::is_docker_available` = function(...) TRUE,
     `callr::r` = function(...) 0,
     expect_true(outsider.devtools:::docker_cmd(args = 'test'))
   )

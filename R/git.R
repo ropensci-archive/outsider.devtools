@@ -48,6 +48,9 @@ git_upload <- function(flpth, username, service = c('github', 'gitlab',
                                    '.travis.yml'))
   status <- git2r::status(repo = repo)
   if (length(status[['staged']]) > 0) {
+    # TODO: add config for users without
+    # if (is.null(config[['global']][['user.email']]) &
+    #     is.null(config[['global']][['user.name']])) {
     git2r::commit(repo = repo, message = 'Commit from `module_upload()`')
   }
   remote_url <- git2r::remote_url(repo = repo, remote = 'origin')

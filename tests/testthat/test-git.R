@@ -12,6 +12,7 @@ test_that('git_upload() works', {
     `outsider.devtools:::pkgnm_get` = function(flpth) 'om..testing.git',
     `outsider.devtools:::remote_git_exists` = function(remote_url) TRUE,
     `git2r::cred_user_pass` = function(...) TRUE,
+    `git2r::commit` = function(...) TRUE,
     `git2r::push` = function(...) TRUE,
     expect_true(git_upload(flpth = flpth, username = 'test_user'))
   )
