@@ -58,6 +58,11 @@ Visit the webpage ["The Basics"](https://antonellilab.github.io/outsider.devtool
 
 ![](https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/package_structures.png)
 
+## Citation
+
+Bennett et al. (2019). outsider: Install and run programs, outside of R, inside of R.
+*Journal of Open Source Software*, *In review*
+
 ## Maintainer
 
 [Dom Bennett](https://github.com/dombennett/)
