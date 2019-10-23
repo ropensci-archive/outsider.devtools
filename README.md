@@ -4,15 +4,22 @@ Development tools package for `outsider` <img src="https://raw.githubusercontent
 
 [![Build Status](https://travis-ci.org/AntonelliLab/outsider.devtools.svg?branch=master)](https://travis-ci.org/AntonelliLab/outsider.base) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/AntonelliLab/outsider.devtools?branch=master&svg=true)](https://ci.appveyor.com/project/DomBennett/outsider-devtools) [![Coverage Status](https://coveralls.io/repos/github/AntonelliLab/outsider.devtools/badge.svg?branch=master)](https://coveralls.io/github/AntonelliLab/outsider.devtools?branch=master)
 
-## Build [`outsider`](https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-) modules!
+## Build [`outsider`](https://github.com/AntonelliLab/outsider#readme) modules!
 
 This package aims to make it easier for `outsider` module developers to make
 their own modules. Build a module skeleton, check the file structures,
 test the module and upload it online.
 
+Acquaint yourself with the steps by reading up on:
+
+* ["The Basics"](https://antonellilab.github.io/outsider.devtools/articles/basic.html)
+* ["The Advanced Details"](https://antonellilab.github.io/outsider.devtools/articles/advanced.html)
+
+Happy building!
+
 ## Install
 
-The [`outsider`](https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-) packages are all available via GitHub.
+The [`outsider`](https://github.com/AntonelliLab/outsider#readme) packages are all available via GitHub.
 
 ```r
 # install.packages("remotes")
@@ -24,7 +31,7 @@ remotes::install_github("AntonelliLab/outsider.devtools")
 
 ## Quick guide
 
-Build an [`outsider`](https://github.com/AntonelliLab/outsider#install-and-run-programs-outside-of-r-inside-of-r-) module to run [`echo`](https://en.wikipedia.org/wiki/Echo_(command)) via Ubuntu in just a few function calls.
+Build an [`outsider`](https://github.com/AntonelliLab/outsider#readme) module to run [`echo`](https://en.wikipedia.org/wiki/Echo_(command)) via Ubuntu in just a few function calls.
 
 ```r
 # make my own quick package
