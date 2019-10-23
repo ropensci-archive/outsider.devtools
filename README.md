@@ -6,16 +6,16 @@ Development tools package for `outsider` <img src="https://raw.githubusercontent
 
 ## Build [`outsider`](https://github.com/AntonelliLab/outsider#readme) modules!
 
-This package aims to make it easier for `outsider` module developers to make
-their own modules. Build a module skeleton, check the file structures,
-test the module and upload it online.
+This package aims to make life easier for  those who wish to build their own
+`outsider` modules. In just a few function calls: build a module skeleton,
+check the file structures, test the module and upload it online! Top banana! :banana:
 
-Acquaint yourself with the steps by reading up on:
+Acquaint yourself better with all these steps by reading up on:
 
 * ["The Basics"](https://antonellilab.github.io/outsider.devtools/articles/basic.html)
 * ["The Advanced Details"](https://antonellilab.github.io/outsider.devtools/articles/advanced.html)
 
-Happy building!
+Happy building! :wrench:
 
 ## Install
 
@@ -23,15 +23,17 @@ The [`outsider`](https://github.com/AntonelliLab/outsider#readme) packages are a
 
 ```r
 # install.packages("remotes")
-# requires outsider.base, outsider
+# requires outsider.base, outsider -- in that order!
 remotes::install_github("AntonelliLab/outsider.base")
 remotes::install_github("AntonelliLab/outsider")
 remotes::install_github("AntonelliLab/outsider.devtools")
 ```
 
+(Read up on [`remotes`](https://github.com/r-lib/remotes))
+
 ## Quick guide
 
-Build an [`outsider`](https://github.com/AntonelliLab/outsider#readme) module to run [`echo`](https://en.wikipedia.org/wiki/Echo_(command)) via Ubuntu in just a few function calls.
+Build an [`outsider`](https://github.com/AntonelliLab/outsider#readme) module to run [`echo`](https://en.wikipedia.org/wiki/Echo_(command)) via the [Linux distribution Ubuntu](https://en.wikipedia.org/wiki/Ubuntu) in just a few function calls.
 
 ```r
 # make my own quick package
