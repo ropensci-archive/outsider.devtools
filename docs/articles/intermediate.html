@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced: Building a module • outsider.devtools</title>
+<title>Intermediate: Module Building • outsider.devtools</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Advanced: Building a module">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Intermediate: Module Building">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -71,43 +71,23 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Advanced: Building a module</h1>
+      <h1>Intermediate: Module Building</h1>
             
       
       
-      <div class="hidden name"><code>advanced.Rmd</code></div>
+      <div class="hidden name"><code>intermediate.Rmd</code></div>
 
     </div>
 
     
     
-<blockquote>
-<p>This page is currently a work-in-progress. Your best chance of creating a module is copying the format and code structures of a pre-existing module. In the future this page will have a more exhaustive list of <code>outsider</code> details and how-tos for particular types of command-line programs.</p>
-</blockquote>
-<div id="contents" class="section level2">
+<div id="next-steps-and-clean-up" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contents" class="anchor"></a>Contents</h2>
-<ul>
-<li><a href="">Notes on names</a></li>
-<li><a href="">Module DESCRIPTION slots</a></li>
-<li><a href="">Transferring files</a></li>
-<li><a href="">Creating examples</a></li>
-<li><a href="">Continuous integration</a></li>
-</ul>
-</div>
-<div id="notes-on-names" class="section level2">
-<h2 class="hasAnchor">
-<a href="#notes-on-names" class="anchor"></a>Notes on names</h2>
-<p>All modules have the following naming convention:</p>
-<ul>
-<li>GitHub repo: <code>[username]/om..[program_name]</code>
-</li>
-<li>R package: <code>om..[program_name]..[username]</code>
-</li>
-<li>Docker image: <code>[username]/om_[program_name]</code>
-</li>
-</ul>
-<p>These naming conventions make modules discoverable on GitHub (searches are made of R packages beginning with <code>om..</code>). Both the R package and Docker image names derive from the GitHub repo name. By being formatted in a predictable way, the contents of a module can be more easily tracked.</p>
+<a href="#next-steps-and-clean-up" class="anchor"></a>Next steps and clean-up</h2>
+<p><strong>Testing</strong></p>
+<p>After upload we can then test the functionality of the package from an end-users perspective by running <code>.module_test</code>. This function tries installing the package using the online repos, it then tries to import all the module functions and running their examples.</p>
+<p><strong>Tips</strong></p>
+<p>The best way to learn how to build your own module is to look at how others have created modules for programs you are familiar with. For more detailed written information on building modules, see the <a href="https://antonellilab.github.io/outsider/articles/advanced_build.html">Advanced: Building a module</a></p>
 </div>
   </div>
 
@@ -117,8 +97,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#contents">Contents</a></li>
-      <li><a href="#notes-on-names">Notes on names</a></li>
+<li><a href="#next-steps-and-clean-up">Next steps and clean-up</a></li>
       </ul>
 </div>
       </div>

@@ -4,4 +4,5 @@ pkgdown_sha: 96e12f83bb3f92e4a30309181cc14134bd92b644
 articles:
   advanced: advanced.html
   basic: basic.html
+  intermediate: intermediate.html
 

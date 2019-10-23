@@ -12,8 +12,9 @@ check the file structures, test the module and upload it online! Top banana! :ba
 
 Acquaint yourself better with all these steps by reading up on:
 
-* ["The Basics"](https://antonellilab.github.io/outsider.devtools/articles/basic.html)
-* ["The Advanced Details"](https://antonellilab.github.io/outsider.devtools/articles/advanced.html)
+* ["Basic: Module Building"](https://antonellilab.github.io/outsider.devtools/articles/basic.html)
+* ["Intermediate: Module Building"](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
+* ["Advanced: Module Building"](https://antonellilab.github.io/outsider.devtools/articles/advanced.html)
 
 Happy building! :wrench:
 
