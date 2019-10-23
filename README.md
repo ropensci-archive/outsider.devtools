@@ -41,7 +41,9 @@ module_build(flpth = module_path, tag = 'latest')
 module_test(flpth = module_path)
 ```
 
-Visit the webpage ["Getting started"](https://antonellilab.github.io/outsider.devtools/articles/outsider.devtools.html) to find out more.
+![](https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/build_example.gif)
+
+Visit the webpage ["The Basics"](https://antonellilab.github.io/outsider.devtools/articles/basic.html) to find out more.
 
 ## How do the `outsider` packages interact?
 

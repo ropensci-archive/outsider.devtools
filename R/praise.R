@@ -13,6 +13,7 @@ celebrate <- function() {
 #' @name comfort
 #' @title Say consoling things
 #' @description Commiserate the failing of module tests.
+#' @details (Idea borrowed from \code{devtools}.)
 #' @return NULL
 #' @family praise
 comfort <- function() {
@@ -29,7 +30,7 @@ comfort <- function() {
                'This aint\' easy. No one is blaming you.',
                'Ohhh... no. No. No. No.', 'Mais non! Main non!',
                'Who dropped the fudge cake with sprinkles!',
-               'Agouti agloopy!',
+               'Agouti agloopy!', 'Bumbling bumblebees!',
                'What the? These elephant stockings are too big.',
                'The guinea pig was lost!', 'Catting, cat cat catish cat. CAT!')
   template <- "But keep on ${creating}! You're doing ${adverb_manner}!"

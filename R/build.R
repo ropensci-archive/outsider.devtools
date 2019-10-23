@@ -96,7 +96,7 @@ module_travis <- function(flpth = getwd()) {
 #' @return Logical
 #' @family build
 #' @export
-module_identities <- function(flpth) {
+module_identities <- function(flpth = getwd()) {
   res <- list()
   pkg_details <- pkgdetails_get(flpth = flpth)
   pkgnm <- pkg_details[['description']][['Package']]
@@ -104,8 +104,8 @@ module_identities <- function(flpth) {
   res[['R package name']] <- pkgnm
   res[['URL']] <- pkg_details[['yaml']][['url']]
   img <- gsub(pattern = '\\.+', replacement = '_', x =  pkgnm)
-  res[['Docker images']] <- paste0(pkg_details[['yaml']][['docker']], '/',
-                                   img, ':', pkg_details[['tags']])
+  res[['Docker images']] <- paste0(docker_user, '/', img, ':',
+                                   pkg_details[['tags']])
   structure(res, class = 'identities')
 }
 #' @export
@@ -133,7 +133,7 @@ print.identities <- function(x, ...) {
 #' @family build
 #' @export
 #' @example examples/module_build.R
-module_check <- function(flpth) {
+module_check <- function(flpth = getwd()) {
   msg <- function(res, x) {
     if (res) {
       msg <- paste0(x, ' found ', cli::symbol[['tick']])
@@ -181,7 +181,7 @@ module_check <- function(flpth) {
 #' @family build
 #' @export
 #' @example examples/module_build.R
-module_build <- function(flpth, tag = NULL, build_documents = TRUE,
+module_build <- function(flpth = getwd(), tag = NULL, build_documents = TRUE,
                          build_package = TRUE, build_image = TRUE,
                          verbose = TRUE) {
   if (build_image & is.null(tag)) {
@@ -266,8 +266,8 @@ module_test <- function(flpth = getwd(), verbose = FALSE, pull = FALSE) {
 #' @return Logical
 #' @family build
 #' @export
-module_upload <- function(flpth, code_sharing = TRUE, dockerhub = TRUE,
-                          verbose = TRUE) {
+module_upload <- function(flpth = getwd(), code_sharing = TRUE,
+                          dockerhub = TRUE, verbose = TRUE) {
   pkgnm <- pkgnm_get(flpth = flpth)
   if (!outsider.base::is_installed(pkgnm = pkgnm)) {
     stop(paste0(char(pkgnm), ' is not an installed R package.'))

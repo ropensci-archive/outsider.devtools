@@ -4,7 +4,7 @@
 \alias{module_identities}
 \title{Return identities for a module}
 \usage{
-module_identities(flpth)
+module_identities(flpth = getwd())
 }
 \arguments{
 \item{flpth}{File path to location of module}

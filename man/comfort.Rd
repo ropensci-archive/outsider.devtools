@@ -9,6 +9,9 @@ comfort()
 \description{
 Commiserate the failing of module tests.
 }
+\details{
+(Idea borrowed from \code{devtools}.)
+}
 \seealso{
 Other praise: \code{\link{celebrate}}
 }

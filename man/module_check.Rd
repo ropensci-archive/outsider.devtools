@@ -4,7 +4,7 @@
 \alias{module_check}
 \title{Check names and structure of a module}
 \usage{
-module_check(flpth)
+module_check(flpth = getwd())
 }
 \arguments{
 \item{flpth}{File path to location of module}

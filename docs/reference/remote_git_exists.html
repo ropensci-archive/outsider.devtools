@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Determine examples — examples_get • outsider.devtools</title>
+<title>Does a remote git repo exist — remote_git_exists • outsider.devtools</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -38,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Determine examples — examples_get" />
-<meta property="og:description" content="Determine example files for a module" />
+<meta property="og:title" content="Does a remote git repo exist — remote_git_exists" />
+<meta property="og:description" content="Return TRUE if request returns a 200 status code." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,36 +104,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Determine examples</h1>
+    <h1>Does a remote git repo exist</h1>
     
-    <div class="hidden name"><code>examples_get.Rd</code></div>
+    <div class="hidden name"><code>remote_git_exists.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Determine example files for a module</p>
+    <p>Return TRUE if request returns a 200 status code.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>examples_get</span>(<span class='no'>flpth</span>)</pre>
+    <pre class="usage"><span class='fu'>remote_git_exists</span>(<span class='no'>url</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>flpth</th>
-      <td><p>Path to module</p></td>
+      <th>url</th>
+      <td><p>URL to check</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>character</p>
+    <p>Logical</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Private repositories will not be discovered. Doesn't work for
+bitbucket.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other utils: <code><a href='description_get.html'>description_get</a></code>,
-  <code><a href='file_create.html'>file_create</a></code>, <code><a href='pkgdetails_get.html'>pkgdetails_get</a></code>,
-  <code><a href='pkgnm_get.html'>pkgnm_get</a></code>, <code><a href='string_replace.html'>string_replace</a></code>,
-  <code><a href='tags_get.html'>tags_get</a></code>, <code><a href='templates_get.html'>templates_get</a></code>,
-  <code><a href='yaml_get.html'>yaml_get</a></code></p></div>
+    <div class='dont-index'><p>Other git: <code><a href='git_upload.html'>git_upload</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -141,6 +141,7 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

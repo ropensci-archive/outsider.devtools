@@ -19,6 +19,20 @@ articles:
   - '`advanced_build`'
 navbar:
   type: inverse
+  structure:
+    structure:
+    left:  [home, basic, advanced, reference, news]
+    right: [github]
+  components:
+    home: ~
+    articles: ~
+    basic:
+      text: The Basics
+      href: articles/basic.html
+    advanced:
+      text: Advanced
+      href: articles/advanced.html
+        
 #template:
 #  params:
 #    bootswatch: sandstone

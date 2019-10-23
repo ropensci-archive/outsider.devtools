@@ -4,7 +4,7 @@
 \alias{module_upload}
 \title{Upload a module to code sharing site and DockerHub}
 \usage{
-module_upload(flpth, code_sharing = TRUE, dockerhub = TRUE,
+module_upload(flpth = getwd(), code_sharing = TRUE, dockerhub = TRUE,
   verbose = TRUE)
 }
 \arguments{
