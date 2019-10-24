@@ -4,7 +4,7 @@
 \alias{module_build}
 \title{Build a module}
 \usage{
-module_build(flpth = getwd(), tag = NULL, build_documents = TRUE,
+module_build(flpth = getwd(), tag = "latest", build_documents = TRUE,
   build_package = TRUE, build_image = TRUE, verbose = TRUE)
 }
 \arguments{

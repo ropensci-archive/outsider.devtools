@@ -181,9 +181,9 @@ module_check <- function(flpth = getwd()) {
 #' @family build
 #' @export
 #' @example examples/module_build.R
-module_build <- function(flpth = getwd(), tag = NULL, build_documents = TRUE,
-                         build_package = TRUE, build_image = TRUE,
-                         verbose = TRUE) {
+module_build <- function(flpth = getwd(), tag = 'latest',
+                         build_documents = TRUE, build_package = TRUE,
+                         build_image = TRUE, verbose = TRUE) {
   if (build_image & is.null(tag)) {
     stop(paste0(char('tag'), ' must be provided if ', char('build_image'),
                 ' is TRUE'))
