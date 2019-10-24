@@ -7,7 +7,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 # Advanced
 
 ## A yet more complex program
@@ -29,10 +28,26 @@ arglist, wd
 ### Continuous Integration
 
 
-## Next steps
+### Tips and tricks
 
-The best way to learn how to build your own module is to look at how others have
-created modules for programs you are familiar with.
+* The best way to learn how to build your own module is to look at how others
+have created modules for programs you are familiar with. Check out the list of
+already available modules at this
+[page](https://antonellilab.github.io/outsider/articles/available.html).
+* If you find issues with the docker image build step, you can try "logging
+into" a container and running the installation steps to test out what works.
+At the terminal, use
+```{bash docker-build, eval=FALSE, include=TRUE}
+# run an ubuntu container
+docker run -t -d --name test ubuntu:latest
+# iteractively run bash
+docker exec -it test bash
+# when finished, list all running containers and stop/rm
+docker ps -a
+docker stop test
+docker rm test
+```
+
 
 
 ## Testing

@@ -14,13 +14,11 @@ super simple module.
 On this page, we will build a module for a slightly more complex program while
 introducing some more functionalities of `outsider`.
 
-# Intermediate
+## `figlet`
 
-## `figlet`: A more complex program
-
-For this walkthrough, we will be creating a module for the program
-[`figlet`](http://www.figlet.org/) which takes textual input and returns ASCII
-art.
+For this walkthrough, we will be creating a slightly more sophisticated module
+than `om..echo` by building a module for [`figlet`](http://www.figlet.org/),
+a program that takes textual input and returns ASCII art.
 
 The program itself only takes text input and returns text output. We, however,
 will use `outsider` to create a module that can either take an input file or
@@ -31,7 +29,12 @@ file arguments, different help pages ...), so `outsider` comes with a series of
 functions to provide options for developers for how best they want to
 encapsulate the program in module form.
 
+(For reference, this module does already exist in the wild:
+[dombennett/om..figlet](https://github.com/DomBennett/om..figlet))
+
 # Walkthrough
+
+## Building
 
 To get started, we will first need our module skeleton.
 
@@ -157,9 +160,8 @@ documentation of the function. See
 Ok, let's build the module!
 
 ```{r build-package}
-module_build(flpth = flpth, tag = 'latest')
+module_build(flpth = flpth)
 ```
-
 
 Does it work?
 
@@ -182,6 +184,52 @@ figlet(arglist = c('-f', 'block'), input_file = input_file,
 cat(readLines(con = output_file), sep = '\n')
 # clean-up
 file.remove(c(input_file, output_file))
+```
+
+## Check, test and deploy
+
+Ok! So we have a functioning module. But how do we know it's a functioning
+module? To check our module structre, configuration and functioning we have a 
+few helpful functions.
+
+```{r check-and-test}
+# make sure the folder structure is correct
+module_check(flpth = flpth)
+# check are the names of the module components
+module_identities(flpth = flpth)
+# test that the module works
+# module_test(flpth = flpth)
+```
+
+Running `module_test` we will find that there is an issue with the module.
+`module_test` checks the functioning of the code by running the example; our
+current example tries to call `-h` with `figlet` -- which is
+an invalid argument. To correct this we can simply updated our example.
+
+```{r update-example}
+example_text <- "
+library(outsider)
+figlet <- module_import('figlet', repo = 'dombennett/om..figlet')
+figlet('hello!')
+"
+# write to examples/example.R
+cat(example_text, file = file.path(flpth, 'examples', 'example.R'))
+# re-build package
+module_build(flpth = flpth, build_image = FALSE, verbose = FALSE)
+```
+
+Now re-running the test ...
+
+```{r module_test}
+module_test(flpth = flpth)
+```
+
+
+Nice! The package passes. That means we can upload the package to GitHub and
+Docker-Hub using the same functions as we saw in "basic".
+
+```{R upload, eval=FALSE, include=TRUE}
+module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
 ```
 
 ---
