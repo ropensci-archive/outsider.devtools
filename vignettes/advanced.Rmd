@@ -33,3 +33,11 @@ arglist, wd
 
 The best way to learn how to build your own module is to look at how others have
 created modules for programs you are familiar with.
+
+
+## Testing
+
+After upload we can then test the functionality of the package from an
+end-users' perspective by running `module_test`. This function tries installing
+the package using the online repos, it then tries to import all the module
+functions and running their examples.

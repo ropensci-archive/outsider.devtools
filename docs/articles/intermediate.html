@@ -85,32 +85,293 @@
 
     
     
-<p>In <a href="/articles/intermediate.html">basics</a> we introduced the essential elements that make up a module and then built a super simple module.</p>
+<p>In <a href="https://antonellilab.github.io/outsider.devtools/articles/intermediate.html">basics</a> we introduced the essential elements that make up a module and then built a super simple module.</p>
 <p>On this page, we will build a module for a slightly more complex program while introducing some more functionalities of <code>outsider</code>.</p>
 <div id="intermediate" class="section level1">
 <h1 class="hasAnchor">
 <a href="#intermediate" class="anchor"></a>Intermediate</h1>
-<div id="a-more-complex-program" class="section level2">
+<div id="figlet-a-more-complex-program" class="section level2">
 <h2 class="hasAnchor">
-<a href="#a-more-complex-program" class="anchor"></a>A more complex program</h2>
+<a href="#figlet-a-more-complex-program" class="anchor"></a><code>figlet</code>: A more complex program</h2>
+<p>For this walkthrough, we will be creating a module for the program <a href="http://www.figlet.org/"><code>figlet</code></a> which takes textual input and returns ASCII art.</p>
+<p>The program itself only takes text input and returns text output. We, however, will use <code>outsider</code> to create a module that can either take an input file or text and then return ASCII art to either the console or to an output file.</p>
+<p>Not all command-line programs follow the same standards (different input/output file arguments, different help pages …), so <code>outsider</code> comes with a series of functions to provide options for developers for how best they want to encapsulate the program in module form.</p>
 </div>
 </div>
 <div id="walkthrough" class="section level1">
 <h1 class="hasAnchor">
 <a href="#walkthrough" class="anchor"></a>Walkthrough</h1>
-<div id="dockerfile" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dockerfile" class="anchor"></a>Dockerfile</h2>
-</div>
-<div id="r-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#r-functions" class="anchor"></a>R Functions</h2>
-</div>
-<div id="testing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#testing" class="anchor"></a>Testing</h2>
-<p>After upload we can then test the functionality of the package from an end-users’ perspective by running <code>module_test</code>. This function tries installing the package using the online repos, it then tries to import all the module functions and running their examples.</p>
-</div>
+<p>To get started, we will first need our module skeleton.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
+flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'figlet'</span>,
+                         <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),
+                         <span class="dt">service =</span> <span class="st">'github'</span>)
+<span class="co"># folder name where module is stored</span>
+<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(flpth))</code></pre></div>
+<pre><code>## [1] "om..figlet"</code></pre>
+<p>Next we will need to develop the Dockerfile! <code>figlet</code> is easy enough to install on Ubuntu Linux, we can just use the “apt-get” system to install it. (Here I’m editing the file from within R to make the process reproducible, you can edit the file directly with a text editor.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dockerfile_text &lt;-<span class="st"> "</span>
+<span class="st"># select Ubuntu Linux image</span>
+<span class="st">FROM ubuntu:latest</span>
+<span class="st"># Use the 'apt-get' system to install figlet</span>
+<span class="st">RUN apt-get update &amp;&amp; apt-get install -y figlet</span>
+<span class="st"># set the working_dir/</span>
+<span class="st">RUN mkdir /working_dir</span>
+<span class="st">WORKDIR /working_dir</span>
+<span class="st">"</span>
+<span class="co"># write to latest Dockerfile</span>
+<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(dockerfile_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'inst'</span>, <span class="st">'dockerfiles'</span>, <span class="st">'latest'</span>,
+                                      <span class="st">'Dockerfile'</span>))</code></pre></div>
+<p>Now, we have our Dockerfile set-up and our module skeleton, we must develop the R code. The skeleton code for our <code>figlet</code>-module is currently:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' @name figlet</span>
+<span class="co">#' @title figlet</span>
+<span class="co">#' @description Run figlet</span>
+<span class="co">#' @param ... Arguments</span>
+<span class="co">#' @example /examples/example.R</span>
+<span class="co">#' @export</span>
+figlet &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
+  <span class="co"># convert the ... into a argument list</span>
+  arglist &lt;-<span class="st"> </span><span class="kw">arglist_get</span>(...)
+  <span class="co"># create an outsider object: describe the arguments and program</span>
+  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..figlet'</span>, <span class="dt">cmd =</span> <span class="st">'figlet'</span>,
+                         <span class="dt">arglist =</span> arglist)
+  <span class="co"># run the command</span>
+  <span class="kw">run</span>(otsdr)
+}</code></pre></div>
+<p>The above function would work fine. It would pass any arguments from the user in R to the <code>figlet</code> program. But because <code>figlet</code> does not come with input/output arguments, we will need to hardcode these into our function and use some if statements and bash to create this functionality. Because this will require calling several commands via the terminal, we can create a shell script that we can then pass through <code>outsider</code> to our container.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function_text &lt;-<span class="st"> "</span>
+<span class="st">#' @name figlet</span>
+<span class="st">#' @title figlet</span>
+<span class="st">#' @description Run figlet with input and output files.</span>
+<span class="st">#' @param arglist Arguments for figlet</span>
+<span class="st">#' @param input_file Text input file</span>
+<span class="st">#' @param output_file ASCII art output file</span>
+<span class="st">#' @details If no input_file, will use arglist argument.</span>
+<span class="st">#' If no output_file, will print to console.</span>
+<span class="st">#' @example /examples/example.R</span>
+<span class="st">#' @export</span>
+<span class="st">figlet &lt;- function(arglist = arglist_get(...), input_file = NULL,</span>
+<span class="st">                   output_file = NULL) {</span>
+<span class="st">  wd &lt;- NULL</span>
+<span class="st">  # construct shell script from arglist</span>
+<span class="st">  arglist &lt;- c('figlet', arglist)</span>
+<span class="st">  if (!is.null(input_file)) {</span>
+<span class="st">      # cat the input_file contents to figlet</span>
+<span class="st">      # (basename is used because on the container,</span>
+<span class="st">      #  filepaths cannot be used.)</span>
+<span class="st">      arglist &lt;- c('cat', basename(input_file), '|', arglist)</span>
+<span class="st">  }</span>
+<span class="st">  if (!is.null(output_file)) {</span>
+<span class="st">      # write out the results of figlet to output_file</span>
+<span class="st">      arglist &lt;- c(arglist, '&gt;', basename(output_file))</span>
+<span class="st">      # determine where returned files should be sent</span>
+<span class="st">      wd &lt;- dirpath_get(output_file)</span>
+<span class="st">  }</span>
+<span class="st">  # write arglist to temp file</span>
+<span class="st">  script &lt;- file.path(tempdir(), 'script.sh')</span>
+<span class="st">  on.exit(file.remove(script))</span>
+<span class="st">  # ensure script is written in binary format</span>
+<span class="st">  script_cnntn &lt;- file(script, 'wb')</span>
+<span class="st">  cmds &lt;- paste(arglist, collapse = ' ')</span>
+<span class="st">  # debug print</span>
+<span class="st">  print(cmds)</span>
+<span class="st">  write(x = cmds, file = script_cnntn)</span>
+<span class="st">  close(script_cnntn)</span>
+<span class="st">  # initialise outsider container by specifying the command,</span>
+<span class="st">  # the arguments, the files to be sent, and the directory to where</span>
+<span class="st">  # returned files should be sent</span>
+<span class="st">  otsdr &lt;- outsider_init(pkgnm = 'om..figlet', cmd = 'bash',</span>
+<span class="st">                         arglist = 'script.sh', wd = wd,</span>
+<span class="st">                         files_to_send = c(script, input_file))</span>
+<span class="st">  # run the command</span>
+<span class="st">  run(otsdr)</span>
+<span class="st">}</span>
+<span class="st">"</span>
+<span class="co"># write to R/functions.R</span>
+<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(function_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'R'</span>, <span class="st">'functions.R'</span>))</code></pre></div>
+<blockquote>
+<p><strong>What does <code>arglist</code> do?</strong> This function takes R objects and converts them into character strings that then be passed to a command-line program. It can take as many arguments as you want. For example, with <code>figlet</code> you may want to convert the value of <code>a</code> to ASCII art. In this way, you would simply be able to pass <code>a</code> to the <code>figlet</code> function rather than spell it out again.</p>
+</blockquote>
+<blockquote>
+<p><strong>What’s with the <code>#'@</code>?</strong> These are the roxygen tags. They determine the documentation of the function. See <a href="http://r-pkgs.had.co.nz/man.html">“Object documentation”</a> for more details.</p>
+</blockquote>
+<p>Ok, let’s build the module!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">tag =</span> <span class="st">'latest'</span>)</code></pre></div>
+<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::document() ...
+## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Updating om..figlet documentation</code></pre>
+<pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpbrjvFp/om..figlet/DESCRIPTION</code></pre>
+<pre><code>## Writing NAMESPACE</code></pre>
+<pre><code>## Loading om..figlet</code></pre>
+<pre><code>## Writing NAMESPACE
+## Writing figlet.Rd
+## ────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::install() ...
+## ────────────────────────────────────────────────────────────────────────────────────
+##   
+   checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpbrjvFp/om..figlet/DESCRIPTION’ ...
+  
+✔  checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpbrjvFp/om..figlet/DESCRIPTION’ (366ms)
+## 
+  
+─  preparing ‘om..figlet’:
+## ✔  checking DESCRIPTION meta-information
+## 
+  
+─  checking for LF line-endings in source and make files and shell scripts
+## 
+  
+─  checking for empty or unneeded directories
+## 
+  
+─  building ‘om..figlet_0.0.1.tar.gz’
+## 
+  
+   Warning: invalid uid value replaced by that for user 'nobody'
+## 
+  
+   Warning: invalid gid value replaced by that for user 'nobody'
+##    
+## 
+Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T//RtmpbrjvFp/om..figlet_0.0.1.tar.gz \
+##   --install-tests 
+## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## * installing *source* package ‘om..figlet’ ...
+## ** using staged installation
+## ** R
+## ** inst
+## ** byte-compile and prepare package for lazy loading
+## ** help
+## *** installing help indices
+## ** building package indices
+## ** testing if installed package can be loaded from temporary location
+## ** testing if installed package can be loaded from final location
+## ** testing if installed package keeps a record of temporary installation path
+## * DONE (om..figlet)
+## ────────────────────────────────────────────────────────────────────────────────────
+## Running docker_build()
+## ────────────────────────────────────────────────────────────────────────────────────
+## Command:
+## docker build -t dombennett/om_figlet:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..figlet/dockerfiles/latest
+## ....................................................................................
+## Sending build context to Docker daemon  2.048kB
+
+
+## Step 1/4 : FROM ubuntu:latest
+##  ---&gt; 93fd78260bd1
+## Step 2/4 : RUN apt-get update &amp;&amp; apt-get install -y figlet
+##  ---&gt; Using cache
+##  ---&gt; 33bc132b5621
+## Step 3/4 : RUN mkdir /working_dir
+##  ---&gt; Using cache
+##  ---&gt; 5933441f5c74
+## Step 4/4 : WORKDIR /working_dir
+##  ---&gt; Using cache
+##  ---&gt; 2cd24bf473e2
+## Successfully built 2cd24bf473e2
+## Successfully tagged dombennett/om_figlet:latest</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Does it work?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider)</code></pre></div>
+<pre><code>## ----------------
+## outsider v 0.1.0
+## ----------------
+## - Security notice: be sure of which modules you install</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">figlet &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_import.html">module_import</a></span>(<span class="st">'figlet'</span>, <span class="dt">repo =</span> <span class="st">'dombennett/om..figlet'</span>)
+<span class="co"># without files</span>
+<span class="kw">figlet</span>(<span class="dt">arglist =</span> <span class="st">'hello!'</span>)</code></pre></div>
+<pre><code>## [1] "figlet hello!"
+##  _          _ _       _ 
+## | |__   ___| | | ___ | |
+## | '_ \ / _ \ | |/ _ \| |
+## | | | |  __/ | | (_) |_|
+## |_| |_|\___|_|_|\___/(_)
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># with input file</span>
+input_file &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">'input_figlet.txt'</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">'This is from the input text file!'</span>, <span class="dt">file =</span> input_file)
+<span class="kw">figlet</span>(<span class="dt">arglist =</span> <span class="st">''</span>, <span class="dt">input_file =</span> input_file)</code></pre></div>
+<pre><code>## [1] "cat input_figlet.txt | figlet "
+##  _____ _     _       _        __                       _   _          
+## |_   _| |__ (_)___  (_)___   / _|_ __ ___  _ __ ___   | |_| |__   ___ 
+##   | | | '_ \| / __| | / __| | |_| '__/ _ \| '_ ` _ \  | __| '_ \ / _ \
+##   | | | | | | \__ \ | \__ \ |  _| | | (_) | | | | | | | |_| | | |  __/
+##   |_| |_| |_|_|___/ |_|___/ |_| |_|  \___/|_| |_| |_|  \__|_| |_|\___|
+##                                                                       
+##  _                   _     _            _      __ _ _      _ 
+## (_)_ __  _ __  _   _| |_  | |_ _____  _| |_   / _(_) | ___| |
+## | | '_ \| '_ \| | | | __| | __/ _ \ \/ / __| | |_| | |/ _ \ |
+## | | | | | |_) | |_| | |_  | ||  __/&gt;  &lt;| |_  |  _| | |  __/_|
+## |_|_| |_| .__/ \__,_|\__|  \__\___/_/\_\\__| |_| |_|_|\___(_)
+##         |_|</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># with output file</span>
+output_file &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">'output_figlet.txt'</span>)
+<span class="kw">figlet</span>(<span class="dt">arglist =</span> <span class="st">'Into the output file'</span>, <span class="dt">output_file =</span> output_file)</code></pre></div>
+<pre><code>## [1] "figlet Into the output file &gt; output_figlet.txt"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="dt">con =</span> output_file), <span class="dt">sep =</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</code></pre></div>
+<pre><code>##  ___       _          _   _                        _               _   
+## |_ _|_ __ | |_ ___   | |_| |__   ___    ___  _   _| |_ _ __  _   _| |_ 
+##  | || '_ \| __/ _ \  | __| '_ \ / _ \  / _ \| | | | __| '_ \| | | | __|
+##  | || | | | || (_) | | |_| | | |  __/ | (_) | |_| | |_| |_) | |_| | |_ 
+## |___|_| |_|\__\___/   \__|_| |_|\___|  \___/ \__,_|\__| .__/ \__,_|\__|
+##                                                       |_|              
+##   __ _ _      
+##  / _(_) | ___ 
+## | |_| | |/ _ \
+## |  _| | |  __/
+## |_| |_|_|\___|
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># from input file to output file... with font block!</span>
+<span class="kw">figlet</span>(<span class="dt">arglist =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'-f'</span>, <span class="st">'block'</span>), <span class="dt">input_file =</span> input_file,
+       <span class="dt">output_file =</span> output_file)</code></pre></div>
+<pre><code>## [1] "cat input_figlet.txt | figlet -f block &gt; output_figlet.txt"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="dt">con =</span> output_file), <span class="dt">sep =</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</code></pre></div>
+<pre><code>##                                                       
+## _|_|_|_|_|  _|        _|                _|            
+##     _|      _|_|_|          _|_|_|            _|_|_|  
+##     _|      _|    _|  _|  _|_|          _|  _|_|      
+##     _|      _|    _|  _|      _|_|      _|      _|_|  
+##     _|      _|    _|  _|  _|_|_|        _|  _|_|_|    
+##                                                       
+##                                                       
+##                                               
+##     _|_|                                      
+##   _|      _|  _|_|    _|_|    _|_|_|  _|_|    
+## _|_|_|_|  _|_|      _|    _|  _|    _|    _|  
+##   _|      _|        _|    _|  _|    _|    _|  
+##   _|      _|          _|_|    _|    _|    _|  
+##                                               
+##                                               
+##                                                                               
+##   _|      _|                      _|                                  _|      
+## _|_|_|_|  _|_|_|      _|_|            _|_|_|    _|_|_|    _|    _|  _|_|_|_|  
+##   _|      _|    _|  _|_|_|_|      _|  _|    _|  _|    _|  _|    _|    _|      
+##   _|      _|    _|  _|            _|  _|    _|  _|    _|  _|    _|    _|      
+##     _|_|  _|    _|    _|_|_|      _|  _|    _|  _|_|_|      _|_|_|      _|_|  
+##                                                 _|                            
+##                                                 _|                            
+##                                                                             
+##   _|                            _|              _|_|  _|  _|            _|  
+## _|_|_|_|    _|_|    _|    _|  _|_|_|_|        _|          _|    _|_|    _|  
+##   _|      _|_|_|_|    _|_|      _|          _|_|_|_|  _|  _|  _|_|_|_|  _|  
+##   _|      _|        _|    _|    _|            _|      _|  _|  _|            
+##     _|_|    _|_|_|  _|    _|      _|_|        _|      _|  _|    _|_|_|  _|  
+##                                                                             
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean-up</span>
+<span class="kw"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(input_file, output_file))</code></pre></div>
+<pre><code>## [1] TRUE TRUE</code></pre>
+<hr>
+<p><strong>Delete it all</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'om..figlet'</span>)</code></pre></div>
+<pre><code>## Removing 'om..figlet'</code></pre>
+<pre><code>## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
+## (as 'lib' is unspecified)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<hr>
 <div id="next-up-advanced" class="section level2">
 <h2 class="hasAnchor">
 <a href="#next-up-advanced" class="anchor"></a>Next-up: <a href="/articles/advanced.html">Advanced</a>
@@ -127,15 +388,12 @@
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#intermediate">Intermediate</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#a-more-complex-program">A more complex program</a></li>
+<li><a href="#figlet-a-more-complex-program"><code>figlet</code>: A more complex program</a></li>
       </ul>
 </li>
       <li>
 <a href="#walkthrough">Walkthrough</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#dockerfile">Dockerfile</a></li>
-      <li><a href="#r-functions">R Functions</a></li>
-      <li><a href="#testing">Testing</a></li>
-      <li>
+<li>
 <a href="#next-up-advanced">Next-up: </a><a href="/articles/advanced-html">Advanced</a>
 </li>
       </ul>
