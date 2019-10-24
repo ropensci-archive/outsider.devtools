@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Intermediate: Module Building • outsider.devtools</title>
+<title>Frequently Asked Questions • outsider.devtools</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Intermediate: Module Building">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Frequently Asked Questions">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -75,47 +75,26 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Intermediate: Module Building</h1>
+      <h1>Frequently Asked Questions</h1>
             
       
       
-      <div class="hidden name"><code>intermediate.Rmd</code></div>
+      <div class="hidden name"><code>faqs.Rmd</code></div>
 
     </div>
 
     
     
-<p>In <a href="/articles/intermediate.html">basics</a> we introduced the essential elements that make up a module and then built a super simple module.</p>
-<p>On this page, we will build a module for a slightly more complex program while introducing some more functionalities of <code>outsider</code>.</p>
-<div id="intermediate" class="section level1">
-<h1 class="hasAnchor">
-<a href="#intermediate" class="anchor"></a>Intermediate</h1>
-<div id="a-more-complex-program" class="section level2">
+<div id="why-is-my-module-not-returned-by-module_search" class="section level2">
 <h2 class="hasAnchor">
-<a href="#a-more-complex-program" class="anchor"></a>A more complex program</h2>
-</div>
-</div>
-<div id="walkthrough" class="section level1">
-<h1 class="hasAnchor">
-<a href="#walkthrough" class="anchor"></a>Walkthrough</h1>
-<div id="dockerfile" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dockerfile" class="anchor"></a>Dockerfile</h2>
-</div>
-<div id="r-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#r-functions" class="anchor"></a>R Functions</h2>
-</div>
-<div id="testing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#testing" class="anchor"></a>Testing</h2>
-<p>After upload we can then test the functionality of the package from an end-users’ perspective by running <code>module_test</code>. This function tries installing the package using the online repos, it then tries to import all the module functions and running their examples.</p>
-</div>
-<div id="next-up-advanced" class="section level2">
-<h2 class="hasAnchor">
-<a href="#next-up-advanced" class="anchor"></a>Next-up: <a href="/articles/advanced.html">Advanced</a>
-</h2>
-</div>
+<a href="#why-is-my-module-not-returned-by-module_search" class="anchor"></a>Why is my module not returned by <code>module_search</code>?</h2>
+<p><code><a href="https://rdrr.io/pkg/outsider/man/module_search.html">outsider::module_search</a></code> makes it easier for users to locate and install modules. It can search for modules across both GitHub and GitLab (but not BitBucket). For both services, the repo names must begin <code>om..</code> and there must be an <code>om.yml</code> in the top-level directory.</p>
+<p>Additionally, GitHub repos must have <strong>“outsider-module”</strong> at the beginning of their repo descriptions.</p>
+<p>Try comparing and contrasting your set-up with these repos:</p>
+<ul>
+<li><a href="https://github.com/DomBennett/om..hello.world">Working example on GitHub</a></li>
+<li><a href="https://gitlab.com/DomBennett/om..hello.world">Working example on GitLab</a></li>
+</ul>
 </div>
   </div>
 
@@ -125,21 +104,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#intermediate">Intermediate</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#a-more-complex-program">A more complex program</a></li>
-      </ul>
-</li>
-      <li>
-<a href="#walkthrough">Walkthrough</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#dockerfile">Dockerfile</a></li>
-      <li><a href="#r-functions">R Functions</a></li>
-      <li><a href="#testing">Testing</a></li>
-      <li>
-<a href="#next-up-advanced">Next-up: </a><a href="/articles/advanced-html">Advanced</a>
-</li>
-      </ul>
-</li>
+<li><a href="#why-is-my-module-not-returned-by-module_search">Why is my module not returned by <code>module_search</code>?</a></li>
       </ul>
 </div>
       </div>

@@ -15,7 +15,7 @@
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Basic: Module Building">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -47,16 +47,19 @@
   <a href="../articles/basic.html">Basic</a>
 </li>
 <li>
+  <a href="../articles/intermediate.html">Intermediate</a>
+</li>
+<li>
   <a href="../articles/advanced.html">Advanced</a>
+</li>
+<li>
+  <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
-</li>
-<li>
-  <a href="../articles/intermediate.html">Intermediate</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -68,6 +71,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -81,8 +85,14 @@
 
     
     
-<p><code>outsider</code> allows users to install and run programs on their own computer without the need to leave the R environment. If there is a command-line program that is not available through <code>outsider</code> you can create your own module! If you are able to install the program on your own machine and have some experience with R packages and GitHub then you should be readily able to create one. In this article, we will outline what an <code>outsider</code> module is and then provide a simple walkthrough for creating the simplest of simple modules: a command line program that prints whatever text the user provides it.</p>
-<p>To follow this guide you will need the following: <em>A GitHub account (sign-up <a href="https://github.com/">here</a>) </em>A Docker-Hub account (sign-up <a href="https://hub.docker.com/">here</a>)</p>
+<p><code>outsider</code> allows users to install and run programs on their own computer without the need to leave the R environment. If there is a command-line program that is not available through <code>outsider</code> you can create your own module!</p>
+<p>If you are able to install the program on your own machine and have some experience with R packages and GitHub then you should be readily able to create one.</p>
+<p>On this page, we will outline what an <code>outsider</code> module is and then provide a simple walkthrough for creating the simplest of simple modules: a command line program that prints whatever text the user provides it.</p>
+<p>To follow this guide you will need the following:</p>
+<ul>
+<li>A GitHub account (sign-up <a href="https://github.com/">here</a>)</li>
+<li>A Docker-Hub account (sign-up <a href="https://hub.docker.com/">here</a>)</li>
+</ul>
 <div id="basics" class="section level1">
 <h1 class="hasAnchor">
 <a href="#basics" class="anchor"></a>Basics</h1>
@@ -122,12 +132,15 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
 flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'echo'</span>,
                          <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),
-                         <span class="dt">service =</span> <span class="st">'github'</span>)</code></pre></div>
+                         <span class="dt">service =</span> <span class="st">'github'</span>)
+<span class="co"># folder name where module is stored</span>
+<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(flpth))</code></pre></div>
+<pre><code>## [1] "om..echo"</code></pre>
 <p>The above code will create an <code>outsider</code> module with the name <code>om..echo</code>. After running the above code, you should take a minute to inspect the generated files. In particular you should look at the <code>DESCRIPTION</code> file, the <code>Dockerfile</code> and <code>functions.R</code>.</p>
 <blockquote>
 <p><strong>Why <code>om..echo</code>?</strong> All modules must start with “om..” in order for them to be discovered on GitHub. This is not a requirement for the functioning of the module, it just means <code><a href="https://rdrr.io/pkg/outsider/man/module_search.html">module_search()</a></code> can find them.</p>
 </blockquote>
-<p>At this stage, we would then edit the <code>inst/dockerfiles/latest/Dockerfile</code> and the <code>R/functions.R</code> to work for our chosen external program. But because <code>echo</code>, the program we wish to port through <code>outsider</code>, is so simple we don’t actually have to make any changes to these files. By default, the <code>Dockerfile</code> is based on Ubuntu which ships with <code>echo</code> and our starting function in <code>functions.R</code> is based around running <code>echo</code>: it parses the arguments, creates an outsider object, and then launches the object.</p>
+<p>At this stage, we would then edit the <code>inst/dockerfiles/latest/Dockerfile</code> and the <code>R/functions.R</code> to work for our chosen external program. But because <code>echo</code> – the program we wish to port through <code>outsider</code> – is so simple we don’t actually have to make any changes to these files. By default, the <code>Dockerfile</code> is based on Ubuntu which ships with <code>echo</code> and our starting function in <code>functions.R</code> is based around running <code>echo</code>: it parses the arguments, creates an outsider object, and then launches the object.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The echo function in om..echo</span>
 echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
   <span class="co"># convert the ... into an argument list</span>
@@ -148,27 +161,29 @@ echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
 <p>With the skeleton set-up, we can now install the R package using <code><a href="../reference/module_build.html">module_build()</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">build_documents =</span> <span class="ot">TRUE</span>, <span class="dt">build_package =</span> <span class="ot">TRUE</span>,
              <span class="dt">build_image =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::document() ...
-## ───────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
+## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Updating om..echo documentation</code></pre>
 <pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
-<pre><code>## Updating roxygen version in /tmp/RtmpSwghOx/om..echo/DESCRIPTION</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmphw8UzS/om..echo/DESCRIPTION</code></pre>
 <pre><code>## Writing NAMESPACE</code></pre>
 <pre><code>## Loading om..echo</code></pre>
 <pre><code>## Writing NAMESPACE
 ## Writing echo.Rd
-## ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::install() ...
-## ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ────────────────────────────────────────────────────────────────────────────────────
 ##   
-   checking for file ‘/tmp/RtmpSwghOx/om..echo/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmphw8UzS/om..echo/DESCRIPTION’ ...
   
-✔  checking for file ‘/tmp/RtmpSwghOx/om..echo/DESCRIPTION’
+✔  checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmphw8UzS/om..echo/DESCRIPTION’ (354ms)
 ## 
   
 ─  preparing ‘om..echo’:
-##    checking DESCRIPTION meta-information ...
+## 
+  
+   checking DESCRIPTION meta-information ...
   
 ✔  checking DESCRIPTION meta-information
 ## 
@@ -177,14 +192,17 @@ echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
 ## 
   
 ─  checking for empty or unneeded directories
+## ─  building ‘om..echo_0.0.1.tar.gz’
 ## 
   
-─  building ‘om..echo_0.0.1.tar.gz’
+   Warning: invalid uid value replaced by that for user 'nobody'
+##    Warning: invalid gid value replaced by that for user 'nobody'
 ##    
 ## 
-Running /usr/lib/R/bin/R CMD INSTALL \
-##   /tmp/RtmpSwghOx/om..echo_0.0.1.tar.gz --install-tests 
-## * installing to library ‘/home/dom/R/x86_64-pc-linux-gnu-library/3.6’
+Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T//Rtmphw8UzS/om..echo_0.0.1.tar.gz \
+##   --install-tests 
+## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
 ## * installing *source* package ‘om..echo’ ...
 ## ** using staged installation
 ## ** R
@@ -219,27 +237,29 @@ WORKDIR /working_dir</code></pre>
 <blockquote>
 <p><strong>What’s the WORKDIR?</strong> The WORKDIR sets the starting directory when a command is passed to the Docker image. All <code>outsider</code> modules require this to be “working_dir” as it allows <code>outsider</code> functions to know where to transfer files to and from the container/virtual machine.</p>
 </blockquote>
-<p>Using our Dockerfile that has been preloaded with the installed R pacakge, we can now build our Docker image using <code><a href="../reference/module_build.html">module_build()</a></code>.</p>
+<p>Using our Dockerfile that has been preloaded with the installed R package, we can now build our Docker image using <code><a href="../reference/module_build.html">module_build()</a></code>. (In practice, we’d combine steps 2 and 3 by calling <code>module_build</code> and setting all the build arguments to TRUE.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">tag =</span> <span class="st">'latest'</span>, <span class="dt">build_image =</span> <span class="ot">TRUE</span>,
              <span class="dt">build_documents =</span> <span class="ot">FALSE</span>, <span class="dt">build_package =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
 ## Running docker_build()
-## ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ────────────────────────────────────────────────────────────────────────────────────
 ## Command:
-## docker build -t dombennett/om_echo:latest /home/dom/R/x86_64-pc-linux-gnu-library/3.6/om..echo/dockerfiles/latest
-## ...........................................................................................................
+## docker build -t dombennett/om_echo:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..echo/dockerfiles/latest
+## ....................................................................................
 ## Sending build context to Docker daemon  2.048kB
 
 
 ## Step 1/3 : FROM ubuntu:latest
-##  ---&gt; 16508e5c265d
+##  ---&gt; 93fd78260bd1
 ## Step 2/3 : RUN mkdir /working_dir
-##  ---&gt; Using cache
-##  ---&gt; 9672e5fb3b64
+##  ---&gt; Running in c581943e3153
+## Removing intermediate container c581943e3153
+##  ---&gt; 92d3602314a4
 ## Step 3/3 : WORKDIR /working_dir
-##  ---&gt; Using cache
-##  ---&gt; df17a28219c0
-## Successfully built df17a28219c0
+##  ---&gt; Running in c93c64fbee32
+## Removing intermediate container c93c64fbee32
+##  ---&gt; 47968444034b
+## Successfully built 47968444034b
 ## Successfully tagged dombennett/om_echo:latest</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <blockquote>
@@ -271,20 +291,22 @@ echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># based on the module details, the function will determine which code-sharing</span>
 <span class="co"># service to upload to</span>
 <span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</code></pre></div>
-</div>
-<div id="next-up-intermediate" class="section level2">
-<h2 class="hasAnchor">
-<a href="#next-up-intermediate" class="anchor"></a>Next-up: <a href="https://antonellilab.github.io/outsider.devtools/articles/intermediate.html">Intermediate</a>
-</h2>
+<hr>
 <p><strong>Delete it all</strong></p>
 <p>Don’t want <code>om..echo</code> on your computer? Delete it so …</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># to delete the Docker image and uninstall the R package</span>
 <span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'dombennett/om..echo'</span>)</code></pre></div>
 <pre><code>## Removing 'om..echo'</code></pre>
-<pre><code>## Removing package from '/home/dom/R/x86_64-pc-linux-gnu-library/3.6'
+<pre><code>## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
 ## (as 'lib' is unspecified)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># to delete the repo folder</span>
-<span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> <span class="st">'om..echo'</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<hr>
+</div>
+<div id="next-up-intermediate" class="section level2">
+<h2 class="hasAnchor">
+<a href="#next-up-intermediate" class="anchor"></a>Next-up: <a href="https://antonellilab.github.io/outsider.devtools/articles/intermediate.html">Intermediate</a>
+</h2>
 </div>
 </div>
   </div>
@@ -319,17 +341,20 @@ echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Dom Bennett.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

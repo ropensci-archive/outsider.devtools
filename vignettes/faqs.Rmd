@@ -1,0 +1,28 @@
+---
+title: "Frequently Asked Questions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Why is my module not returned by `outsider::module_search`?
+
+`outsider::module_search` makes it easier for users to locate and install
+modules. It can search for modules across both GitHub and GitLab (but not
+BitBucket). For both services, the repo names must begin `om..` and there must
+be an `om.yml` in the top-level directory.
+
+
+Additionally, GitHub repos must have **"outsider-module"** at the beginning of
+their repo descriptions.
+
+
+Try comparing and contrasting your set-up with these repos:
+
+* [Working example on GitHub](https://github.com/DomBennett/om..hello.world)
+* [Working example on GitLab](https://gitlab.com/DomBennett/om..hello.world)
+
+

@@ -9,16 +9,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 `outsider` allows users to install and run programs on their own computer
 without the need to leave the R environment. If there is a command-line program
-that is not available through `outsider` you can create your own module! If you
-are able to install the program on your own machine and have some experience
-with R packages and GitHub then you should be readily able to create one.
-In this article, we will outline what an `outsider` module is and then provide
+that is not available through `outsider` you can create your own module!
+
+If you are able to install the program on your own machine and have some
+experience with R packages and GitHub then you should be readily able to
+create one.
+
+
+On this page, we will outline what an `outsider` module is and then provide
 a simple walkthrough for creating the simplest of simple modules: a command line
 program that prints whatever text the user provides it.
 
 To follow this guide you will need the following:
-*A GitHub account (sign-up [here](https://github.com/))
-*A Docker-Hub account (sign-up [here](https://hub.docker.com/))
+
+* A GitHub account (sign-up [here](https://github.com/))
+* A Docker-Hub account (sign-up [here](https://hub.docker.com/))
 
 # Basics
 
@@ -73,15 +78,15 @@ module's GitHub homepage and a `.travis.yml` that provides instructions
 detailing how the module should be tested on
 [Travis-CI](https://en.wikipedia.org/wiki/Travis_CI).
 
-# Basic Walkthrough
+# Walkthrough
 
 We will walk you through how to create your very own `outsider` module that will
 simply print (through `echo`) any text provided. This process comes in a
-series of steps: 1) generate core files and folders, 2) create Docker image, 3)
-document and build R package, 4) try the module, 5) upload to GitHub and Docker
+series of steps: generate core files and folders, create Docker image,
+document and build R package, try the module, upload to GitHub and Docker
 Hub.
 
-## Step 1: Generate the files and folders
+## Generate the files and folders
 
 As displayed above, we need to generate the core files and folders of a module.
 This process can be easily performed using the `module_skeleton()` function.
@@ -100,6 +105,8 @@ library(outsider.devtools)
 flpth <- module_skeleton(repo_user = 'dombennett', program_name = 'echo',
                          docker_user = 'dombennett', flpth = tempdir(),
                          service = 'github')
+# folder name where module is stored
+print(basename(flpth))
 ```
 
 The above code will create an `outsider` module with the name `om..echo`.
@@ -109,15 +116,15 @@ and `functions.R`.
 
 > **Why `om..echo`?** All modules must start with "om.." in order for them to
 be discovered on GitHub. This is not a requirement for the functioning of the
-module, it just means `module_search()` can find them.
+module, it just means `outsider::module_search()` can find them.
 
 At this stage, we would then edit the `inst/dockerfiles/latest/Dockerfile` and
-the `R/functions.R` to work for our chosen external program. But because `echo`,
-the program we wish to port through `outsider`, is so simple we don't actually
-have to make any changes to these files. By default, the `Dockerfile` is based
-on Ubuntu which ships with `echo` and our starting function in `functions.R` is
-based around running `echo`: it parses the arguments, creates an outsider
-object, and then launches the object.
+the `R/functions.R` to work for our chosen external program. But because `echo`
+-- the program we wish to port through `outsider` -- is so simple we don't
+actually have to make any changes to these files. By default, the `Dockerfile`
+is based on Ubuntu which ships with `echo` and our starting function in
+`functions.R` is based around running `echo`: it parses the arguments, creates
+an outsider object, and then launches the object.
 
 ```{r echo-function, echo=TRUE, eval=FALSE}
 # The echo function in om..echo
@@ -142,7 +149,7 @@ program. For many external programs there may be hundreds of arguments, all of
 which are likely to be already documented; viewable through commands like
 `-h` or `--help`.
 
-## Step 2: Building the R package
+## Building the R package
 
 With the skeleton set-up, we can now install the R package using `module_build()`.
 
@@ -159,7 +166,7 @@ function generates these files via
 tags located in the R scripts that make up the package, i.e. all comments that
 begin `#'`. For more information, look up "object documentation in R".
 
-## Step 3: Building the Docker image
+## Creating/Building the Docker image
 
 > **Dockerfile commands** Dockerfiles are series of instructions for
 constructing a "containerised" machine called a Docker image (functionally it's
@@ -173,7 +180,8 @@ built upon the Linux operating system Ubuntu in which case the first line of the
 Dockerfile would be "FROM ubuntu:latest". This first line would then download
 the latest Ubuntu Docker image and all subsequent "RUN" instructions would be
 running in Ubuntu command-line. For far more detailed information on
-Dockerfiles, see the [Docker docs](https://docs.docker.com/engine/docker-overview/).
+Dockerfiles, see the
+[Docker docs](https://docs.docker.com/engine/docker-overview/).
 
 In our `om..echo` we have a dockerfiles folder that contains a Dockerfile
 describing the Docker image for our `echo` program. Our "latest" Dockerfile
@@ -197,8 +205,10 @@ is passed to the Docker image. All `outsider` modules require this to be
 "working_dir" as it allows `outsider` functions to know where to transfer files
 to and from the container/virtual machine.
 
-Using our Dockerfile that has been preloaded with the installed R pacakge, we
-can now build our Docker image using `module_build()`.
+Using our Dockerfile that has been preloaded with the installed R package, we
+can now build our Docker image using `module_build()`. (In practice, we'd
+combine steps 2 and 3 by calling `module_build` and setting all the build
+arguments to TRUE.)
 
 ```{r docker-build}
 module_build(flpth = flpth, tag = 'latest', build_image = TRUE,
@@ -212,7 +222,7 @@ By default, if no tag is provided,  Docker will use 'latest'.
 Docker commands of the tasks being performed. This is to give you a better idea
 of what is happening and to allow you to recreate the operations via a terminal.
 
-## Step 4: Try the module.
+## Try the module.
 
 With a Docker image and an installed R package we are now ready to try out the
 module before we upload it online.
@@ -224,7 +234,7 @@ echo <- module_import('echo', repo = 'dombennett/om..echo')
 echo('hello world!')
 ```
 
-## Step 5: Upload to GitHub and Docker Hub
+## Upload to GitHub and Docker Hub
 
 After we have played with the module and ensured it works as we would hope, we
 can upload it to our GitHub and Docker accounts so that others may download it.
@@ -241,7 +251,7 @@ Docker-Hub.)
 module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
 ```
 
-## Next-up: [Intermediate](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
+---
 
 **Delete it all**
 
@@ -251,5 +261,10 @@ Don't want `om..echo` on your computer? Delete it so ...
 # to delete the Docker image and uninstall the R package
 module_uninstall(repo = 'dombennett/om..echo')
 # to delete the repo folder
-unlink(x = 'om..echo', recursive = TRUE, force = TRUE)
+unlink(x = flpth, recursive = TRUE, force = TRUE)
 ```
+
+
+---
+
+## Next-up: [Intermediate](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)

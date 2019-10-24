@@ -7,18 +7,35 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+In [basics](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
+we introduced the essential elements that make up a module and then built a
+super simple module.
 
-## Next steps and clean-up
+On this page, we will build a module for a slightly more complex program while
+introducing some more functionalities of `outsider`.
 
-**Testing**
+# Intermediate
 
-After upload we can then test the functionality of the package from an end-users
-perspective by running `.module_test`. This function tries installing the
-package using the online repos, it then tries to import all the module functions
-and running their examples.
+## A more complex program
 
-**Tips**
 
-The best way to learn how to build your own module is to look at how others have
-created modules for programs you are familiar with. For more detailed written
-information on building modules, see the [Advanced: Building a module](https://antonellilab.github.io/outsider/articles/advanced_build.html)
+
+
+# Walkthrough
+
+## Dockerfile
+
+
+## R Functions
+
+
+## Testing
+
+After upload we can then test the functionality of the package from an
+end-users' perspective by running `module_test`. This function tries installing
+the package using the online repos, it then tries to import all the module
+functions and running their examples.
+
+## Next-up: [Advanced](/articles/advanced.html)
+
+
