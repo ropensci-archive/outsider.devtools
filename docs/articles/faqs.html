@@ -85,9 +85,9 @@
 
     
     
-<div id="why-is-my-module-not-returned-by-module_search" class="section level2">
+<div id="why-is-my-module-not-returned-by-outsidermodule_search" class="section level2">
 <h2 class="hasAnchor">
-<a href="#why-is-my-module-not-returned-by-module_search" class="anchor"></a>Why is my module not returned by <code>module_search</code>?</h2>
+<a href="#why-is-my-module-not-returned-by-outsidermodule_search" class="anchor"></a>Why is my module not returned by <code>outsider::module_search</code>?</h2>
 <p><code><a href="https://rdrr.io/pkg/outsider/man/module_search.html">outsider::module_search</a></code> makes it easier for users to locate and install modules. It can search for modules across both GitHub and GitLab (but not BitBucket). For both services, the repo names must begin <code>om..</code> and there must be an <code>om.yml</code> in the top-level directory.</p>
 <p>Additionally, GitHub repos must have <strong>“outsider-module”</strong> at the beginning of their repo descriptions.</p>
 <p>Try comparing and contrasting your set-up with these repos:</p>
@@ -95,6 +95,11 @@
 <li><a href="https://github.com/DomBennett/om..hello.world">Working example on GitHub</a></li>
 <li><a href="https://gitlab.com/DomBennett/om..hello.world">Working example on GitLab</a></li>
 </ul>
+</div>
+<div id="can-a-module-be-an-r-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#can-a-module-be-an-r-package" class="anchor"></a>Can a module be an R package?</h2>
+<p>There is nothing preventing you develop an R package while enabling the package to also act as an <code>outsider</code> module. You do not need to call the package <code>om..</code>, all that is required is the <code>om.yml</code> and a functioning Dockerfile.</p>
 </div>
   </div>
 
@@ -104,7 +109,8 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#why-is-my-module-not-returned-by-module_search">Why is my module not returned by <code>module_search</code>?</a></li>
+<li><a href="#why-is-my-module-not-returned-by-outsidermodule_search">Why is my module not returned by <code>outsider::module_search</code>?</a></li>
+      <li><a href="#can-a-module-be-an-r-package">Can a module be an R package?</a></li>
       </ul>
 </div>
       </div>

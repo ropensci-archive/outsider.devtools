@@ -85,47 +85,826 @@
 
     
     
-<div id="advanced" class="section level1">
-<h1 class="hasAnchor">
-<a href="#advanced" class="anchor"></a>Advanced</h1>
-<div id="a-yet-more-complex-program" class="section level2">
+<p>In <a href="https://antonellilab.github.io/outsider.devtools/articles/intermediate.html">intermediate</a> we demonstrated how a complex, command-line program with input and output files (that we partly developed) can be cast as an <code>outsider</code> module.</p>
+<p>On this page, we will develop a module for a typical command-line program with lots of arguments.</p>
+<div id="raxml" class="section level2">
 <h2 class="hasAnchor">
-<a href="#a-yet-more-complex-program" class="anchor"></a>A yet more complex program</h2>
-</div>
+<a href="#raxml" class="anchor"></a><a href="https://cme.h-its.org/exelixis/web/software/raxml/"><code>RAxML</code></a>
+</h2>
+<p>For this walkthrough we will create a module for “RAxML” a program that can generate evolutionary trees using a maximum-likelihood. The exact functioning (or use even!) of the program is not relevant, but it demonstrates well the typical program which <code>outsider</code> aims to bring into the R environment: lots of arguments, complex algorithm developed in an alternative language.</p>
+<p>To demonstrate the program’s complexity, here is the command’s signature:</p>
+<pre><code>raxmlHPC[-SSE3|-AVX|-PTHREADS|-PTHREADS-SSE3|-PTHREADS-AVX|-HYBRID|-HYBRID-SSE3|HYBRID-AVX]
+      -s sequenceFileName -n outputFileName -m substitutionModel
+      [-a weightFileName] [-A secondaryStructureSubstModel]
+      [-b bootstrapRandomNumberSeed] [-B wcCriterionThreshold]
+      [-c numberOfCategories] [-C] [-d] [-D]
+      [-e likelihoodEpsilon] [-E excludeFileName]
+      [-f a|A|b|B|c|C|d|D|e|E|F|g|G|h|H|i|I|j|J|k|m|n|N|o|p|P|q|r|R|s|S|t|T|u|v|V|w|W|x|y] [-F]
+      [-g groupingFileName] [-G placementThreshold] [-h] [-H]
+      [-i initialRearrangementSetting] [-I autoFC|autoMR|autoMRE|autoMRE_IGN]
+      [-j] [-J MR|MR_DROP|MRE|STRICT|STRICT_DROP|T_&lt;PERCENT&gt;] [-k] [-K] 
+      [-L MR|MRE|T_&lt;PERCENT&gt;] [-M]
+      [-o outGroupName1[,outGroupName2[,...]]][-O]
+      [-p parsimonyRandomSeed] [-P proteinModel]
+      [-q multipleModelFileName] [-r binaryConstraintTree]
+      [-R binaryModelParamFile] [-S secondaryStructureFile] [-t userStartingTree]
+      [-T numberOfThreads] [-u] [-U] [-v] [-V] [-w outputDirectory] [-W slidingWindowSize]
+      [-x rapidBootstrapRandomNumberSeed] [-X] [-y] [-Y quartetGroupingFileName|ancestralSequenceCandidatesFileName]
+      [-z multipleTreesFile] [-#|-N numberOfRuns|autoFC|autoMR|autoMRE|autoMRE_IGN]
+      [--mesquite][--silent][--no-seq-check][--no-bfgs]
+      [--asc-corr=stamatakis|felsenstein|lewis]
+      [--flag-check][--auto-prot=ml|bic|aic|aicc]
+      [--epa-keep-placements=number][--epa-accumulated-threshold=threshold]
+      [--epa-prob-threshold=threshold]
+      [--JC69][--K80][--HKY85]
+      [--bootstop-perms=number]
+      [--quartets-without-replacement]
+      [---without-replacement]
+      [--print-identical-sequences]</code></pre>
+<p>How are we going to code a module that is able to account for all these arguments?</p>
 </div>
 <div id="walkthrough" class="section level1">
 <h1 class="hasAnchor">
 <a href="#walkthrough" class="anchor"></a>Walkthrough</h1>
-<div id="dockerfile" class="section level2">
+<div id="building" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dockerfile" class="anchor"></a>Dockerfile</h2>
-</div>
-<div id="r-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#r-functions" class="anchor"></a>R Functions</h2>
-<div id="best-practices" class="section level3">
+<a href="#building" class="anchor"></a>Building</h2>
+<p>As before, let’s just jump right in with the module skeleton.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
+flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'raxml'</span>,
+                         <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),
+                         <span class="dt">service =</span> <span class="st">'github'</span>)
+<span class="co"># folder name where module is stored</span>
+<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(flpth))</code></pre></div>
+<pre><code>## [1] "om..raxml"</code></pre>
+<p>Next, the Dockerfile. This is a much more complicated installation process. First we require the apt programs <code>wget</code>, <code>make</code> and <code>gcc</code> to download the program and compile it. Then we need to download and compile the program. The majority of the Dockerfile contents can be found in the installation instructions of the <a href="https://github.com/stamatak/standard-RAxML#readme">RAxML GitHub site</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dockerfile_text &lt;-<span class="st"> "</span>
+<span class="st">FROM ubuntu:latest</span>
+<span class="st">RUN apt-get update &amp;&amp; apt-get install -y \</span>
+<span class="st">    wget make gcc</span>
+<span class="st"># 8.2 for this demonstration</span>
+<span class="st">RUN wget https://github.com/stamatak/standard-RAxML/archive/v8.2.12.tar.gz &amp;&amp; \</span>
+<span class="st">    tar zxvf v8.2.12.tar.gz &amp;&amp; \</span>
+<span class="st">    rm v8.2.12.tar.gz &amp;&amp; \</span>
+<span class="st">    mv standard-RAxML-8.2.12 raxml</span>
+<span class="st">RUN cd /raxml &amp;&amp; make -f Makefile.SSE3.PTHREADS.gcc &amp;&amp; \</span>
+<span class="st">    rm *.o &amp;&amp; cp raxmlHPC-PTHREADS-SSE3 /usr/bin/.</span>
+<span class="st">RUN mkdir /working_dir</span>
+<span class="st">WORKDIR /working_dir</span>
+<span class="st">"</span>
+<span class="co"># write to latest Dockerfile</span>
+<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(dockerfile_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'inst'</span>, <span class="st">'dockerfiles'</span>, <span class="st">'latest'</span>,
+                                      <span class="st">'Dockerfile'</span>))</code></pre></div>
+<p>Dockerfile defined. What should are R function be?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' @name raxml</span>
+<span class="co">#' @title raxml</span>
+<span class="co">#' @description Run raxml</span>
+<span class="co">#' @param arglist Arguments to raxml provided as a character vector</span>
+<span class="co">#' @param outdir Filepath to where all output files should be returned.</span>
+<span class="co">#' @example examples/example.R</span>
+<span class="co">#' @export</span>
+raxml &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">arglist =</span> <span class="kw">arglist_get</span>(...), <span class="dt">outdir =</span> <span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>()) {
+  files_to_send &lt;-<span class="st"> </span><span class="kw">filestosend_get</span>(arglist)
+  arglist &lt;-<span class="st"> </span><span class="kw">arglist_parse</span>(arglist)
+  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..raxml'</span>, <span class="dt">cmd =</span> <span class="st">'raxmlHPC-PTHREADS-SSE3'</span>,
+                         <span class="dt">wd =</span> outdir, <span class="dt">files_to_send =</span> files_to_send,
+                         <span class="dt">arglist =</span> arglist)
+  <span class="kw">run</span>(otsdr)
+}</code></pre></div>
+<p>In this function, input and output files are intermixed in the arguments passed to RAxML. To determine what is a file that should be sent to the container from a normal argument, we have <code>filestosend_get</code>. This function goes through all the provided arguments to check for any files (it tests whether they are valid file paths) and returns them as a character vector to <code>files_to_send</code>. Then we have <code>arglist_parse</code>, this converts all given arguments to their basename so that absolute filepaths are dropped. All input files will be passed to the containers <code>working_dir/</code> and therefore no parental file path are required. This function has additional functions for dropping irrelevant arguments in the context of an <code>outsider</code> module (e.g. no need to specify an output directory at the command-line, this would need to be done at the initiation of the <code>outsider</code> object.)</p>
+<blockquote>
+<p><strong>What’s with this <code>outdir</code>-thingy?</strong> The RAxML function returns a series of files. To ensure they are all returned in a convenient location, we have created an additional argument to the <code>raxml()</code> function called <code>outdir</code>. It can be good practice to break-up information that needs to be processed by the module function into things like <code>arglist</code> and <code>outdir</code>. In some instances, you may be calling a program where additional information can be provided outside of remit of the main program being emulated. For example in our last example we had <code>input_file</code> and <code>output_file</code>. Other examples include, number of threads, memmory allocation for the program, etc.</p>
+</blockquote>
+<p>OK! So that’s what the function looks like. Let’s write it to file.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function_text &lt;-<span class="st"> "</span>
+<span class="st">#' @name raxml</span>
+<span class="st">#' @title raxml</span>
+<span class="st">#' @description Run raxml</span>
+<span class="st">#' @param arglist Arguments to raxml provided as a character vector</span>
+<span class="st">#' @param outdir Filepath to where all output files should be returned.</span>
+<span class="st">#' @example examples/example.R</span>
+<span class="st">#' @export</span>
+<span class="st">raxml &lt;- function(arglist = arglist_get(...), outdir = getwd()) {</span>
+<span class="st">  files_to_send &lt;- filestosend_get(arglist)</span>
+<span class="st">  arglist &lt;- arglist_parse(arglist)</span>
+<span class="st">  otsdr &lt;- outsider_init(pkgnm = 'om..raxml', cmd = 'raxmlHPC-PTHREADS-SSE3',</span>
+<span class="st">                         wd = outdir, files_to_send = files_to_send,</span>
+<span class="st">                         arglist = arglist)</span>
+<span class="st">  run(otsdr)</span>
+<span class="st">}</span>
+<span class="st">"</span>
+<span class="co"># write to R/functions.R</span>
+<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(function_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'R'</span>, <span class="st">'functions.R'</span>))</code></pre></div>
+<p>Let’s check the setup.</p>
+<p>Ok, let’s build, test and upload the module! (The test should pass because by default, <code>-h</code> is used in the example and this is a valid argument for RAxML.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
+<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::document() ...
+## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Updating om..raxml documentation</code></pre>
+<pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml/DESCRIPTION</code></pre>
+<pre><code>## Writing NAMESPACE</code></pre>
+<pre><code>## Loading om..raxml</code></pre>
+<pre><code>## Writing NAMESPACE
+## Writing raxml.Rd
+## ────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::install() ...
+## ────────────────────────────────────────────────────────────────────────────────────
+##   
+   checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml/DESCRIPTION’ ...
+  
+✔  checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml/DESCRIPTION’ (406ms)
+## 
+  
+─  preparing ‘om..raxml’:
+## 
+  
+   checking DESCRIPTION meta-information ...
+  
+✔  checking DESCRIPTION meta-information
+## 
+  
+─  checking for LF line-endings in source and make files and shell scripts
+## 
+  
+─  checking for empty or unneeded directories
+## 
+  
+─  building ‘om..raxml_0.0.1.tar.gz’
+## 
+  
+   Warning: invalid uid value replaced by that for user 'nobody'
+##    Warning: invalid gid value replaced by that for user 'nobody'
+## 
+  
+   
+## 
+Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T//RtmpcjHsxm/om..raxml_0.0.1.tar.gz \
+##   --install-tests 
+## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## * installing *source* package ‘om..raxml’ ...
+## ** using staged installation
+## ** R
+## ** inst
+## ** byte-compile and prepare package for lazy loading
+## ** help
+## *** installing help indices
+## ** building package indices
+## ** testing if installed package can be loaded from temporary location
+## ** testing if installed package can be loaded from final location
+## ** testing if installed package keeps a record of temporary installation path
+## * DONE (om..raxml)
+## ────────────────────────────────────────────────────────────────────────────────────
+## Running docker_build()
+## ────────────────────────────────────────────────────────────────────────────────────
+## Command:
+## docker build -t dombennett/om_raxml:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..raxml/dockerfiles/latest
+## ....................................................................................
+## Sending build context to Docker daemon  2.048kB
+
+
+## Error response from daemon: Dockerfile parse error line 4: unknown instruction: WGET</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_test.html">module_test</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
+<pre><code>## 
+## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml \
+##   --install-tests 
+## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## * installing *source* package ‘om..raxml’ ...
+## ** using staged installation
+## ** R
+## ** inst
+## ** byte-compile and prepare package for lazy loading
+## ** help
+## *** installing help indices
+## ** building package indices
+## ** testing if installed package can be loaded from temporary location
+## ** testing if installed package can be loaded from final location
+## ** testing if installed package keeps a record of temporary installation path
+## * DONE (om..raxml)</code></pre>
+<pre><code>## ----------------
+## outsider v 0.1.0
+## ----------------
+## - Security notice: be sure of which modules you install</code></pre>
+<pre><code>## 
+## 
+## This is RAxML version 8.2.12 released by Alexandros Stamatakis on May 2018.
+## 
+## With greatly appreciated code contributions by:
+## Andre Aberer      (HITS)
+## Simon Berger      (HITS)
+## Alexey Kozlov     (HITS)
+## Kassian Kobert    (HITS)
+## David Dao         (KIT and HITS)
+## Sarah Lutteropp   (KIT and HITS)
+## Nick Pattengale   (Sandia)
+## Wayne Pfeiffer    (SDSC)
+## Akifumi S. Tanabe (NRIFS)
+## Charlie Taylor    (UF)
+## 
+## 
+## Please also consult the RAxML-manual
+## 
+## Please report bugs via the RAxML google group!
+## Please send us all input files, the exact invocation, details of the HW and operating system,
+## as well as all error messages printed to screen.
+## 
+## 
+## raxmlHPC[-SSE3|-AVX|-PTHREADS|-PTHREADS-SSE3|-PTHREADS-AVX|-HYBRID|-HYBRID-SSE3|HYBRID-AVX]
+##       -s sequenceFileName -n outputFileName -m substitutionModel
+##       [-a weightFileName] [-A secondaryStructureSubstModel]
+##       [-b bootstrapRandomNumberSeed] [-B wcCriterionThreshold]
+##       [-c numberOfCategories] [-C] [-d] [-D]
+##       [-e likelihoodEpsilon] [-E excludeFileName]
+##       [-f a|A|b|B|c|C|d|D|e|E|F|g|G|h|H|i|I|j|J|k|m|n|N|o|p|P|q|r|R|s|S|t|T|u|v|V|w|W|x|y] [-F]
+##       [-g groupingFileName] [-G placementThreshold] [-h] [-H]
+##       [-i initialRearrangementSetting] [-I autoFC|autoMR|autoMRE|autoMRE_IGN]
+##       [-j] [-J MR|MR_DROP|MRE|STRICT|STRICT_DROP|T_&lt;PERCENT&gt;] [-k] [-K] 
+##       [-L MR|MRE|T_&lt;PERCENT&gt;] [-M]
+##       [-o outGroupName1[,outGroupName2[,...]]][-O]
+##       [-p parsimonyRandomSeed] [-P proteinModel]
+##       [-q multipleModelFileName] [-r binaryConstraintTree]
+##       [-R binaryModelParamFile] [-S secondaryStructureFile] [-t userStartingTree]
+##       [-T numberOfThreads] [-u] [-U] [-v] [-V] [-w outputDirectory] [-W slidingWindowSize]
+##       [-x rapidBootstrapRandomNumberSeed] [-X] [-y] [-Y quartetGroupingFileName|ancestralSequenceCandidatesFileName]
+##       [-z multipleTreesFile] [-#|-N numberOfRuns|autoFC|autoMR|autoMRE|autoMRE_IGN]
+##       [--mesquite][--silent][--no-seq-check][--no-bfgs]
+##       [--asc-corr=stamatakis|felsenstein|lewis]
+##       [--flag-check][--auto-prot=ml|bic|aic|aicc]
+##       [--epa-keep-placements=number][--epa-accumulated-threshold=threshold]
+##       [--epa-prob-threshold=threshold]
+##       [--JC69][--K80][--HKY85]
+##       [--bootstop-perms=number]
+## 
+##       [--quartets-without-replacement]
+## 
+##       [---without-replacement]
+## 
+##       [--print-identical-sequences]
+## 
+##       -a      Specify a column weight file name to assign individual weights to each column of 
+##               the alignment. Those weights must be integers separated by any type and number 
+##               of whitespaces whithin a separate file, see file "example_weights" for an example.
+## 
+##       -A      Specify one of the secondary structure substitution models implemented in RAxML.
+##               The same nomenclature as in the PHASE manual is used, available models: 
+##               S6A, S6B, S6C, S6D, S6E, S7A, S7B, S7C, S7D, S7E, S7F, S16, S16A, S16B
+## 
+##               DEFAULT: 16-state GTR model (S16)
+## 
+##       -b      Specify an integer number (random seed) and turn on bootstrapping
+## 
+##               DEFAULT: OFF
+## 
+##       -B      specify a floating point number between 0.0 and 1.0 that will be used as cutoff threshold 
+##               for the MR-based bootstopping criteria. The recommended setting is 0.03.
+## 
+##               DEFAULT: 0.03 (recommended empirically determined setting)
+## 
+##       -c      Specify number of distinct rate catgories for RAxML when model of rate heterogeneity
+##               is set to CAT
+##               Individual per-site rates are categorized into numberOfCategories rate 
+##               categories to accelerate computations. 
+## 
+##               DEFAULT: 25
+## 
+##       -C      Enable verbose output for the "-L" and "-f i" options. This will produce more, as well as more verbose output files
+## 
+##               DEFAULT: OFF
+## 
+##       -d      start ML optimization from random starting tree 
+## 
+##               DEFAULT: OFF
+## 
+##       -D      ML search convergence criterion. This will break off ML searches if the relative 
+##               Robinson-Foulds distance between the trees obtained from two consecutive lazy SPR cycles
+##               is smaller or equal to 1%. Usage recommended for very large datasets in terms of taxa.
+##               On trees with more than 500 taxa this will yield execution time improvements of approximately 50%
+##               While yielding only slightly worse trees.
+## 
+##               DEFAULT: OFF
+## 
+##       -e      set model optimization precision in log likelihood units for final
+##               optimization of tree topology
+## 
+##               DEFAULT: 0.1   for models not using proportion of invariant sites estimate
+##                        0.001 for models using proportion of invariant sites estimate
+## 
+##       -E      specify an exclude file name, that contains a specification of alignment positions you wish to exclude.
+##               Format is similar to Nexus, the file shall contain entries like "100-200 300-400", to exclude a
+##               single column write, e.g., "100-100", if you use a mixed model, an appropriately adapted model file
+##               will be written.
+## 
+##       -f      select algorithm:
+## 
+##               "-f a": rapid Bootstrap analysis and search for best-scoring ML tree in one program run
+##               "-f A": compute marginal ancestral states on a ROOTED reference tree provided with "-t"
+##               "-f b": draw bipartition information on a tree provided with "-t" based on multiple trees
+##                       (e.g., from a bootstrap) in a file specified by "-z"
+##               "-f B": optimize br-len scaler and other model parameters (GTR, alpha, etc.) on a tree provided with "-t".
+##                       The tree needs to contain branch lengths. The branch lengths will not be optimized, just scaled by a single common value.
+##               "-f c": check if the alignment can be properly read by RAxML
+##               "-f C": ancestral sequence test for Jiajie, users will also need to provide a list of taxon names via -Y separated by whitespaces
+##               "-f d": new rapid hill-climbing 
+##                       DEFAULT: ON
+##               "-f D": rapid hill-climbing with RELL bootstraps
+##               "-f e": optimize model+branch lengths for given input tree under GAMMA/GAMMAI only
+##               "-f E": execute very fast experimental tree search, at present only for testing
+##               "-f F": execute fast experimental tree search, at present only for testing
+##               "-f g": compute per site log Likelihoods for one or more trees passed via
+##                       "-z" and write them to a file that can be read by CONSEL
+##                       The model parameters will be estimated on the first tree only!
+##               "-f G": compute per site log Likelihoods for one or more trees passed via
+##                       "-z" and write them to a file that can be read by CONSEL.
+##                       The model parameters will be re-estimated for each tree
+##               "-f h": compute log likelihood test (SH-test) between best tree passed via "-t"
+##                       and a bunch of other trees passed via "-z" 
+##                       The model parameters will be estimated on the first tree only!
+##               "-f H": compute log likelihood test (SH-test) between best tree passed via "-t"
+##                       and a bunch of other trees passed via "-z" 
+##                       The model parameters will be re-estimated for each tree
+##               "-f i": calculate IC and TC scores (Salichos and Rokas 2013) on a tree provided with "-t" based on multiple trees
+##                       (e.g., from a bootstrap) in a file specified by "-z"
+##               "-f I": a simple tree rooting algorithm for unrooted trees.
+##                       It roots the tree by rooting it at the branch that best balances the subtree lengths
+##                       (sum over branches in the subtrees) of the left and right subtree.
+##                       A branch with an optimal balance does not always exist!
+##                       You need to specify the tree you want to root via "-t".
+##               "-f j": generate a bunch of bootstrapped alignment files from an original alignemnt file.
+##                       You need to specify a seed with "-b" and the number of replicates with "-#" 
+##               "-f J": Compute SH-like support values on a given tree passed via "-t".
+##               "-f k": Fix long branch lengths in partitioned data sets with missing data using the
+##                       branch length stealing algorithm.
+##                       This option only works in conjunction with "-t", "-M", and "-q".
+##                       It will print out a tree with shorter branch lengths, but having the same likelihood score.
+##               "-f m": compare bipartitions between two bunches of trees passed via "-t" and "-z" 
+##                       respectively. This will return the Pearson correlation between all bipartitions found
+##                       in the two tree files. A file called RAxML_bipartitionFrequencies.outpuFileName
+##                       will be printed that contains the pair-wise bipartition frequencies of the two sets
+##               "-f n": compute the log likelihood score of all trees contained in a tree file provided by
+##                       "-z" under GAMMA or GAMMA+P-Invar
+##                       The model parameters will be estimated on the first tree only!
+##               "-f N": compute the log likelihood score of all trees contained in a tree file provided by
+##                       "-z" under GAMMA or GAMMA+P-Invar
+##                       The model parameters will be re-estimated for each tree
+##               "-f o": old and slower rapid hill-climbing without heuristic cutoff
+##               "-f p": perform pure stepwise MP addition of new sequences to an incomplete starting tree and exit
+##               "-f P": perform a phylogenetic placement of sub trees specified in a file passed via "-z" into a given reference tree
+##                       in which these subtrees are contained that is passed via "-t" using the evolutionary placement algorithm.
+##               "-f q": fast quartet calculator
+##               "-f r": compute pairwise Robinson-Foulds (RF) distances between all pairs of trees in a tree file passed via "-z" 
+##                       if the trees have node labales represented as integer support values the program will also compute two flavors of
+##                       the weighted Robinson-Foulds (WRF) distance
+##               "-f R": compute all pairwise Robinson-Foulds (RF) distances between a large reference tree  passed via "-t" 
+##                       and many smaller trees (that must have a subset of the taxa of the large tree) passed via "-z".
+##                       This option is intended for checking the plausibility of very large phylogenies that can not be inspected
+##                       visually any more.
+##               "-f s": split up a multi-gene partitioned alignment into the respective subalignments 
+##               "-f S": compute site-specific placement bias using a leave one out test inspired by the evolutionary placement algorithm
+##               "-f t": do randomized tree searches on one fixed starting tree
+##               "-f T": do final thorough optimization of ML tree from rapid bootstrap search in stand-alone mode
+##               "-f u": execute morphological weight calibration using maximum likelihood, this will return a weight vector.
+##                       you need to provide a morphological alignment and a reference tree via "-t" 
+##               "-f v": classify a bunch of environmental sequences into a reference tree using thorough read insertions
+##                       you will need to start RAxML with a non-comprehensive reference tree and an alignment containing all sequences (reference + query)
+##               "-f V": classify a bunch of environmental sequences into a reference tree using thorough read insertions
+##                       you will need to start RAxML with a non-comprehensive reference tree and an alignment containing all sequences (reference + query)
+##                       WARNING: this is a test implementation for more efficient handling of multi-gene/whole-genome datasets!
+##               "-f w": compute ELW test on a bunch of trees passed via "-z" 
+##                       The model parameters will be estimated on the first tree only!
+##               "-f W": compute ELW test on a bunch of trees passed via "-z" 
+##                       The model parameters will be re-estimated for each tree
+##               "-f x": compute pair-wise ML distances, ML model parameters will be estimated on an MP 
+##                       starting tree or a user-defined tree passed via "-t", only allowed for GAMMA-based
+##                       models of rate heterogeneity
+##               "-f y": classify a bunch of environmental sequences into a reference tree using parsimony
+##                       you will need to start RAxML with a non-comprehensive reference tree and an alignment containing all sequences (reference + query)
+## 
+##               DEFAULT for "-f": new rapid hill climbing
+## 
+## 
+##       -F      enable ML tree searches under CAT model for very large trees without switching to 
+##               GAMMA in the end (saves memory).
+##               This option can also be used with the GAMMA models in order to avoid the thorough optimization 
+##               of the best-scoring ML tree in the end.
+## 
+##               DEFAULT: OFF
+## 
+##       -g      specify the file name of a multifurcating constraint tree
+##               this tree does not need to be comprehensive, i.e. must not contain all taxa
+## 
+##       -G      enable the ML-based evolutionary placement algorithm heuristics
+##               by specifiyng a threshold value (fraction of insertion branches to be evaluated
+##               using slow insertions under ML).
+## 
+##       -h      Display this help message.
+## 
+##       -H      Disable pattern compression.
+## 
+##               DEFAULT: ON
+## 
+##       -i      Initial rearrangement setting for the subsequent application of topological 
+##               changes phase
+## 
+##       -I      a posteriori bootstopping analysis. Use:
+##              "-I autoFC" for the frequency-based criterion
+##              "-I autoMR" for the majority-rule consensus tree criterion
+##              "-I autoMRE" for the extended majority-rule consensus tree criterion
+##              "-I autoMRE_IGN" for metrics similar to MRE, but include bipartitions under the threshold whether they are compatible
+##                               or not. This emulates MRE but is faster to compute.
+##               You also need to pass a tree file containg several bootstrap replicates via "-z" 
+## 
+##       -j      Specifies that intermediate tree files shall be written to file during the standard ML and BS tree searches.
+## 
+##               DEFAULT: OFF
+## 
+##       -J      Compute majority rule consensus tree with "-J MR" or extended majority rule consensus tree with "-J MRE"
+##               or strict consensus tree with "-J STRICT". For a custom consensus threshold &gt;= 50%, specify T_&lt;NUM&gt;, where 100 &gt;= NUM &gt;= 50.
+##               Options "-J STRICT_DROP" and "-J MR_DROP" will execute an algorithm that identifies dropsets which contain
+##               rogue taxa as proposed by Pattengale et al. in the paper "Uncovering hidden phylogenetic consensus".
+##               You will also need to provide a tree file containing several UNROOTED trees via "-z"
+## 
+##       -k      Specifies that bootstrapped trees should be printed with branch lengths.
+##               The bootstraps will run a bit longer, because model parameters will be optimized
+##               at the end of each run under GAMMA or GAMMA+P-Invar respectively.
+## 
+##               DEFAULT: OFF
+## 
+##       -K      Specify one of the multi-state substitution models (max 32 states) implemented in RAxML.
+##               Available models are: ORDERED, MK, GTR
+## 
+##               DEFAULT: GTR model 
+## 
+##       -L     Compute consensus trees labelled by IC supports and the overall TC value as proposed in Salichos and Rokas 2013.
+##              Compute a majority rule consensus tree with "-L MR" or an extended majority rule consensus tree with "-L MRE".
+##              For a custom consensus threshold &gt;= 50%, specify "-L T_&lt;NUM&gt;", where 100 &gt;= NUM &gt;= 50.
+##              You will of course also need to provide a tree file containing several UNROOTED trees via "-z"!
+## 
+##       -m      Model of Binary (Morphological), Nucleotide, Multi-State, or Amino Acid Substitution: 
+## 
+##               BINARY:
+## 
+##                 "-m BINCAT[X]"       : Optimization of site-specific
+##                                        evolutionary rates which are categorized into numberOfCategories distinct 
+##                                        rate categories for greater computational efficiency. Final tree might be evaluated
+##                                        automatically under BINGAMMA, depending on the tree search option.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m BINCATI[X]"      : Optimization of site-specific
+##                                        evolutionary rates which are categorized into numberOfCategories distinct 
+##                                        rate categories for greater computational efficiency. Final tree might be evaluated
+##                                        automatically under BINGAMMAI, depending on the tree search option.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_BINCAT[X]"   : Optimization of site-specific
+##                                        evolutionary rates which are categorized into numberOfCategories distinct 
+##                                        rate categories for greater computational efficiency. Final tree might be evaluated
+##                                        automatically under BINGAMMA, depending on the tree search option.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                                        The ASC prefix willl correct the likelihood for ascertainment bias.
+##                 "-m BINGAMMA[X]"     : GAMMA model of rate heterogeneity (alpha parameter will be estimated).
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_BINGAMMA[X]" : GAMMA model of rate heterogeneity (alpha parameter will be estimated).
+##                                        The ASC prefix willl correct the likelihood for ascertainment bias.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m BINGAMMAI[X]"    : Same as BINGAMMA, but with estimate of proportion of invariable sites.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+## 
+##               NUCLEOTIDES:
+## 
+##                 "-m GTRCAT[X]"       : GTR + Optimization of substitution rates + Optimization of site-specific
+##                                        evolutionary rates which are categorized into numberOfCategories distinct 
+##                                        rate categories for greater computational efficiency.  Final tree might be evaluated
+##                                        under GTRGAMMA, depending on the tree search option.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m GTRCATI[X]"      : GTR + Optimization of substitution rates + Optimization of site-specific
+##                                        evolutionary rates which are categorized into numberOfCategories distinct 
+##                                        rate categories for greater computational efficiency.  Final tree might be evaluated
+##                                        under GTRGAMMAI, depending on the tree search option.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_GTRCAT[X]"   : GTR + Optimization of substitution rates + Optimization of site-specific
+##                                        evolutionary rates which are categorized into numberOfCategories distinct 
+##                                        rate categories for greater computational efficiency.  Final tree might be evaluated
+##                                        under GTRGAMMA, depending on the tree search option.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                                        The ASC prefix willl correct the likelihood for ascertainment bias.
+##                 "-m GTRGAMMA[X]"     : GTR + Optimization of substitution rates + GAMMA model of rate 
+##                                        heterogeneity (alpha parameter will be estimated).
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_GTRGAMMA[X]" : GTR + Optimization of substitution rates + GAMMA model of rate 
+##                                        heterogeneity (alpha parameter will be estimated).
+##                                        The ASC prefix willl correct the likelihood for ascertainment bias.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m GTRGAMMAI[X]"    : Same as GTRGAMMA, but with estimate of proportion of invariable sites.
+##                                        With the optional "X" appendix you can specify a ML estimate of base frequencies.
+## 
+##               MULTI-STATE:
+## 
+##                 "-m MULTICAT[X]"       : Optimization of site-specific
+##                                          evolutionary rates which are categorized into numberOfCategories distinct 
+##                                          rate categories for greater computational efficiency. Final tree might be evaluated
+##                                          automatically under MULTIGAMMA, depending on the tree search option.
+##                                          With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m MULTICATI[X]"      : Optimization of site-specific
+##                                          evolutionary rates which are categorized into numberOfCategories distinct 
+##                                          rate categories for greater computational efficiency. Final tree might be evaluated
+##                                          automatically under MULTIGAMMAI, depending on the tree search option.
+##                                          With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_MULTICAT[X]"   : Optimization of site-specific
+##                                          evolutionary rates which are categorized into numberOfCategories distinct 
+##                                          rate categories for greater computational efficiency. Final tree might be evaluated
+##                                          automatically under MULTIGAMMA, depending on the tree search option.
+##                                          With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                                          The ASC prefix willl correct the likelihood for ascertainment bias.
+##                 "-m MULTIGAMMA[X]"     : GAMMA model of rate heterogeneity (alpha parameter will be estimated).
+##                                          With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_MULTIGAMMA[X]" : GAMMA model of rate heterogeneity (alpha parameter will be estimated).
+##                                          The ASC prefix willl correct the likelihood for ascertainment bias.
+##                                          With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m MULTIGAMMAI[X]"    : Same as MULTIGAMMA, but with estimate of proportion of invariable sites.
+##                                          With the optional "X" appendix you can specify a ML estimate of base frequencies.
+## 
+##                 You can use up to 32 distinct character states to encode multi-state regions, they must be used in the following order:
+##                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V
+##                 i.e., if you have 6 distinct character states you would use 0, 1, 2, 3, 4, 5 to encode these.
+##                 The substitution model for the multi-state regions can be selected via the "-K" option
+## 
+##               AMINO ACIDS:
+## 
+##                 "-m PROTCATmatrixName[F|X]"       : specified AA matrix + Optimization of substitution rates + Optimization of site-specific
+##                                                     evolutionary rates which are categorized into numberOfCategories distinct 
+##                                                     rate categories for greater computational efficiency.   Final tree might be evaluated
+##                                                     automatically under PROTGAMMAmatrixName[F|X], depending on the tree search option.
+##                                                     With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m PROTCATImatrixName[F|X]"      : specified AA matrix + Optimization of substitution rates + Optimization of site-specific
+##                                                     evolutionary rates which are categorized into numberOfCategories distinct 
+##                                                     rate categories for greater computational efficiency.   Final tree might be evaluated
+##                                                     automatically under PROTGAMMAImatrixName[F|X], depending on the tree search option.
+##                                                     With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_PROTCATmatrixName[F|X]"   : specified AA matrix + Optimization of substitution rates + Optimization of site-specific
+##                                                     evolutionary rates which are categorized into numberOfCategories distinct 
+##                                                     rate categories for greater computational efficiency.   Final tree might be evaluated
+##                                                     automatically under PROTGAMMAmatrixName[F|X], depending on the tree search option.
+##                                                     With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                                                     The ASC prefix willl correct the likelihood for ascertainment bias.
+##                 "-m PROTGAMMAmatrixName[F|X]"     : specified AA matrix + Optimization of substitution rates + GAMMA model of rate 
+##                                                     heterogeneity (alpha parameter will be estimated).
+##                                                     With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m ASC_PROTGAMMAmatrixName[F|X]" : specified AA matrix + Optimization of substitution rates + GAMMA model of rate 
+##                                                     heterogeneity (alpha parameter will be estimated).
+##                                                     The ASC prefix willl correct the likelihood for ascertainment bias.
+##                                                     With the optional "X" appendix you can specify a ML estimate of base frequencies.
+##                 "-m PROTGAMMAImatrixName[F|X]"    : Same as PROTGAMMAmatrixName[F|X], but with estimate of proportion of invariable sites.
+##                                                     With the optional "X" appendix you can specify a ML estimate of base frequencies.
+## 
+##                 Available AA substitution models:
+##                 DAYHOFF, DCMUT, JTT, MTREV, WAG, RTREV, CPREV, VT, 
+##                 BLOSUM62, MTMAM, LG, MTART, MTZOA, PMB, HIVB, HIVW, 
+##                 JTTDCMUT, FLU, STMTREV, DUMMY, DUMMY2, AUTO, LG4M, LG4X, 
+##                 PROT_FILE, GTR_UNLINKED, GTR
+##                 With the optional "F" appendix you can specify if you want to use empirical base frequencies.
+##                 AUTOF and AUTOX are not supported any more, if you specify AUTO it will test prot subst. models with and without empirical
+##                 base frequencies now!
+##                 Please note that for partitioned models you can in addition specify the per-gene AA model in
+##                 the partition file (see manual for details). Also note that if you estimate AA GTR parameters on a partitioned
+##                 dataset, they will be linked (estimated jointly) across all partitions to avoid over-parametrization
+## 
+##       -M      Switch on estimation of individual per-partition branch lengths. Only has effect when used in combination with "-q"
+##               Branch lengths for individual partitions will be printed to separate files
+##               A weighted average of the branch lengths is computed by using the respective partition lengths
+## 
+##               DEFAULT: OFF
+## 
+##       -n      Specifies the name of the output file.
+## 
+##       -o      Specify the name of a single outgroup or a comma-separated list of outgroups, eg "-o Rat" 
+##               or "-o Rat,Mouse", in case that multiple outgroups are not monophyletic the first name 
+##               in the list will be selected as outgroup, don't leave spaces between taxon names!
+## 
+##       -O      Disable check for completely undetermined sequence in alignment.
+##               The program will not exit with an error message when "-O" is specified.
+## 
+##               DEFAULT: check enabled
+## 
+##       -p      Specify a random number seed for the parsimony inferences. This allows you to reproduce your results
+##               and will help me debug the program.
+## 
+##       -P      Specify the file name of a user-defined AA (Protein) substitution model. This file must contain
+##               420 entries, the first 400 being the AA substitution rates (this must be a symmetric matrix) and the
+##               last 20 are the empirical base frequencies
+## 
+##       -q      Specify the file name which contains the assignment of models to alignment
+##               partitions for multiple models of substitution. For the syntax of this file
+##               please consult the manual.
+## 
+##       -r      Specify the file name of a binary constraint tree.
+##               this tree does not need to be comprehensive, i.e. must not contain all taxa
+## 
+##       -R      Specify the file name of a binary model parameter file that has previously been generated
+##               with RAxML using the -f e tree evaluation option. The file name should be: 
+##               RAxML_binaryModelParameters.runID
+## 
+##       -s      Specify the name of the alignment data file in PHYLIP format
+## 
+##       -S      Specify the name of a secondary structure file. The file can contain "." for 
+##               alignment columns that do not form part of a stem and characters "()&lt;&gt;[]{}" to define 
+##               stem regions and pseudoknots
+## 
+##       -t      Specify a user starting tree file name in Newick format
+## 
+##       -T      PTHREADS VERSION ONLY! Specify the number of threads you want to run.
+##               Make sure to set "-T" to at most the number of CPUs you have on your machine,
+##               otherwise, there will be a huge performance decrease!
+## 
+##       -u      use the median for the discrete approximation of the GAMMA model of rate heterogeneity
+## 
+##               DEFAULT: OFF
+## 
+##       -U      Try to save memory by using SEV-based implementation for gap columns on large gappy alignments
+##               The technique is described here: http://www.biomedcentral.com/1471-2105/12/470
+##               This will only work for DNA and/or PROTEIN data and only with the SSE3 or AVX-vextorized version of the code.
+## 
+##       -v      Display version information
+## 
+##       -V      Disable rate heterogeneity among sites model and use one without rate heterogeneity instead.
+##               Only works if you specify the CAT model of rate heterogeneity.
+## 
+##               DEFAULT: use rate heterogeneity
+## 
+##       -w      FULL (!) path to the directory into which RAxML shall write its output files
+## 
+##               DEFAULT: current directory
+## 
+##       -W      Sliding window size for leave-one-out site-specific placement bias algorithm
+##               only effective when used in combination with "-f S" 
+## 
+##               DEFAULT: 100 sites
+## 
+##       -x      Specify an integer number (random seed) and turn on rapid bootstrapping
+##               CAUTION: unlike in version 7.0.4 RAxML will conduct rapid BS replicates under 
+##               the model of rate heterogeneity you specified via "-m" and not by default under CAT
+## 
+##       -X      Same as the "-y" option below, however the parsimony search is more superficial.
+##               RAxML will only do a randomized stepwise addition order parsimony tree reconstruction
+##               without performing any additional SPRs.
+##               This may be helpful for very broad whole-genome datasets, since this can generate topologically
+##               more different starting trees.
+## 
+##               DEFAULT: OFF
+## 
+##       -y      If you want to only compute a parsimony starting tree with RAxML specify "-y",
+##               the program will exit after computation of the starting tree
+## 
+##               DEFAULT: OFF
+## 
+##       -Y      Pass a quartet grouping file name defining four groups from which to draw quartets
+##               The file input format must contain 4 groups in the following form:
+##               (Chicken, Human, Loach), (Cow, Carp), (Mouse, Rat, Seal), (Whale, Frog);
+##               Only works in combination with -f q !
+## 
+##       -z      Specify the file name of a file containing multiple trees e.g. from a bootstrap
+##               that shall be used to draw bipartition values onto a tree provided with "-t",
+##               It can also be used to compute per site log likelihoods in combination with "-f g"
+##               and to read a bunch of trees for a couple of other options ("-f h", "-f m", "-f n").
+## 
+##       -#|-N   Specify the number of alternative runs on distinct starting trees
+##               In combination with the "-b" option, this will invoke a multiple boostrap analysis
+##               Note that "-N" has been added as an alternative since "-#" sometimes caused problems
+##               with certain MPI job submission systems, since "-#" is often used to start comments.
+##               If you want to use the bootstopping criteria specify "-# autoMR" or "-# autoMRE" or "-# autoMRE_IGN"
+##               for the majority-rule tree based criteria (see -I option) or "-# autoFC" for the frequency-based criterion.
+##               Bootstopping will only work in combination with "-x" or "-b"
+## 
+##               DEFAULT: 1 single analysis
+## 
+##       --mesquite Print output files that can be parsed by Mesquite.
+## 
+##               DEFAULT: Off
+## 
+##       --silent Disables printout of warnings related to identical sequences and entirely undetermined sites in the alignment
+## 
+##               DEFAULT: Off
+## 
+##       --no-seq-check Disables checking the input MSA for identical sequences and entirely undetermined sites.
+##                      Enabling this option may save time, in particular for large phylogenomic alignments.
+##                      Before using this, make sure to check the alignment using the "-f c" option!
+## 
+##               DEFAULT: Off 
+## 
+##       --no-bfgs Disables automatic usage of BFGS method to optimize GTR rates on unpartitioned DNA datasets
+## 
+##               DEFAULT: BFGS on
+## 
+##       --asc-corr Allows to specify the type of ascertainment bias correction you wish to use. There are 3
+##                  types available:
+##                  --asc-corr=lewis: the standard correction by Paul Lewis
+##                  --asc-corr=felsenstein: a correction introduced by Joe Felsenstein that allows to explicitely specify
+##                                          the number of invariable sites (if known) one wants to correct for.
+##                  --asc-corr=stamatakis: a correction introduced by myself that allows to explicitely specify
+##                                         the number of invariable sites for each character (if known) one wants to correct for.
+## 
+##       --flag-check When using this option, RAxML will only check if all command line flags specifed are available and then exit
+##                    with a message listing all invalid command line flags or with a message stating that all flags are valid.
+## 
+##       --auto-prot=ml|bic|aic|aicc When using automatic protein model selection you can chose the criterion for selecting these models.
+##                   RAxML will test all available prot subst. models except for LG4M, LG4X and GTR-based models, with and without empirical base frequencies.
+##                   You can chose between ML score based selection and the BIC, AIC, and AICc criteria.
+## 
+##                   DEFAULT: ml
+## 
+##       --epa-keep-placements=number specify the number of potential placements you want to keep for each read in the EPA algorithm.
+##                   Note that, the actual values printed will also depend on the settings for --epa-prob-threshold=threshold !
+## 
+##                   DEFAULT: 7
+## 
+##       --epa-prob-threshold=threshold specify a percent threshold for including potential placements of a read depending on the 
+##                   maximum placement weight for this read. If you set this value to 0.01 placements that have a placement weight of 1 per cent of
+##                   the maximum placement will still be printed to file if the setting of --epa-keep-placements allows for it
+## 
+##                   DEFAULT: 0.01
+## 
+##       --epa-accumulated-threshold=threshold specify an accumulated likelihood weight threshold for which different placements of read are printed
+##                   to file. Placements for a read will be printed until the sum of their placement weights has reached the threshold value.
+##                   Note that, this option can neither be used in combination with --epa-prob-threshold nor with --epa-keep-placements!
+## 
+##       --JC69 specify that all DNA partitions will evolve under the Jukes-Cantor model, this overrides all other model specifications for DNA partitions.
+## 
+##                   DEFAULT: Off
+## 
+##       --K80 specify that all DNA partitions will evolve under the K80 model, this overrides all other model specifications for DNA partitions.
+## 
+##                   DEFAULT: Off
+## 
+##       --HKY85 specify that all DNA partitions will evolve under the HKY85 model, this overrides all other model specifications for DNA partitions.
+## 
+##                   DEFAULT: Off
+## 
+## 
+##       --bootstop-perms=number specify the number of permutations to be conducted for the bootstopping/bootstrap convergence test.
+##                   The allowed minimum number is 100!
+## 
+##                   DEFAULT: 100
+## 
+##       --quartets-without-replacement specify that quartets are randomly subsampled, but without replacement.
+## 
+##                   DEFAULT: random sampling with replacements
+## 
+##       --print-identical-sequences specify that RAxML shall automatically generate a .reduced alignment with all
+##                   undetermined columns removed, but without removing exactly identical sequences
+## 
+##                   DEFAULT: identical sequences will also be removed in the .reduced file</code></pre>
+<pre><code>## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
+## (as 'lib' is unspecified)</code></pre>
+<pre><code>## Bumbling bumblebees! The module is not working....
+## But keep on brewing! You're doing cautiously!</code></pre>
+<p>And then upload ….</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div id="continuous-integration-github-only" class="section level3">
 <h3 class="hasAnchor">
-<a href="#best-practices" class="anchor"></a>Best practices</h3>
-<p>arglist, wd</p>
+<a href="#continuous-integration-github-only" class="anchor"></a>Continuous Integration (GitHub only)</h3>
+<p>OK. So you have a module that works and passes its tests. How do we inform the world that it works? The answer: <a href="https://travis-ci.org/">Travis-CI</a></p>
+<p>Travis is a free service that monitors your GitHub for updates and then runs a series of tests on a remote server to determine whether it passes its tests or not. The result of these tests can be added to a repo’s README in form of an image badge: e.g. “Tests Passing”.</p>
+<p>To set-up travis for your repo, visit the webiste <a href="https://travis-ci.org/" class="uri">https://travis-ci.org/</a>, sign in with your GitHub account and then activate the service your repo of choice, e.g. <code>om..raxml</code>.</p>
+<p>Then we need to provide the test instructions for Travis in the form of a YAML file called <code>.travis.yml</code> and upload this to our GitHub repo. The <code>.travis.yml</code> can be created for <code>outsider</code> modules so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_travis.html">module_travis</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
+<p>Then simply update the repo on GitHub!</p>
 </div>
-<div id="examples" class="section level3">
-<h3 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h3>
 </div>
-</div>
-<div id="buildtestdeploy" class="section level2">
+<div id="dotting-the-is-and-crossing-the-ts" class="section level2">
 <h2 class="hasAnchor">
-<a href="#buildtestdeploy" class="anchor"></a>Build/test/deploy</h2>
-<div id="continuous-integration" class="section level3">
-<h3 class="hasAnchor">
-<a href="#continuous-integration" class="anchor"></a>Continuous Integration</h3>
+<a href="#dotting-the-is-and-crossing-the-ts" class="anchor"></a>Dotting the Is and crossing the Ts</h2>
+<p>After you have built a module that passes its tests and is available for download, there are a few extra things to consider:</p>
+<ul>
+<li>
+<strong>Update the <code>om.yml</code></strong> Add a more detailed description</li>
+<li>
+<strong>Update the README</strong> The default <code>README.md</code> is very bland. Maybe it needs more examples for your module? Also, shouldn’t you have a link to the original program?</li>
+<li>
+<strong>Ensure discoverability</strong> <code><a href="https://rdrr.io/pkg/outsider/man/module_search.html">outsider::module_search</a></code> can find <code>outsider</code> module repos on GitHub if they have and <code>om.yml</code>, have name in the form <code>om..</code> and have the phrase <code>outsider-module:</code> in their description.</li>
+</ul>
+<hr>
+<p><strong>Delete it all</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">module_uninstall</span>(<span class="dt">repo =</span> <span class="st">'om..raxml'</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<hr>
 </div>
 </div>
-<div id="next-steps" class="section level2">
-<h2 class="hasAnchor">
-<a href="#next-steps" class="anchor"></a>Next steps</h2>
-<p>The best way to learn how to build your own module is to look at how others have created modules for programs you are familiar with.</p>
-</div>
+<div id="tips-and-tricks" class="section level1">
+<h1 class="hasAnchor">
+<a href="#tips-and-tricks" class="anchor"></a>Tips and tricks</h1>
+<ul>
+<li>The best way to learn how to build your own module is to look at how others have created modules for programs you are familiar with. Check out the list of already available modules at this <a href="https://antonellilab.github.io/outsider/articles/available.html">page</a>.</li>
+<li>If you find issues with the docker image build step, you can try “logging into” a container and running the installation steps to test out what works. At the terminal, use</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># run an ubuntu container</span>
+<span class="ex">docker</span> run -t -d --name test ubuntu:latest
+<span class="co"># iteractively run bash</span>
+<span class="ex">docker</span> exec -it test bash
+<span class="co"># when finished, list all running containers and stop/rm</span>
+<span class="ex">docker</span> ps -a
+<span class="ex">docker</span> stop test
+<span class="ex">docker</span> rm test</code></pre></div>
 </div>
   </div>
 
@@ -136,18 +915,15 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
-<a href="#advanced">Advanced</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#a-yet-more-complex-program">A yet more complex program</a></li>
-      </ul>
+<a href="#raxml"></a><a href="https://cme-h-its-org/exelixis/web/software/raxml/"><code>RAxML</code></a>
 </li>
       <li>
 <a href="#walkthrough">Walkthrough</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#dockerfile">Dockerfile</a></li>
-      <li><a href="#r-functions">R Functions</a></li>
-      <li><a href="#buildtestdeploy">Build/test/deploy</a></li>
-      <li><a href="#next-steps">Next steps</a></li>
+<li><a href="#building">Building</a></li>
+      <li><a href="#dotting-the-is-and-crossing-the-ts">Dotting the Is and crossing the Ts</a></li>
       </ul>
 </li>
+      <li><a href="#tips-and-tricks">Tips and tricks</a></li>
       </ul>
 </div>
       </div>

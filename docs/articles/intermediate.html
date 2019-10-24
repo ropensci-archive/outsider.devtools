@@ -87,20 +87,21 @@
     
 <p>In <a href="https://antonellilab.github.io/outsider.devtools/articles/intermediate.html">basics</a> we introduced the essential elements that make up a module and then built a super simple module.</p>
 <p>On this page, we will build a module for a slightly more complex program while introducing some more functionalities of <code>outsider</code>.</p>
-<div id="intermediate" class="section level1">
-<h1 class="hasAnchor">
-<a href="#intermediate" class="anchor"></a>Intermediate</h1>
-<div id="figlet-a-more-complex-program" class="section level2">
+<div id="figlet" class="section level2">
 <h2 class="hasAnchor">
-<a href="#figlet-a-more-complex-program" class="anchor"></a><code>figlet</code>: A more complex program</h2>
-<p>For this walkthrough, we will be creating a module for the program <a href="http://www.figlet.org/"><code>figlet</code></a> which takes textual input and returns ASCII art.</p>
+<a href="#figlet" class="anchor"></a><code>figlet</code>
+</h2>
+<p>For this walkthrough, we will be creating a slightly more sophisticated module than <code>om..echo</code> by building a module for <a href="http://www.figlet.org/"><code>figlet</code></a>, a program that takes textual input and returns ASCII art.</p>
 <p>The program itself only takes text input and returns text output. We, however, will use <code>outsider</code> to create a module that can either take an input file or text and then return ASCII art to either the console or to an output file.</p>
 <p>Not all command-line programs follow the same standards (different input/output file arguments, different help pages …), so <code>outsider</code> comes with a series of functions to provide options for developers for how best they want to encapsulate the program in module form.</p>
-</div>
+<p>(For reference, this module does already exist in the wild: <a href="https://github.com/DomBennett/om..figlet">dombennett/om..figlet</a>)</p>
 </div>
 <div id="walkthrough" class="section level1">
 <h1 class="hasAnchor">
 <a href="#walkthrough" class="anchor"></a>Walkthrough</h1>
+<div id="building" class="section level2">
+<h2 class="hasAnchor">
+<a href="#building" class="anchor"></a>Building</h2>
 <p>To get started, we will first need our module skeleton.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
 flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'figlet'</span>,
@@ -196,13 +197,13 @@ figlet &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
 <p><strong>What’s with the <code>#'@</code>?</strong> These are the roxygen tags. They determine the documentation of the function. See <a href="http://r-pkgs.had.co.nz/man.html">“Object documentation”</a> for more details.</p>
 </blockquote>
 <p>Ok, let’s build the module!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">tag =</span> <span class="st">'latest'</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
 <pre><code>## ────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::document() ...
 ## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Updating om..figlet documentation</code></pre>
 <pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
-<pre><code>## Updating roxygen version in /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpbrjvFp/om..figlet/DESCRIPTION</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmpz6KBU4/om..figlet/DESCRIPTION</code></pre>
 <pre><code>## Writing NAMESPACE</code></pre>
 <pre><code>## Loading om..figlet</code></pre>
 <pre><code>## Writing NAMESPACE
@@ -211,13 +212,17 @@ figlet &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
 ## Running devtools::install() ...
 ## ────────────────────────────────────────────────────────────────────────────────────
 ##   
-   checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpbrjvFp/om..figlet/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmpz6KBU4/om..figlet/DESCRIPTION’ ...
   
-✔  checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpbrjvFp/om..figlet/DESCRIPTION’ (366ms)
+✔  checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmpz6KBU4/om..figlet/DESCRIPTION’ (388ms)
 ## 
   
 ─  preparing ‘om..figlet’:
-## ✔  checking DESCRIPTION meta-information
+## 
+  
+   checking DESCRIPTION meta-information ...
+  
+✔  checking DESCRIPTION meta-information
 ## 
   
 ─  checking for LF line-endings in source and make files and shell scripts
@@ -230,13 +235,13 @@ figlet &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
 ## 
   
    Warning: invalid uid value replaced by that for user 'nobody'
+##    Warning: invalid gid value replaced by that for user 'nobody'
 ## 
   
-   Warning: invalid gid value replaced by that for user 'nobody'
-##    
+   
 ## 
 Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T//RtmpbrjvFp/om..figlet_0.0.1.tar.gz \
+##   /var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T//Rtmpz6KBU4/om..figlet_0.0.1.tar.gz \
 ##   --install-tests 
 ## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
 ## * installing *source* package ‘om..figlet’ ...
@@ -263,15 +268,77 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## Step 1/4 : FROM ubuntu:latest
 ##  ---&gt; 93fd78260bd1
 ## Step 2/4 : RUN apt-get update &amp;&amp; apt-get install -y figlet
-##  ---&gt; Using cache
-##  ---&gt; 33bc132b5621
+##  ---&gt; Running in 052eb0427153
+## Get:1 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
+## Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
+## Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
+## Get:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+## Get:5 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [5944 B]
+## Get:6 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [12.6 kB]
+## Get:7 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [695 kB]
+## Get:8 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB]
+## Get:9 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB]
+## Get:10 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [782 kB]
+## Get:11 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1344 kB]
+## Get:12 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB]
+## Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1301 kB]
+## Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [23.2 kB]
+## Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [990 kB]
+## Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [9022 B]
+## Get:17 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [2496 B]
+## Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [4227 B]
+## Fetched 17.2 MB in 6s (2911 kB/s)
+## Reading package lists...
+## Reading package lists...
+## Building dependency tree...
+## Reading state information...
+## The following NEW packages will be installed:
+##   figlet
+## 0 upgraded, 1 newly installed, 0 to remove and 44 not upgraded.
+## Need to get 133 kB of archives.
+## After this operation, 752 kB of additional disk space will be used.
+## Get:1 http://archive.ubuntu.com/ubuntu bionic/universe amd64 figlet amd64 2.2.5-3 [133 kB]
+## [91mdebconf: delaying package configuration, since apt-utils is not installed
+## [0mFetched 133 kB in 0s (676 kB/s)
+## Selecting previously unselected package figlet.
+## (Reading database ... 
+(Reading database ... 5%
+(Reading database ... 10%
+(Reading database ... 15%
+(Reading database ... 20%
+(Reading database ... 25%
+(Reading database ... 30%
+(Reading database ... 35%
+(Reading database ... 40%
+(Reading database ... 45%
+(Reading database ... 50%
+(Reading database ... 55%
+(Reading database ... 60%
+(Reading database ... 65%
+(Reading database ... 70%
+(Reading database ... 75%
+(Reading database ... 80%
+(Reading database ... 85%
+(Reading database ... 90%
+(Reading database ... 95%
+(Reading database ... 100%
+(Reading database ... 4038 files and directories currently installed.)
+## Preparing to unpack .../figlet_2.2.5-3_amd64.deb ...
+## Unpacking figlet (2.2.5-3) ...
+## Setting up figlet (2.2.5-3) ...
+## update-alternatives: using /usr/bin/figlet-figlet to provide /usr/bin/figlet (figlet) in auto mode
+## update-alternatives: warning: skip creation of /usr/share/man/man6/figlet.6.gz because associated file /usr/share/man/man6/figlet-figlet.6.gz (of link group figlet) doesn't exist
+## Removing intermediate container 052eb0427153
+##  ---&gt; dca32cdcf6f7
 ## Step 3/4 : RUN mkdir /working_dir
-##  ---&gt; Using cache
-##  ---&gt; 5933441f5c74
+##  ---&gt; Running in ebe35ba5a9ba
+## Removing intermediate container ebe35ba5a9ba
+##  ---&gt; ed1d2f848bb2
 ## Step 4/4 : WORKDIR /working_dir
-##  ---&gt; Using cache
-##  ---&gt; 2cd24bf473e2
-## Successfully built 2cd24bf473e2
+##  ---&gt; Running in 01cae1a7a3bd
+## Removing intermediate container 01cae1a7a3bd
+##  ---&gt; afd046389a52
+## Successfully built afd046389a52
 ## Successfully tagged dombennett/om_figlet:latest</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <p>Does it work?</p>
@@ -364,17 +431,91 @@ output_file &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean-up</span>
 <span class="kw"><a href="https://rdrr.io/r/base/files.html">file.remove</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(input_file, output_file))</code></pre></div>
 <pre><code>## [1] TRUE TRUE</code></pre>
-<hr>
-<p><strong>Delete it all</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'om..figlet'</span>)</code></pre></div>
-<pre><code>## Removing 'om..figlet'</code></pre>
+</div>
+<div id="check-test-and-deploy" class="section level2">
+<h2 class="hasAnchor">
+<a href="#check-test-and-deploy" class="anchor"></a>Check, test and deploy</h2>
+<p>Ok! So we have a functioning module. But how do we know it’s a functioning module? To check our module structre, configuration and functioning we have a few helpful functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make sure the folder structure is correct</span>
+<span class="kw"><a href="../reference/module_check.html">module_check</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
+<pre><code>## DESCRIPTION found ✔
+## R folder with files found ✔
+## inst found ✔
+## inst/om.yml found ✔
+## inst/dockerfiles found ✔
+## inst/dockerfiles/latest with one Dockerfile found ✔</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># check are the names of the module components</span>
+<span class="kw"><a href="../reference/module_identities.html">module_identities</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
+<pre><code>## R package name: 'om..figlet'
+## URL: 'https://github.com/dombennett/om..figlet'
+## Docker images: 'dombennett/om_figlet:latest'</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># test that the module works</span>
+<span class="co"># module_test(flpth = flpth)</span></code></pre></div>
+<p>Running <code>module_test</code> we will find that there is an issue with the module. <code>module_test</code> checks the functioning of the code by running the example; our current example tries to call <code>-h</code> with <code>figlet</code> – which is an invalid argument. To correct this we can simply updated our example.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">example_text &lt;-<span class="st"> "</span>
+<span class="st">library(outsider)</span>
+<span class="st">figlet &lt;- module_import('figlet', repo = 'dombennett/om..figlet')</span>
+<span class="st">figlet('hello!')</span>
+<span class="st">"</span>
+<span class="co"># write to examples/example.R</span>
+<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(example_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'examples'</span>, <span class="st">'example.R'</span>))
+<span class="co"># re-build package</span>
+<span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">build_image =</span> <span class="ot">FALSE</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::document() ...
+## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Updating om..figlet documentation</code></pre>
+<pre><code>## Writing NAMESPACE</code></pre>
+<pre><code>## Loading om..figlet</code></pre>
+<pre><code>## Writing NAMESPACE
+## Writing figlet.Rd
+## ────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::install() ...
+## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## 
+## Attaching package: 'om..figlet'</code></pre>
+<pre><code>## The following object is masked _by_ '.GlobalEnv':
+## 
+##     figlet</code></pre>
+<p>Now re-running the test …</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_test.html">module_test</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
+<pre><code>## 
+## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmpz6KBU4/om..figlet \
+##   --install-tests 
+## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## * installing *source* package ‘om..figlet’ ...
+## ** using staged installation
+## ** R
+## ** inst
+## ** byte-compile and prepare package for lazy loading
+## ** help
+## *** installing help indices
+## ** building package indices
+## ** testing if installed package can be loaded from temporary location
+## ** testing if installed package can be loaded from final location
+## ** testing if installed package keeps a record of temporary installation path
+## * DONE (om..figlet)</code></pre>
+<pre><code>## 
+## Attaching package: 'om..figlet'</code></pre>
+<pre><code>## The following object is masked _by_ '.GlobalEnv':
+## 
+##     figlet</code></pre>
+<pre><code>## [1] "figlet hello!"</code></pre>
 <pre><code>## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
 ## (as 'lib' is unspecified)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## Ole! The module works! You are stylish!</code></pre>
+<p>Nice! The package passes. That means we can upload the package to GitHub and Docker-Hub using the same functions as we saw in “basic”.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <hr>
+<p><strong>Delete it all</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'om..figlet'</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<hr>
+</div>
 <div id="next-up-advanced" class="section level2">
 <h2 class="hasAnchor">
-<a href="#next-up-advanced" class="anchor"></a>Next-up: <a href="/articles/advanced.html">Advanced</a>
+<a href="#next-up-advanced" class="anchor"></a>Next-up: <a href="https://antonellilab.github.io/outsider.devtools/articles/advanced.html">Advanced</a>
 </h2>
 </div>
 </div>
@@ -386,15 +527,13 @@ output_file &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#intermediate">Intermediate</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#figlet-a-more-complex-program"><code>figlet</code>: A more complex program</a></li>
-      </ul>
-</li>
+<li><a href="#figlet"><code>figlet</code></a></li>
       <li>
 <a href="#walkthrough">Walkthrough</a><ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#next-up-advanced">Next-up: </a><a href="/articles/advanced-html">Advanced</a>
+<li><a href="#building">Building</a></li>
+      <li><a href="#check-test-and-deploy">Check, test and deploy</a></li>
+      <li>
+<a href="#next-up-advanced">Next-up: </a><a href="https://antonellilab-github-io/outsider-devtools/articles/advanced-html">Advanced</a>
 </li>
       </ul>
 </li>

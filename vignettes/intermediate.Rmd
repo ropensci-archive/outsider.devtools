@@ -241,9 +241,8 @@ module_uninstall(repo = 'om..figlet')
 unlink(x = flpth, recursive = TRUE, force = TRUE)
 ```
 
-
 ---
 
-## Next-up: [Advanced](/articles/advanced.html)
+## Next-up: [Advanced](https://antonellilab.github.io/outsider.devtools/articles/advanced.html)
 
 

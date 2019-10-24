@@ -7,28 +7,232 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Advanced
+In [intermediate](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
+we demonstrated how a complex, command-line program with input and output files
+(that we partly developed) can be cast as an `outsider` module.
 
-## A yet more complex program
+On this page, we will develop a module for a typical command-line program with
+lots of arguments.
+
+## [`RAxML`](https://cme.h-its.org/exelixis/web/software/raxml/)
+
+For this walkthrough we will create a module for "RAxML" a program
+that can generate evolutionary trees using a maximum-likelihood. The exact
+functioning (or use even!) of the program is not relevant, but it demonstrates
+well the typical program which `outsider` aims to bring into the R environment:
+lots of arguments, complex algorithm developed in an alternative language.
+
+
+To demonstrate the program's complexity, here is the command's signature:
+
+```
+raxmlHPC[-SSE3|-AVX|-PTHREADS|-PTHREADS-SSE3|-PTHREADS-AVX|-HYBRID|-HYBRID-SSE3|HYBRID-AVX]
+      -s sequenceFileName -n outputFileName -m substitutionModel
+      [-a weightFileName] [-A secondaryStructureSubstModel]
+      [-b bootstrapRandomNumberSeed] [-B wcCriterionThreshold]
+      [-c numberOfCategories] [-C] [-d] [-D]
+      [-e likelihoodEpsilon] [-E excludeFileName]
+      [-f a|A|b|B|c|C|d|D|e|E|F|g|G|h|H|i|I|j|J|k|m|n|N|o|p|P|q|r|R|s|S|t|T|u|v|V|w|W|x|y] [-F]
+      [-g groupingFileName] [-G placementThreshold] [-h] [-H]
+      [-i initialRearrangementSetting] [-I autoFC|autoMR|autoMRE|autoMRE_IGN]
+      [-j] [-J MR|MR_DROP|MRE|STRICT|STRICT_DROP|T_<PERCENT>] [-k] [-K] 
+      [-L MR|MRE|T_<PERCENT>] [-M]
+      [-o outGroupName1[,outGroupName2[,...]]][-O]
+      [-p parsimonyRandomSeed] [-P proteinModel]
+      [-q multipleModelFileName] [-r binaryConstraintTree]
+      [-R binaryModelParamFile] [-S secondaryStructureFile] [-t userStartingTree]
+      [-T numberOfThreads] [-u] [-U] [-v] [-V] [-w outputDirectory] [-W slidingWindowSize]
+      [-x rapidBootstrapRandomNumberSeed] [-X] [-y] [-Y quartetGroupingFileName|ancestralSequenceCandidatesFileName]
+      [-z multipleTreesFile] [-#|-N numberOfRuns|autoFC|autoMR|autoMRE|autoMRE_IGN]
+      [--mesquite][--silent][--no-seq-check][--no-bfgs]
+      [--asc-corr=stamatakis|felsenstein|lewis]
+      [--flag-check][--auto-prot=ml|bic|aic|aicc]
+      [--epa-keep-placements=number][--epa-accumulated-threshold=threshold]
+      [--epa-prob-threshold=threshold]
+      [--JC69][--K80][--HKY85]
+      [--bootstop-perms=number]
+      [--quartets-without-replacement]
+      [---without-replacement]
+      [--print-identical-sequences]
+```
+
+How are we going to code a module that is able to account for all these
+arguments?
 
 # Walkthrough
 
-## Dockerfile
+## Building
 
-## R Functions
+As before, let's just jump right in with the module skeleton.
 
-### Best practices
+```{r skeleton}
+library(outsider.devtools)
+flpth <- module_skeleton(repo_user = 'dombennett', program_name = 'raxml',
+                         docker_user = 'dombennett', flpth = tempdir(),
+                         service = 'github')
+# folder name where module is stored
+print(basename(flpth))
+```
 
-arglist, wd
+Next, the Dockerfile. This is a much more complicated installation process.
+First we require the apt programs `wget`, `make` and `gcc` to download the
+program and compile it. Then we need to download and compile the program.
+The majority of the Dockerfile contents can be found in the installation
+instructions of the
+[RAxML GitHub site](https://github.com/stamatak/standard-RAxML#readme).
 
-### Examples
+```{r dockerfile}
+dockerfile_text <- "
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y \
+    wget make gcc
+# 8.2 for this demonstration
+RUN wget https://github.com/stamatak/standard-RAxML/archive/v8.2.12.tar.gz && \
+    tar zxvf v8.2.12.tar.gz && \
+    rm v8.2.12.tar.gz && \
+    mv standard-RAxML-8.2.12 raxml
+RUN cd /raxml && make -f Makefile.SSE3.PTHREADS.gcc && \
+    rm *.o && cp raxmlHPC-PTHREADS-SSE3 /usr/bin/.
+RUN mkdir /working_dir
+WORKDIR /working_dir
+"
+# write to latest Dockerfile
+cat(dockerfile_text, file = file.path(flpth, 'inst', 'dockerfiles', 'latest',
+                                      'Dockerfile'))
+```
 
-## Build/test/deploy
+Dockerfile defined. What should are R function be?
 
-### Continuous Integration
+```{r function-definition, eval=FALSE, include=TRUE}
+#' @name raxml
+#' @title raxml
+#' @description Run raxml
+#' @param arglist Arguments to raxml provided as a character vector
+#' @param outdir Filepath to where all output files should be returned.
+#' @example examples/example.R
+#' @export
+raxml <- function(arglist = arglist_get(...), outdir = getwd()) {
+  files_to_send <- filestosend_get(arglist)
+  arglist <- arglist_parse(arglist)
+  otsdr <- outsider_init(pkgnm = 'om..raxml', cmd = 'raxmlHPC-PTHREADS-SSE3',
+                         wd = outdir, files_to_send = files_to_send,
+                         arglist = arglist)
+  run(otsdr)
+}
+```
 
+In this function, input and output files are intermixed in the arguments passed
+to RAxML. To determine what is a file that should be sent to the container from
+a normal argument, we have `filestosend_get`. This function goes through all the
+provided arguments to check for any files (it tests whether they are valid file
+paths) and returns them as a character vector to `files_to_send`. Then we have
+`arglist_parse`, this converts all given arguments to their basename so that
+absolute filepaths are dropped. All input files will be passed to the containers `working_dir/` and therefore no parental file path are required. This function
+has additional functions for dropping irrelevant arguments in the context of an
+`outsider` module (e.g. no need to specify an output directory at the 
+command-line, this would need to be done at the initiation of the `outsider`
+object.)
 
-### Tips and tricks
+> **What's with this `outdir`-thingy?** The RAxML function returns a series of
+files. To ensure they are all returned in a convenient location, we have
+created an additional argument to the `raxml()` function called `outdir`. It can
+be good practice to break-up information that needs to be processed by the
+module
+function into things like `arglist` and `outdir`. In some instances, you may
+be calling a program where additional information can be provided outside of
+remit of the main program being emulated. For example in our last example we had
+`input_file` and `output_file`. Other examples include, number of threads,
+memmory allocation for the program, etc.
+
+OK! So that's what the function looks like. Let's write it to file.
+
+```{r write-function-to-file}
+function_text <- "
+#' @name raxml
+#' @title raxml
+#' @description Run raxml
+#' @param arglist Arguments to raxml provided as a character vector
+#' @param outdir Filepath to where all output files should be returned.
+#' @example examples/example.R
+#' @export
+raxml <- function(arglist = arglist_get(...), outdir = getwd()) {
+  files_to_send <- filestosend_get(arglist)
+  arglist <- arglist_parse(arglist)
+  otsdr <- outsider_init(pkgnm = 'om..raxml', cmd = 'raxmlHPC-PTHREADS-SSE3',
+                         wd = outdir, files_to_send = files_to_send,
+                         arglist = arglist)
+  run(otsdr)
+}
+"
+# write to R/functions.R
+cat(function_text, file = file.path(flpth, 'R', 'functions.R'))
+```
+
+Let's check the setup.
+
+Ok, let's build, test and upload the module! (The test should pass because by
+default, `-h` is used in the example and this is a valid argument for RAxML.)
+
+```{r build-package}
+module_build(flpth = flpth)
+module_test(flpth = flpth)
+```
+
+And then upload ....
+
+```{r upload, eval=FALSE, include=TRUE}
+module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
+```
+
+### Continuous Integration (GitHub only)
+
+OK. So you have a module that works and passes its tests. How do we inform the
+world that it works? The answer: [Travis-CI](https://travis-ci.org/)
+
+Travis is a free service that monitors your GitHub for updates and then runs
+a series of tests on a remote server to determine whether it passes its tests or
+not. The result of these tests can be added to a repo's README in form of an
+image badge: e.g. "Tests Passing".
+
+To set-up travis for your repo, visit the webiste https://travis-ci.org/, sign
+in with your GitHub account and then activate the service your repo of choice,
+e.g. `om..raxml`.
+
+Then we need to provide the test instructions for Travis in the form of a YAML
+file called `.travis.yml` and upload this to our GitHub repo. The `.travis.yml`
+can be created for `outsider` modules so:
+
+```{r travis-file}
+module_travis(flpth = flpth)
+```
+
+Then simply update the repo on GitHub!
+
+## Dotting the Is and crossing the Ts
+
+After you have built a module that passes its tests and is available for
+download, there are a few extra things to consider:
+
+* **Update the `om.yml`** Add a more detailed description
+* **Update the README** The default `README.md` is very bland. Maybe it needs
+more examples for your module? Also, shouldn't you have a link to the original
+program?
+* **Ensure discoverability** `outsider::module_search` can find `outsider`
+module repos on GitHub if they have and `om.yml`, have name in the form `om..`
+and have the phrase `outsider-module: ` in their description.
+
+---
+
+**Delete it all**
+
+```{r clean-up}
+module_uninstall(repo = 'om..raxml')
+unlink(x = flpth, recursive = TRUE, force = TRUE)
+```
+
+---
+
+# Tips and tricks
 
 * The best way to learn how to build your own module is to look at how others
 have created modules for programs you are familiar with. Check out the list of
@@ -47,12 +251,3 @@ docker ps -a
 docker stop test
 docker rm test
 ```
-
-
-
-## Testing
-
-After upload we can then test the functionality of the package from an
-end-users' perspective by running `module_test`. This function tries installing
-the package using the online repos, it then tries to import all the module
-functions and running their examples.
