@@ -34,4 +34,7 @@ Imports:
 Suggests:
     testthat (>= 2.0),
     knitr (>= 1.0)
+Remotes:
+    AntonelliLab/outsider.base,
+    AntonelliLab/outsider
 RoxygenNote: 6.1.1
