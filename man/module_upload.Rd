@@ -4,8 +4,12 @@
 \alias{module_upload}
 \title{Upload a module to code sharing site and DockerHub}
 \usage{
-module_upload(flpth = getwd(), code_sharing = TRUE, dockerhub = TRUE,
-  verbose = TRUE)
+module_upload(
+  flpth = getwd(),
+  code_sharing = TRUE,
+  dockerhub = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{flpth}{File path to location of module}
@@ -25,10 +29,12 @@ Look up usernames and other information contained in
 bitbucket) and/or DockerHub.
 }
 \seealso{
-Other build: \code{\link{module_build}},
-  \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}}, \code{\link{module_test}},
-  \code{\link{module_travis}}
+Other build: 
+\code{\link{module_build}()},
+\code{\link{module_check}()},
+\code{\link{module_identities}()},
+\code{\link{module_skeleton}()},
+\code{\link{module_test}()},
+\code{\link{module_travis}()}
 }
 \concept{build}

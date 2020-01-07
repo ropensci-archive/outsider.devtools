@@ -20,6 +20,7 @@ Private repositories will not be discovered. Doesn't work for
 bitbucket.
 }
 \seealso{
-Other git: \code{\link{git_upload}}
+Other git: 
+\code{\link{git_upload}()}
 }
 \concept{git}

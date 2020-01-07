@@ -28,7 +28,7 @@ mdl_pth <- module_skeleton(program_name = 'example', repo_user = 'github_user',
 # (ids <- module_identities(flpth = mdl_pth))
 # # generate .travis.yml
 # module_travis(repo = ids$`GitHub repo`, flpth = mdl_pth)
-# cat(readLines(file.path(mdl_pth, '.travis.yml')), sep = '\\n')
+# cat(readLines(file.path(mdl_pth, '.travis.yml')), sep = '\n')
 # # check the package is formatted correctly
 # module_check(flpth = mdl_pth)
 
@@ -37,9 +37,12 @@ mdl_pth <- module_skeleton(program_name = 'example', repo_user = 'github_user',
 unlink(x = mdl_pth, recursive = TRUE)
 }
 \seealso{
-Other build: \code{\link{module_build}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}}, \code{\link{module_test}},
-  \code{\link{module_travis}}, \code{\link{module_upload}}
+Other build: 
+\code{\link{module_build}()},
+\code{\link{module_identities}()},
+\code{\link{module_skeleton}()},
+\code{\link{module_test}()},
+\code{\link{module_travis}()},
+\code{\link{module_upload}()}
 }
 \concept{build}

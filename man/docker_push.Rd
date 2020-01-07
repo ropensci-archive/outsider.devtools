@@ -23,6 +23,7 @@ Push a Docker image to Docker Hub. Requires a user to have login
 details for Docker Hub, \url{https://hub.docker.com/}.
 }
 \seealso{
-Other docker: \code{\link{docker_build}}
+Other docker: 
+\code{\link{docker_build}()}
 }
 \concept{docker}

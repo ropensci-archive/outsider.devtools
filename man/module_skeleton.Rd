@@ -4,9 +4,15 @@
 \alias{module_skeleton}
 \title{Generate a skeleton for a module}
 \usage{
-module_skeleton(program_name, repo_user = NULL, docker_user = NULL,
-  flpth = getwd(), module_name = NULL, cmd = program_name,
-  service = c("github", "gitlab", "bitbucket"))
+module_skeleton(
+  program_name,
+  repo_user = NULL,
+  docker_user = NULL,
+  flpth = getwd(),
+  module_name = NULL,
+  cmd = program_name,
+  service = c("github", "gitlab", "bitbucket")
+)
 }
 \arguments{
 \item{program_name}{Name of the command-line program.}
@@ -35,10 +41,12 @@ Create all the base files and folders to kickstart the
 development of a new outsider module. Returns file path to new module.
 }
 \seealso{
-Other build: \code{\link{module_build}},
-  \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_test}}, \code{\link{module_travis}},
-  \code{\link{module_upload}}
+Other build: 
+\code{\link{module_build}()},
+\code{\link{module_check}()},
+\code{\link{module_identities}()},
+\code{\link{module_test}()},
+\code{\link{module_travis}()},
+\code{\link{module_upload}()}
 }
 \concept{build}

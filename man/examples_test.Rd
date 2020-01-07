@@ -17,6 +17,7 @@ Return TRUE if all of the outsider module functions successfully
 run.
 }
 \seealso{
-Other testing: \code{\link{test}}
+Other testing: 
+\code{\link{test}()}
 }
 \concept{testing}

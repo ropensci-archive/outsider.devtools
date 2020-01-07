@@ -13,6 +13,7 @@ Commiserate the failing of module tests.
 (Idea borrowed from \code{devtools}.)
 }
 \seealso{
-Other praise: \code{\link{celebrate}}
+Other praise: 
+\code{\link{celebrate}()}
 }
 \concept{praise}

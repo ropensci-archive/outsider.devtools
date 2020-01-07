@@ -33,10 +33,12 @@ repo <- 'dombennett/om..hello.world'
 # module_test(repo = repo, verbose = TRUE)
 }
 \seealso{
-Other build: \code{\link{module_build}},
-  \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}},
-  \code{\link{module_travis}}, \code{\link{module_upload}}
+Other build: 
+\code{\link{module_build}()},
+\code{\link{module_check}()},
+\code{\link{module_identities}()},
+\code{\link{module_skeleton}()},
+\code{\link{module_travis}()},
+\code{\link{module_upload}()}
 }
 \concept{build}

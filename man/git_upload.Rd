@@ -25,6 +25,7 @@ Remote URL is determined to be: code sharing URL + username + R
 package name.
 }
 \seealso{
-Other git: \code{\link{remote_git_exists}}
+Other git: 
+\code{\link{remote_git_exists}()}
 }
 \concept{git}

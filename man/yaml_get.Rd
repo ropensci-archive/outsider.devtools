@@ -16,10 +16,14 @@ list
 Return contents of om.yml
 }
 \seealso{
-Other utils: \code{\link{description_get}},
-  \code{\link{examples_get}}, \code{\link{file_create}},
-  \code{\link{pkgdetails_get}}, \code{\link{pkgnm_get}},
-  \code{\link{string_replace}}, \code{\link{tags_get}},
-  \code{\link{templates_get}}
+Other utils: 
+\code{\link{description_get}()},
+\code{\link{examples_get}()},
+\code{\link{file_create}()},
+\code{\link{pkgdetails_get}()},
+\code{\link{pkgnm_get}()},
+\code{\link{string_replace}()},
+\code{\link{tags_get}()},
+\code{\link{templates_get}()}
 }
 \concept{utils}

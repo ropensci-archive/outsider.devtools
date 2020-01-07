@@ -17,6 +17,7 @@ Login to docker using username. User is prompted to provide
 password.
 }
 \seealso{
-Other docker-private: \code{\link{docker_cmd}}
+Other docker-private: 
+\code{\link{docker_cmd}()}
 }
 \concept{docker-private}

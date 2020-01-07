@@ -3,7 +3,6 @@
 \docType{package}
 \name{outsider.devtools}
 \alias{outsider.devtools}
-\alias{outsider.devtools-package}
 \title{outsider.devtools: Build 'outsider' Modules}
 \description{
 Tools, resources and information for making it easier to build your own

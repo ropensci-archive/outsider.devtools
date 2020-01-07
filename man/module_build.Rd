@@ -4,8 +4,14 @@
 \alias{module_build}
 \title{Build a module}
 \usage{
-module_build(flpth = getwd(), tag = "latest", build_documents = TRUE,
-  build_package = TRUE, build_image = TRUE, verbose = TRUE)
+module_build(
+  flpth = getwd(),
+  tag = "latest",
+  build_documents = TRUE,
+  build_package = TRUE,
+  build_image = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{flpth}{File path to location of module.}
@@ -38,7 +44,7 @@ mdl_pth <- module_skeleton(program_name = 'example', repo_user = 'github_user',
 # (ids <- module_identities(flpth = mdl_pth))
 # # generate .travis.yml
 # module_travis(repo = ids$`GitHub repo`, flpth = mdl_pth)
-# cat(readLines(file.path(mdl_pth, '.travis.yml')), sep = '\\n')
+# cat(readLines(file.path(mdl_pth, '.travis.yml')), sep = '\n')
 # # check the package is formatted correctly
 # module_check(flpth = mdl_pth)
 
@@ -47,9 +53,12 @@ mdl_pth <- module_skeleton(program_name = 'example', repo_user = 'github_user',
 unlink(x = mdl_pth, recursive = TRUE)
 }
 \seealso{
-Other build: \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}}, \code{\link{module_test}},
-  \code{\link{module_travis}}, \code{\link{module_upload}}
+Other build: 
+\code{\link{module_check}()},
+\code{\link{module_identities}()},
+\code{\link{module_skeleton}()},
+\code{\link{module_test}()},
+\code{\link{module_travis}()},
+\code{\link{module_upload}()}
 }
 \concept{build}

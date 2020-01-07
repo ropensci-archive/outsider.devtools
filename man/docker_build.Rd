@@ -22,6 +22,7 @@ Logical
 Build a Docker image through system call.
 }
 \seealso{
-Other docker: \code{\link{docker_push}}
+Other docker: 
+\code{\link{docker_push}()}
 }
 \concept{docker}

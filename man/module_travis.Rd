@@ -21,10 +21,12 @@ repository. These .travis.yml are created with \link{module_skeleton} but
 can also be generated using this function.
 }
 \seealso{
-Other build: \code{\link{module_build}},
-  \code{\link{module_check}},
-  \code{\link{module_identities}},
-  \code{\link{module_skeleton}}, \code{\link{module_test}},
-  \code{\link{module_upload}}
+Other build: 
+\code{\link{module_build}()},
+\code{\link{module_check}()},
+\code{\link{module_identities}()},
+\code{\link{module_skeleton}()},
+\code{\link{module_test}()},
+\code{\link{module_upload}()}
 }
 \concept{build}

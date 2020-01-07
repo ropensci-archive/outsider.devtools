@@ -19,6 +19,7 @@ Test an outsider module by making sure it installs,
 imports and its examples run correctly. Raises an error if a test fails.
 }
 \seealso{
-Other testing: \code{\link{examples_test}}
+Other testing: 
+\code{\link{examples_test}()}
 }
 \concept{testing}

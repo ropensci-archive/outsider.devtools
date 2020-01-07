@@ -20,10 +20,14 @@ character
 For a given character string, replace patterns with values.
 }
 \seealso{
-Other utils: \code{\link{description_get}},
-  \code{\link{examples_get}}, \code{\link{file_create}},
-  \code{\link{pkgdetails_get}}, \code{\link{pkgnm_get}},
-  \code{\link{tags_get}}, \code{\link{templates_get}},
-  \code{\link{yaml_get}}
+Other utils: 
+\code{\link{description_get}()},
+\code{\link{examples_get}()},
+\code{\link{file_create}()},
+\code{\link{pkgdetails_get}()},
+\code{\link{pkgnm_get}()},
+\code{\link{tags_get}()},
+\code{\link{templates_get}()},
+\code{\link{yaml_get}()}
 }
 \concept{utils}

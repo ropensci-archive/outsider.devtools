@@ -20,6 +20,7 @@ Logical
 Safely send commands to Docker. All commands are also echo'd.
 }
 \seealso{
-Other docker-private: \code{\link{docker_login}}
+Other docker-private: 
+\code{\link{docker_login}()}
 }
 \concept{docker-private}

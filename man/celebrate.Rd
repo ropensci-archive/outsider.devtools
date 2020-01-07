@@ -10,6 +10,7 @@ celebrate()
 Celebrate the passing of module tests.
 }
 \seealso{
-Other praise: \code{\link{comfort}}
+Other praise: 
+\code{\link{comfort}()}
 }
 \concept{praise}
