@@ -2,9 +2,32 @@ Package: outsider.devtools
 Type: Package
 Title: Build 'outsider' Modules
 Version: 0.1.0
-Authors@R: person("Dom", "Bennett", role = c("aut", "cre"),
-    email = "dominic.john.bennett@gmail.com",
-    comment = c(ORCID = "0000-0003-2722-1359"))
+Authors@R: c(
+            person("Dom", "Bennett",
+                    role = c("aut", "cre"),
+                    email = "dominic.john.bennett@gmail.com",
+                    comment = c(ORCID = "0000-0003-2722-1359")),
+            person("Hannes", "Hettling",
+                    role = "ctb",
+                    comment = c(ORCID = "0000-0003-4144-2238")),
+            person("Daniele", "Silvestro",
+                    role = "ctb",
+                    comment = c(ORCID = "0000-0003-0100-0961")),
+            person("Rutger", "Vos",
+                    role = "ctb",
+                    comment = c(ORCID = "0000-0001-9254-7318")),
+            person("Alexandre", "Antonelli",
+                    role = "ctb",
+                    comment = c(ORCID = "0000-0003-1842-9297")),
+            person("Anna", "Krystalli",
+                    role = "rev",
+                    email = "annakrystalli@googlemail.com"),
+            person("Daniel", "Nüst",
+                    role = "rev",
+                    email = "daniel.nuest@uni-muenster.de"),
+            person("Bob", "Rudis",
+                    role = "rev",
+                    email = "bob@rud.is"))
 Maintainer: Dom Bennett <dominic.john.bennett@gmail.com>
 Description: Developer functions and resources for building 'outsider' modules.
 License: MIT + file LICENSE
@@ -37,4 +60,4 @@ Suggests:
 Remotes:
     AntonelliLab/outsider.base,
     AntonelliLab/outsider
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
