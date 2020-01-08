@@ -2,9 +2,11 @@
 output: github_document
 ---
 <!--
-README should be used to describe the program. Edit README.Rmd
-not README.md. The .Rmd file can be knitted to parse real-code examples and
-show their output in the .md file.
+The README should be used to describe the program. It acts like the homepage of
+your module.
+
+Edit README.Rmd not README.md. The .Rmd file can be knitted to parse real-code
+examples and show their output in the .md file.
 
 To knit, use devtools::build_readme() or outsider.devtools::build()
 
@@ -28,6 +30,8 @@ knitr::opts_chunk$set(
 # Run `%program_name%` with `outsider` in R
 [![Build Status](https://travis-ci.org/%repo%.svg?branch=master)](https://travis-ci.org/%repo%)
 
+> Summary line of what the program does.
+
 
 <!-- Install information -->
 ## Install and look up help
@@ -39,13 +43,18 @@ module_help(repo = "%repo%")
 ```
 
 <!-- Detailed examples -->
-## A more detailed example
+## A detailed example
 
 <!-- Note: set eval=TRUE to run example and show output -->
 ```{r detailed-example, eval=FALSE, include=TRUE}
 library(outsider)
-%cmd% <- module_import(repo = %repo%)
+%cmd% <- module_import(repo = "%repo%")
 %cmd%(arglist = c('--a', '-more=10', '-complicated=a', 'example.txt'))
+```
+
+<!-- Remove module after running above example -->
+```{r uninstall-snippet, eval=TRUE, include=FALSE}
+module_uninstall(repo = "%repo%")
 ```
 
 ### Key arguments
@@ -59,14 +68,16 @@ Describe key arguments and show program output. E.g. in table format.
 |complicated|-complicated=[a-z]|Run [a-z]|
 |Output file|Final argument|Where to storeoutput|
 
-### 
+## Links
 
 Find out more by visiting the [%program_name%'s homepage](www.external_program.org)
 
-## %program_name% Reference(s)
+## Please cite
 
-Smith, J. et al. (2020) A program that be made into an outsider module.
-*Journal of Outsider Modules*
+* Smith, J. et al. (2020) %program_name% reference. *Journal of Outsider
+Modules*
+* Bennett et al. (2020). outsider: Install and run programs, outside of R,
+inside of R. *Journal of Open Source Software*, In review
 
 
 <!-- Footer -->
