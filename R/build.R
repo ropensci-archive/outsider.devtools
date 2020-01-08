@@ -228,6 +228,7 @@ module_build <- function(flpth = getwd(), tag = 'latest',
     cat_line(cli::rule())
     devtools::build_readme(path = flpth, quiet = !verbose)
   }
+  invisible(TRUE)
 }
 
 #' @name module_test
