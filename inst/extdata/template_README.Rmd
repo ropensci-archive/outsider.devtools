@@ -1,0 +1,79 @@
+---
+output: github_document
+---
+<!--
+README should be used to describe the program. Edit README.Rmd
+not README.md. The .Rmd file can be knitted to parse real-code examples and
+show their output in the .md file.
+
+To knit, use devtools::build_readme() or outsider.devtools::build()
+
+Edit the template to describe your program: how to install, import and run;
+run exemplary, small demonstrations; present key arguments; provide links and
+references to the program that the module wraps.
+
+Learn more about markdown and Rmarkdown:
+https://daringfireball.net/projects/markdown/syntax
+https://rmarkdown.rstudio.com/
+-->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# Run `%program_name%` with `outsider` in R
+[![Build Status](https://travis-ci.org/%repo%.svg?branch=master)](https://travis-ci.org/%repo%)
+
+
+<!-- Install information -->
+## Install and look up help
+
+```{r install-snippet, eval=FALSE, include=TRUE}
+library(outsider)
+module_install(repo = "%repo%")
+module_help(repo = "%repo%")
+```
+
+<!-- Detailed examples -->
+## A more detailed example
+
+<!-- Note: set eval=TRUE to run example and show output -->
+```{r detailed-example, eval=FALSE, include=TRUE}
+library(outsider)
+%cmd% <- module_import(repo = %repo%)
+%cmd%(arglist = c('--a', '-more=10', '-complicated=a', 'example.txt'))
+```
+
+### Key arguments
+
+Describe key arguments and show program output. E.g. in table format.
+
+|Argument|Usage|Description|
+|--------|-----|-----------|
+|a       |--a  |Runs "a" method|
+|more    |-more=#  |Run # more|
+|complicated|-complicated=[a-z]|Run [a-z]|
+|Output file|Final argument|Where to storeoutput|
+
+### 
+
+Find out more by visiting the [%program_name%'s homepage](www.external_program.org)
+
+## %program_name% Reference(s)
+
+Smith, J. et al. (2020) A program that be made into an outsider module.
+*Journal of Outsider Modules*
+
+
+<!-- Footer -->
+---
+
+<img align="left" width="120" height="125" src="https://raw.githubusercontent.com/AntonelliLab/outsider/master/logo.png">
+
+**An `outsider` module**
+
+Learn more at [outsider website](https://antonellilab.github.io/outsider/). Want to build your own module? Check out [`outsider.devtools` website](https://antonellilab.github.io/outsider.devtools/).

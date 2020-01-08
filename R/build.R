@@ -47,6 +47,7 @@ module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
   if (is.null(repo_user)) {
     repo_info <- '#github:\n#url:'
     repo <- package_name
+    url <- ''
   } else {
     url <- switch(service, github = paste0('https://github.com/', repo_user,
                                            '/', package_name),
@@ -58,7 +59,7 @@ module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
     repo <- paste0(repo_user, '/', package_name)
   }
   values <- mget(c('repo_info', 'package_name', 'r_version', 'docker_info',
-                   'program_name', 'cmd', 'repo'))
+                   'program_name', 'cmd', 'repo', 'url'))
   patterns <- paste0('%', names(values), '%')
   templates <- templates_get()
   for (i in seq_along(templates)) {
@@ -176,6 +177,7 @@ module_check <- function(flpth = getwd()) {
 #' @param build_documents Build R documentation? T/F
 #' @param build_package Build R package? T/F
 #' @param build_image Build Docker image? T/F
+#' @param build_readme Build README.md? T/F
 #' @param verbose Be verbose? T/F
 #' @return Logical
 #' @family build
@@ -183,7 +185,8 @@ module_check <- function(flpth = getwd()) {
 #' @example examples/module_build.R
 module_build <- function(flpth = getwd(), tag = 'latest',
                          build_documents = TRUE, build_package = TRUE,
-                         build_image = TRUE, verbose = TRUE) {
+                         build_image = TRUE, build_readme = TRUE,
+                         verbose = TRUE) {
   if (build_image & is.null(tag)) {
     stop(paste0(char('tag'), ' must be provided if ', char('build_image'),
                 ' is TRUE'))
@@ -218,6 +221,12 @@ module_build <- function(flpth = getwd(), tag = 'latest',
     cat_line(cli::rule())
     docker_build(img = img, tag = tag, url_or_path = dockerfile,
                  verbose = verbose)
+  }
+  if(build_readme) {
+    cat_line(cli::rule())
+    cat_line('Running ', func('devtools::build_readme'), ' ...')
+    cat_line(cli::rule())
+    devtools::build_readme(path = flpth, quiet = !verbose)
   }
 }
 

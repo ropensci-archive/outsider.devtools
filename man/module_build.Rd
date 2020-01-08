@@ -10,6 +10,7 @@ module_build(
   build_documents = TRUE,
   build_package = TRUE,
   build_image = TRUE,
+  build_readme = TRUE,
   verbose = TRUE
 )
 }
@@ -23,6 +24,8 @@ module_build(
 \item{build_package}{Build R package? T/F}
 
 \item{build_image}{Build Docker image? T/F}
+
+\item{build_readme}{Build README.md? T/F}
 
 \item{verbose}{Be verbose? T/F}
 }

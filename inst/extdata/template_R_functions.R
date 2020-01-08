@@ -3,6 +3,7 @@
 #' @description Run %program_name%
 #' @param ... Arguments
 #' @example /examples/example.R
+#' @details Find more help online \url{%url%}.
 #' @export
 %program_name% <- function(...) {
   # convert the ... into a argument list
