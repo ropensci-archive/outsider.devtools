@@ -44,7 +44,6 @@ Imports:
     outsider.base,
     withr (>= 2.0),
     praise,
-    roxygen2,
     yaml,
     httr,
     callr,
@@ -56,7 +55,9 @@ Imports:
     devtools
 Suggests:
     testthat (>= 2.0),
-    knitr (>= 1.0)
+    knitr (>= 1.0),
+    rmarkdown,
+    roxygen2
 Remotes:
     AntonelliLab/outsider.base,
     AntonelliLab/outsider

@@ -84,7 +84,8 @@ pkgdetails_get <- function(flpth) {
 #' @return character vector
 #' @family utils
 templates_get <- function() {
-  fls <- list.files(path = system.file("extdata", package = "outsider.devtools"),
+  fls <- list.files(path = system.file("extdata",
+                                       package = "outsider.devtools"),
                     pattern = 'template_')
   templates <- vector(mode = 'list', length = length(fls))
   destpths <- sub(pattern = 'template_', replacement = '', x = fls)
