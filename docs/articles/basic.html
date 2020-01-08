@@ -13,8 +13,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Basic: Module Building">
 <meta property="og:description" content="">
@@ -62,7 +62,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/antonellilab/outsider.devtools">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -111,13 +118,14 @@
             - Dockerfile
     - om.yaml
 - README.md
+- README.Rmd
 - .travis.yml</code></pre>
 <p><em>R files and folders</em></p>
 <p>The R package is determined by the <code>DESCRIPTION</code> file and the <code>R/</code> folder. The first of these describes the package details (package name, author, dependencies, etc.) and the second contains the R code that makes up the package. The <code>R/</code> folder can have any number of scripts with whatever names a developer chooses (skeleton default <code>functions.R</code> and <code>import.R</code>).</p>
 <p><em>Docker files and folders</em></p>
 <p>The <code>outsider</code> package and its modules depend on Docker to run. Docker acts like a virtual machine on a user’s computer. It allows users to run specific code, often designed for different operating systems, on any machine that has Docker installed. These code snippets are called Docker images. And these images are described by a <code>Dockerfile</code>. The <code>dockerfiles/</code> folder in the module contains the <code>Dockerfile</code> that describes how to install the external command-line program that the develop wishes to run through R. <code>dockerfiles/</code> can have multiple versions of a <code>Dockerfile</code> but every module must have a <code>latest/</code>.</p>
 <p><em>GitHub files and folders</em></p>
-<p>To make modules discoverable on GitHub, all modules require an <code>om.yml</code>. This file has two elements (program and details) encoded in the <a href="https://en.wikipedia.org/wiki/YAML">YAML format</a>. In addition, the module has a <code>README.md</code> file that provides the text describing the module on the module’s GitHub homepage and a <code>.travis.yml</code> that provides instructions detailing how the module should be tested on <a href="https://en.wikipedia.org/wiki/Travis_CI">Travis-CI</a>.</p>
+<p>To make modules discoverable on GitHub, all modules require an <code>om.yml</code>. This file has two elements (program and details) encoded in the <a href="https://en.wikipedia.org/wiki/YAML">YAML format</a>. In addition, the module has a <code>README.md</code> file that provides the text describing the module on the module’s GitHub (or other code-sharing site) homepage. <code>.md</code> format is like a simplified HTML. It can be generated by hand or – by default with <code>outsider.devtools</code> – it can be rendered from a <code>.Rmd</code> file, in this case <code>README.Rmd</code>. The advantage of the <code>.Rmd</code>-approach is that R code chunks are parsed and their output is then included in the <code>.md</code> version of the file. This allows users to better understand the code as they can directly see the output. Finally, a <code>.travis.yml</code> provides instructions detailing how the module should be tested on <a href="https://en.wikipedia.org/wiki/Travis_CI">Travis-CI</a>.</p>
 </div>
 </div>
 <div id="walkthrough" class="section level1">
@@ -129,28 +137,28 @@
 <a href="#generate-the-files-and-folders" class="anchor"></a>Generate the files and folders</h2>
 <p>As displayed above, we need to generate the core files and folders of a module. This process can be easily performed using the <code><a href="../reference/module_skeleton.html">module_skeleton()</a></code> function. This function takes a few details about the developer and the program and then generates all the necessary core file structures.</p>
 <p>The necessary information required for the function to run are our GitHub and Docker Hub usernames plus the name for the program we wish to provide as a module (which is <code>echo</code> – a UNIX command for printing). In these code snippets, the usernames are of the <code>outsider</code> maintainer. In order for these examples to work for you, you will need to change “dombennett” to your own usernames. (Note, your usernames may differ for GitHub and Docker Hub).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
-flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'echo'</span>,
-                         <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),
-                         <span class="dt">service =</span> <span class="st">'github'</span>)
-<span class="co"># folder name where module is stored</span>
-<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(flpth))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'echo'</span>,</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">                         <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">                         <span class="dt">service =</span> <span class="st">'github'</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># folder name where module is stored</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(flpth))</a></code></pre></div>
 <pre><code>## [1] "om..echo"</code></pre>
 <p>The above code will create an <code>outsider</code> module with the name <code>om..echo</code>. After running the above code, you should take a minute to inspect the generated files. In particular you should look at the <code>DESCRIPTION</code> file, the <code>Dockerfile</code> and <code>functions.R</code>.</p>
 <blockquote>
 <p><strong>Why <code>om..echo</code>?</strong> All modules must start with “om..” in order for them to be discovered on GitHub. This is not a requirement for the functioning of the module, it just means <code><a href="https://rdrr.io/pkg/outsider/man/module_search.html">outsider::module_search()</a></code> can find them.</p>
 </blockquote>
 <p>At this stage, we would then edit the <code>inst/dockerfiles/latest/Dockerfile</code> and the <code>R/functions.R</code> to work for our chosen external program. But because <code>echo</code> – the program we wish to port through <code>outsider</code> – is so simple we don’t actually have to make any changes to these files. By default, the <code>Dockerfile</code> is based on Ubuntu which ships with <code>echo</code> and our starting function in <code>functions.R</code> is based around running <code>echo</code>: it parses the arguments, creates an outsider object, and then launches the object.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The echo function in om..echo</span>
-echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
-  <span class="co"># convert the ... into an argument list</span>
-  arglist &lt;-<span class="st"> </span><span class="kw">arglist_get</span>(...)
-  <span class="co"># create an outsider object: describe the arguments and program</span>
-  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..echo'</span>,
-                         <span class="dt">cmd =</span> <span class="st">'echo'</span>, <span class="dt">arglist =</span> arglist)
-  <span class="co"># run the command</span>
-  <span class="kw">run</span>(otsdr)
-}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># The echo function in om..echo</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="co"># convert the ... into an argument list</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  arglist &lt;-<span class="st"> </span><span class="kw">arglist_get</span>(...)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="co"># create an outsider object: describe the arguments and program</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..echo'</span>,</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">                         <span class="dt">cmd =</span> <span class="st">'echo'</span>, <span class="dt">arglist =</span> arglist)</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="co"># run the command</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">  <span class="kw">run</span>(otsdr)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">}</a></code></pre></div>
 <blockquote>
 <p><strong>What’s <code>...</code>?</strong> In function calls in R, <code>...</code> indicate that any number of arguments can be provided to a function. The <code>arglist_get</code> function will take the <code>...</code> and convert them into a character vector that can be parsed. <code>outsider</code> recommends module functions make use of this feature so that any number of arguments can be passed to external programs. Additionally, the developer would then not need to document all the arguments of the external program. For many external programs there may be hundreds of arguments, all of which are likely to be already documented; viewable through commands like <code>-h</code> or <code>--help</code>.</p>
 </blockquote>
@@ -159,25 +167,25 @@ echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
 <h2 class="hasAnchor">
 <a href="#building-the-r-package" class="anchor"></a>Building the R package</h2>
 <p>With the skeleton set-up, we can now install the R package using <code><a href="../reference/module_build.html">module_build()</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">build_documents =</span> <span class="ot">TRUE</span>, <span class="dt">build_package =</span> <span class="ot">TRUE</span>,
-             <span class="dt">build_image =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">build_documents =</span> <span class="ot">TRUE</span>, <span class="dt">build_package =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">             <span class="dt">build_image =</span> <span class="ot">FALSE</span>, <span class="dt">build_readme =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::document() ...
-## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Updating om..echo documentation</code></pre>
 <pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
-<pre><code>## Updating roxygen version in /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmp2QyGYT/om..echo/DESCRIPTION</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpamtnHh/om..echo/DESCRIPTION</code></pre>
 <pre><code>## Writing NAMESPACE</code></pre>
 <pre><code>## Loading om..echo</code></pre>
 <pre><code>## Writing NAMESPACE
 ## Writing echo.Rd
-## ────────────────────────────────────────────────────────────────────────────────────
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::install() ...
-## ────────────────────────────────────────────────────────────────────────────────────
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##   
-   checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmp2QyGYT/om..echo/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpamtnHh/om..echo/DESCRIPTION’ ...
   
-✔  checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/Rtmp2QyGYT/om..echo/DESCRIPTION’ (373ms)
+✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpamtnHh/om..echo/DESCRIPTION’
 ## 
   
 ─  preparing ‘om..echo’:
@@ -185,7 +193,7 @@ echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
   
    checking DESCRIPTION meta-information ...
   
-✔  checking DESCRIPTION meta-information
+✓  checking DESCRIPTION meta-information
 ## 
   
 ─  checking for LF line-endings in source and make files and shell scripts
@@ -197,14 +205,12 @@ echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {
 ─  building ‘om..echo_0.0.1.tar.gz’
 ## 
   
-   Warning: invalid uid value replaced by that for user 'nobody'
-##    Warning: invalid gid value replaced by that for user 'nobody'
-##    
+   
 ## 
 Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T//Rtmp2QyGYT/om..echo_0.0.1.tar.gz \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpamtnHh/om..echo_0.0.1.tar.gz \
 ##   --install-tests 
-## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp8IKuDm/temp_libpath21c268b17096’
 ## * installing *source* package ‘om..echo’ ...
 ## ** using staged installation
 ## ** R
@@ -216,7 +222,109 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## ** testing if installed package can be loaded from temporary location
 ## ** testing if installed package can be loaded from final location
 ## ** testing if installed package keeps a record of temporary installation path
-## * DONE (om..echo)</code></pre>
+## * DONE (om..echo)
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::build_readme() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Building om..echo readme</code></pre>
+<pre><code>##   
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpamtnHh/om..echo/DESCRIPTION’ ...
+  
+[32m✓[39m  [90mchecking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpamtnHh/om..echo/DESCRIPTION’[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mpreparing ‘om..echo’:[39m[36m[39m
+## 
+  
+   checking DESCRIPTION meta-information ...
+  
+[32m✓[39m  [90mchecking DESCRIPTION meta-information[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mchecking for LF line-endings in source and make files and shell scripts[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mchecking for empty or unneeded directories[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mbuilding ‘om..echo_0.0.1.tar.gz’[39m[36m[39m
+## 
+  
+   
+## 
+Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpTXImQa/om..echo_0.0.1.tar.gz \
+##   --install-tests 
+## [31m* installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpTXImQa/temp_libpath334b46063060’
+## [39m[31m* installing *source* package ‘om..echo’ ...
+## [39m[31m** using staged installation
+## [39m[31m** R
+## [39m[31m** inst
+## [39m[31m** byte-compile and prepare package for lazy loading
+## [39m[31m** help
+## [39m[31m*** installing help indices
+## [39m[31m** building package indices
+## [39m[31m** testing if installed package can be loaded from temporary location
+## [39m[31m** testing if installed package can be loaded from final location
+## [39m[31m** testing if installed package keeps a record of temporary installation path
+## [39m[31m* DONE (om..echo)
+## [39m
+## 
+## processing file: README.Rmd
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |..........                                                            |  14%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |....................                                                  |  29%
+## label: unnamed-chunk-1 (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+## 
+  |                                                                            
+  |..............................                                        |  43%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |........................................                              |  57%
+## label: install-snippet (with options) 
+## List of 2
+##  $ eval   : logi FALSE
+##  $ include: logi TRUE
+## 
+## 
+  |                                                                            
+  |..................................................                    |  71%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |............................................................          |  86%
+## label: detailed-example (with options) 
+## List of 2
+##  $ eval   : logi FALSE
+##  $ include: logi TRUE
+## 
+## 
+  |                                                                            
+  |......................................................................| 100%
+##   ordinary text without R code
+## 
+## 
+## output file: README.knit.md
+## 
+## /Applications/RStudio.app/Contents/MacOS/pandoc/pandoc +RTS -K512m -RTS README.utf8.md --to gfm --from markdown+autolink_bare_uris+tex_math_single_backslash --output README.md --standalone --template /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/default.md 
+## /Applications/RStudio.app/Contents/MacOS/pandoc/pandoc +RTS -K512m -RTS README.md --to html4 --from gfm --output README.html --standalone --self-contained --highlight-style pygments --template /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/preview.html --variable 'github-markdown-css:/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/github.css' --email-obfuscation none --metadata pagetitle=PREVIEW 
+## 
+## Preview created: README.html
+## 
+## Output created: README.md</code></pre>
 <blockquote>
 <p><strong>What does <code>build_documents = TRUE</code> do?</strong> In addition to the core files indicated above, an R package also requires R documentation files that are stored in <code>man/</code> – these provide the <code>?[function]</code> utility. The above function generates these files via <a href="https://github.com/klutometis/roxygen"><code>roxygen</code></a> comments and tags located in the R scripts that make up the package, i.e. all comments that begin <code>#'</code>. For more information, look up “object documentation in R”.</p>
 </blockquote>
@@ -240,30 +348,131 @@ WORKDIR /working_dir</code></pre>
 <p><strong>What’s the WORKDIR?</strong> The WORKDIR sets the starting directory when a command is passed to the Docker image. All <code>outsider</code> modules require this to be “working_dir” as it allows <code>outsider</code> functions to know where to transfer files to and from the container/virtual machine.</p>
 </blockquote>
 <p>Using our Dockerfile that has been preloaded with the installed R package, we can now build our Docker image using <code><a href="../reference/module_build.html">module_build()</a></code>. (In practice, we’d combine steps 2 and 3 by calling <code>module_build</code> and setting all the build arguments to TRUE.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">tag =</span> <span class="st">'latest'</span>, <span class="dt">build_image =</span> <span class="ot">TRUE</span>,
-             <span class="dt">build_documents =</span> <span class="ot">FALSE</span>, <span class="dt">build_package =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">tag =</span> <span class="st">'latest'</span>, <span class="dt">build_image =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">             <span class="dt">build_documents =</span> <span class="ot">FALSE</span>, <span class="dt">build_package =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<pre><code>## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Running docker_build()
-## ────────────────────────────────────────────────────────────────────────────────────
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Command:
-## docker build -t dombennett/om_echo:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..echo/dockerfiles/latest
-## ....................................................................................
+## docker build -t dombennett/om_echo:latest /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp8IKuDm/temp_libpath21c268b17096/om..echo/dockerfiles/latest
+## .....................................................................................................................
 ## Sending build context to Docker daemon  2.048kB
 
 
 ## Step 1/3 : FROM ubuntu:latest
-##  ---&gt; 93fd78260bd1
+##  ---&gt; 549b9b86cb8d
 ## Step 2/3 : RUN mkdir /working_dir
-##  ---&gt; Running in bd1d3137a5b9
-## Removing intermediate container bd1d3137a5b9
-##  ---&gt; dce5335e916c
+##  ---&gt; Running in 835a031a7a2f
+## Removing intermediate container 835a031a7a2f
+##  ---&gt; f90897dcce93
 ## Step 3/3 : WORKDIR /working_dir
-##  ---&gt; Running in 87c853334ee2
-## Removing intermediate container 87c853334ee2
-##  ---&gt; 27ffe19c062b
-## Successfully built 27ffe19c062b
-## Successfully tagged dombennett/om_echo:latest</code></pre>
-<pre><code>## [1] TRUE</code></pre>
+##  ---&gt; Running in bedc85617bb4
+## Removing intermediate container bedc85617bb4
+##  ---&gt; b61bd45480ac
+## Successfully built b61bd45480ac
+## Successfully tagged dombennett/om_echo:latest
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::build_readme() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Building om..echo readme</code></pre>
+<pre><code>##   
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpamtnHh/om..echo/DESCRIPTION’ ...
+  
+[32m✓[39m  [90mchecking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpamtnHh/om..echo/DESCRIPTION’[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mpreparing ‘om..echo’:[39m[36m[39m
+## 
+  
+   checking DESCRIPTION meta-information ...
+  
+[32m✓[39m  [90mchecking DESCRIPTION meta-information[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mchecking for LF line-endings in source and make files and shell scripts[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mchecking for empty or unneeded directories[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mbuilding ‘om..echo_0.0.1.tar.gz’[39m[36m[39m
+## 
+  
+   
+## 
+Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//Rtmppg4qKe/om..echo_0.0.1.tar.gz \
+##   --install-tests 
+## [31m* installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmppg4qKe/temp_libpath339b446e4720’
+## [39m[31m* installing *source* package ‘om..echo’ ...
+## [39m[31m** using staged installation
+## [39m[31m** R
+## [39m[31m** inst
+## [39m[31m** byte-compile and prepare package for lazy loading
+## [39m[31m** help
+## [39m[31m*** installing help indices
+## [39m[31m** building package indices
+## [39m[31m** testing if installed package can be loaded from temporary location
+## [39m[31m** testing if installed package can be loaded from final location
+## [39m[31m** testing if installed package keeps a record of temporary installation path
+## [39m[31m* DONE (om..echo)
+## [39m
+## 
+## processing file: README.Rmd
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |..........                                                            |  14%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |....................                                                  |  29%
+## label: unnamed-chunk-1 (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+## 
+  |                                                                            
+  |..............................                                        |  43%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |........................................                              |  57%
+## label: install-snippet (with options) 
+## List of 2
+##  $ eval   : logi FALSE
+##  $ include: logi TRUE
+## 
+## 
+  |                                                                            
+  |..................................................                    |  71%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |............................................................          |  86%
+## label: detailed-example (with options) 
+## List of 2
+##  $ eval   : logi FALSE
+##  $ include: logi TRUE
+## 
+## 
+  |                                                                            
+  |......................................................................| 100%
+##   ordinary text without R code
+## 
+## 
+## output file: README.knit.md
+## 
+## /Applications/RStudio.app/Contents/MacOS/pandoc/pandoc +RTS -K512m -RTS README.utf8.md --to gfm --from markdown+autolink_bare_uris+tex_math_single_backslash --output README.md --standalone --template /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/default.md 
+## /Applications/RStudio.app/Contents/MacOS/pandoc/pandoc +RTS -K512m -RTS README.md --to html4 --from gfm --output README.html --standalone --self-contained --highlight-style pygments --template /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/preview.html --variable 'github-markdown-css:/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/github.css' --email-obfuscation none --metadata pagetitle=PREVIEW 
+## 
+## Preview created: README.html
+## 
+## Output created: README.md</code></pre>
 <blockquote>
 <p><strong>What is a tag?</strong> A Docker tag is akin to the version number of the image. By default, if no tag is provided, Docker will use ‘latest’.</p>
 </blockquote>
@@ -275,14 +484,14 @@ WORKDIR /working_dir</code></pre>
 <h2 class="hasAnchor">
 <a href="#try-the-module-" class="anchor"></a>Try the module.</h2>
 <p>With a Docker image and an installed R package we are now ready to try out the module before we upload it online.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider)</a></code></pre></div>
 <pre><code>## ----------------
 ## outsider v 0.1.0
 ## ----------------
 ## - Security notice: be sure of which modules you install</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># the repo always refers to the future github repo</span>
-echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_import.html">module_import</a></span>(<span class="st">'echo'</span>, <span class="dt">repo =</span> <span class="st">'dombennett/om..echo'</span>)
-<span class="kw">echo</span>(<span class="st">'hello world!'</span>)</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># the repo always refers to the future github repo</span></a>
+<a class="sourceLine" id="cb22-2" data-line-number="2">echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_import.html">module_import</a></span>(<span class="st">'echo'</span>, <span class="dt">repo =</span> <span class="st">'dombennett/om..echo'</span>)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">echo</span>(<span class="st">'hello world!'</span>)</a></code></pre></div>
 <pre><code>## hello world!</code></pre>
 </div>
 <div id="upload-to-github-and-docker-hub" class="section level2">
@@ -290,19 +499,19 @@ echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg
 <a href="#upload-to-github-and-docker-hub" class="anchor"></a>Upload to GitHub and Docker Hub</h2>
 <p>After we have played with the module and ensured it works as we would hope, we can upload it to our GitHub and Docker accounts so that others may download it.</p>
 <p>To upload to GitHub we must first create a version of the repository online. Visit your GitHub account and then create a new repository by clicking <code>Repositories &gt; New</code>. Ensure to name the online version with the same name as your module, i.e. <code>om..echo</code>. (No initial steps are required to upload to Docker-Hub.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># based on the module details, the function will determine which code-sharing</span>
-<span class="co"># service to upload to</span>
-<span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># based on the module details, the function will determine which code-sharing</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co"># service to upload to</span></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <hr>
 <p><strong>Delete it all</strong></p>
 <p>Don’t want <code>om..echo</code> on your computer? Delete it so …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># to delete the Docker image and uninstall the R package</span>
-<span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'dombennett/om..echo'</span>)</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># to delete the Docker image and uninstall the R package</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'dombennett/om..echo'</span>)</a></code></pre></div>
 <pre><code>## Removing 'om..echo'</code></pre>
-<pre><code>## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
+<pre><code>## Removing package from '/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp8IKuDm/temp_libpath21c268b17096'
 ## (as 'lib' is unspecified)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># to delete the repo folder</span>
-<span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># to delete the repo folder</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <hr>
 </div>
 <div id="next-up-intermediate" class="section level2">
@@ -313,7 +522,7 @@ echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
         <div id="tocnav">
       <h2 class="hasAnchor">
@@ -331,9 +540,7 @@ echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg
       <li><a href="#creatingbuilding-the-docker-image">Creating/Building the Docker image</a></li>
       <li><a href="#try-the-module-">Try the module.</a></li>
       <li><a href="#upload-to-github-and-docker-hub">Upload to GitHub and Docker Hub</a></li>
-      <li>
-<a href="#next-up-intermediate">Next-up: </a><a href="https://antonellilab-github-io/outsider-devtools/articles/intermediate-html">Intermediate</a>
-</li>
+      <li><a href="#next-up-intermediate">Next-up: <span>Intermediate</span></a></li>
       </ul>
 </li>
       </ul>
@@ -349,7 +556,7 @@ echo &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>

@@ -101,7 +101,7 @@ cat(dockerfile_text, file = file.path(flpth, 'inst', 'dockerfiles', 'latest',
                                       'Dockerfile'))
 ```
 
-Dockerfile defined. What should are R function be?
+Dockerfile defined. What should our R function be?
 
 ```{r function-definition, eval=FALSE, include=TRUE}
 #' @name raxml
@@ -214,9 +214,11 @@ After you have built a module that passes its tests and is available for
 download, there are a few extra things to consider:
 
 * **Update the `om.yml`** Add a more detailed description
-* **Update the README** The default `README.md` is very bland. Maybe it needs
-more examples for your module? Also, shouldn't you have a link to the original
-program?
+* **Update the README** The default README is very bland. It provides a template
+for what sorts of things a good README should contain: installation, how to run,
+where to get more help. Remember to only edit the `README.Rmd`. To update the
+`README.md` for GitHub, you need to "knit" the `.Rmd` file by running
+`devtools::build_readme()` -- this is the function `module_build()` runs.
 * **Ensure discoverability** `outsider::module_search` can find `outsider`
 module repos on GitHub if they have and `om.yml`, have name in the form `om..`
 and have the phrase `outsider-module: ` in their description.

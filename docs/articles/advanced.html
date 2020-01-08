@@ -13,8 +13,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Advanced: Building a module">
 <meta property="og:description" content="">
@@ -62,7 +62,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/antonellilab/outsider.devtools">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -130,91 +137,91 @@
 <h2 class="hasAnchor">
 <a href="#building" class="anchor"></a>Building</h2>
 <p>As before, let’s just jump right in with the module skeleton.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)
-flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'raxml'</span>,
-                         <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),
-                         <span class="dt">service =</span> <span class="st">'github'</span>)
-<span class="co"># folder name where module is stored</span>
-<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(flpth))</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(outsider.devtools)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">flpth &lt;-<span class="st"> </span><span class="kw"><a href="../reference/module_skeleton.html">module_skeleton</a></span>(<span class="dt">repo_user =</span> <span class="st">'dombennett'</span>, <span class="dt">program_name =</span> <span class="st">'raxml'</span>,</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">                         <span class="dt">docker_user =</span> <span class="st">'dombennett'</span>, <span class="dt">flpth =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">                         <span class="dt">service =</span> <span class="st">'github'</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># folder name where module is stored</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/basename.html">basename</a></span>(flpth))</a></code></pre></div>
 <pre><code>## [1] "om..raxml"</code></pre>
 <p>Next, the Dockerfile. This is a much more complicated installation process. First we require the apt programs <code>wget</code>, <code>make</code> and <code>gcc</code> to download the program and compile it. Then we need to download and compile the program. The majority of the Dockerfile contents can be found in the installation instructions of the <a href="https://github.com/stamatak/standard-RAxML#readme">RAxML GitHub site</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dockerfile_text &lt;-<span class="st"> "</span>
-<span class="st">FROM ubuntu:latest</span>
-<span class="st">RUN apt-get update &amp;&amp; apt-get install -y \</span>
-<span class="st">    wget make gcc</span>
-<span class="st"># 8.2 for this demonstration</span>
-<span class="st">RUN wget https://github.com/stamatak/standard-RAxML/archive/v8.2.12.tar.gz &amp;&amp; \</span>
-<span class="st">    tar zxvf v8.2.12.tar.gz &amp;&amp; \</span>
-<span class="st">    rm v8.2.12.tar.gz &amp;&amp; \</span>
-<span class="st">    mv standard-RAxML-8.2.12 raxml</span>
-<span class="st">RUN cd /raxml &amp;&amp; make -f Makefile.SSE3.PTHREADS.gcc &amp;&amp; \</span>
-<span class="st">    rm *.o &amp;&amp; cp raxmlHPC-PTHREADS-SSE3 /usr/bin/.</span>
-<span class="st">RUN mkdir /working_dir</span>
-<span class="st">WORKDIR /working_dir</span>
-<span class="st">"</span>
-<span class="co"># write to latest Dockerfile</span>
-<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(dockerfile_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'inst'</span>, <span class="st">'dockerfiles'</span>, <span class="st">'latest'</span>,
-                                      <span class="st">'Dockerfile'</span>))</code></pre></div>
-<p>Dockerfile defined. What should are R function be?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#' @name raxml</span>
-<span class="co">#' @title raxml</span>
-<span class="co">#' @description Run raxml</span>
-<span class="co">#' @param arglist Arguments to raxml provided as a character vector</span>
-<span class="co">#' @param outdir Filepath to where all output files should be returned.</span>
-<span class="co">#' @example examples/example.R</span>
-<span class="co">#' @export</span>
-raxml &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">arglist =</span> <span class="kw">arglist_get</span>(...), <span class="dt">outdir =</span> <span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>()) {
-  files_to_send &lt;-<span class="st"> </span><span class="kw">filestosend_get</span>(arglist)
-  arglist &lt;-<span class="st"> </span><span class="kw">arglist_parse</span>(arglist)
-  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..raxml'</span>, <span class="dt">cmd =</span> <span class="st">'raxmlHPC-PTHREADS-SSE3'</span>,
-                         <span class="dt">wd =</span> outdir, <span class="dt">files_to_send =</span> files_to_send,
-                         <span class="dt">arglist =</span> arglist)
-  <span class="kw">run</span>(otsdr)
-}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">dockerfile_text &lt;-<span class="st"> "</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">FROM ubuntu:latest</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">RUN apt-get update &amp;&amp; apt-get install -y \</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">    wget make gcc</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st"># 8.2 for this demonstration</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="st">RUN wget https://github.com/stamatak/standard-RAxML/archive/v8.2.12.tar.gz &amp;&amp; \</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="st">    tar zxvf v8.2.12.tar.gz &amp;&amp; \</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="st">    rm v8.2.12.tar.gz &amp;&amp; \</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="st">    mv standard-RAxML-8.2.12 raxml</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="st">RUN cd /raxml &amp;&amp; make -f Makefile.SSE3.PTHREADS.gcc &amp;&amp; \</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="st">    rm *.o &amp;&amp; cp raxmlHPC-PTHREADS-SSE3 /usr/bin/.</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="st">RUN mkdir /working_dir</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="st">WORKDIR /working_dir</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="st">"</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co"># write to latest Dockerfile</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(dockerfile_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'inst'</span>, <span class="st">'dockerfiles'</span>, <span class="st">'latest'</span>,</a>
+<a class="sourceLine" id="cb4-17" data-line-number="17">                                      <span class="st">'Dockerfile'</span>))</a></code></pre></div>
+<p>Dockerfile defined. What should our R function be?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">#' @name raxml</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#' @title raxml</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#' @description Run raxml</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#' @param arglist Arguments to raxml provided as a character vector</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#' @param outdir Filepath to where all output files should be returned.</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#' @example examples/example.R</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#' @export</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">raxml &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">arglist =</span> <span class="kw">arglist_get</span>(...), <span class="dt">outdir =</span> <span class="kw"><a href="https://rdrr.io/r/base/getwd.html">getwd</a></span>()) {</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  files_to_send &lt;-<span class="st"> </span><span class="kw">filestosend_get</span>(arglist)</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  arglist &lt;-<span class="st"> </span><span class="kw">arglist_parse</span>(arglist)</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..raxml'</span>, <span class="dt">cmd =</span> <span class="st">'raxmlHPC-PTHREADS-SSE3'</span>,</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">                         <span class="dt">wd =</span> outdir, <span class="dt">files_to_send =</span> files_to_send,</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">                         <span class="dt">arglist =</span> arglist)</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">  <span class="kw">run</span>(otsdr)</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">}</a></code></pre></div>
 <p>In this function, input and output files are intermixed in the arguments passed to RAxML. To determine what is a file that should be sent to the container from a normal argument, we have <code>filestosend_get</code>. This function goes through all the provided arguments to check for any files (it tests whether they are valid file paths) and returns them as a character vector to <code>files_to_send</code>. Then we have <code>arglist_parse</code>, this converts all given arguments to their basename so that absolute filepaths are dropped. All input files will be passed to the containers <code>working_dir/</code> and therefore no parental file path are required. This function has additional functions for dropping irrelevant arguments in the context of an <code>outsider</code> module (e.g. no need to specify an output directory at the command-line, this would need to be done at the initiation of the <code>outsider</code> object.)</p>
 <blockquote>
 <p><strong>What’s with this <code>outdir</code>-thingy?</strong> The RAxML function returns a series of files. To ensure they are all returned in a convenient location, we have created an additional argument to the <code>raxml()</code> function called <code>outdir</code>. It can be good practice to break-up information that needs to be processed by the module function into things like <code>arglist</code> and <code>outdir</code>. In some instances, you may be calling a program where additional information can be provided outside of remit of the main program being emulated. For example in our last example we had <code>input_file</code> and <code>output_file</code>. Other examples include, number of threads, memmory allocation for the program, etc.</p>
 </blockquote>
 <p>OK! So that’s what the function looks like. Let’s write it to file.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">function_text &lt;-<span class="st"> "</span>
-<span class="st">#' @name raxml</span>
-<span class="st">#' @title raxml</span>
-<span class="st">#' @description Run raxml</span>
-<span class="st">#' @param arglist Arguments to raxml provided as a character vector</span>
-<span class="st">#' @param outdir Filepath to where all output files should be returned.</span>
-<span class="st">#' @example examples/example.R</span>
-<span class="st">#' @export</span>
-<span class="st">raxml &lt;- function(arglist = arglist_get(...), outdir = getwd()) {</span>
-<span class="st">  files_to_send &lt;- filestosend_get(arglist)</span>
-<span class="st">  arglist &lt;- arglist_parse(arglist)</span>
-<span class="st">  otsdr &lt;- outsider_init(pkgnm = 'om..raxml', cmd = 'raxmlHPC-PTHREADS-SSE3',</span>
-<span class="st">                         wd = outdir, files_to_send = files_to_send,</span>
-<span class="st">                         arglist = arglist)</span>
-<span class="st">  run(otsdr)</span>
-<span class="st">}</span>
-<span class="st">"</span>
-<span class="co"># write to R/functions.R</span>
-<span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(function_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'R'</span>, <span class="st">'functions.R'</span>))</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">function_text &lt;-<span class="st"> "</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">#' @name raxml</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">#' @title raxml</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">#' @description Run raxml</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">#' @param arglist Arguments to raxml provided as a character vector</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">#' @param outdir Filepath to where all output files should be returned.</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="st">#' @example examples/example.R</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="st">#' @export</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="st">raxml &lt;- function(arglist = arglist_get(...), outdir = getwd()) {</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="st">  files_to_send &lt;- filestosend_get(arglist)</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="st">  arglist &lt;- arglist_parse(arglist)</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="st">  otsdr &lt;- outsider_init(pkgnm = 'om..raxml', cmd = 'raxmlHPC-PTHREADS-SSE3',</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="st">                         wd = outdir, files_to_send = files_to_send,</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="st">                         arglist = arglist)</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="st">  run(otsdr)</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="st">}</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="st">"</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co"># write to R/functions.R</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(function_text, <span class="dt">file =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(flpth, <span class="st">'R'</span>, <span class="st">'functions.R'</span>))</a></code></pre></div>
 <p>Let’s check the setup.</p>
 <p>Ok, let’s build, test and upload the module! (The test should pass because by default, <code>-h</code> is used in the example and this is a valid argument for RAxML.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
-<pre><code>## ────────────────────────────────────────────────────────────────────────────────────
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/module_build.html">module_build</a></span>(<span class="dt">flpth =</span> flpth)</a></code></pre></div>
+<pre><code>## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::document() ...
-## ────────────────────────────────────────────────────────────────────────────────────</code></pre>
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Updating om..raxml documentation</code></pre>
 <pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
-<pre><code>## Updating roxygen version in /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml/DESCRIPTION</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp0L2Hzp/om..raxml/DESCRIPTION</code></pre>
 <pre><code>## Writing NAMESPACE</code></pre>
 <pre><code>## Loading om..raxml</code></pre>
 <pre><code>## Writing NAMESPACE
 ## Writing raxml.Rd
-## ────────────────────────────────────────────────────────────────────────────────────
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::install() ...
-## ────────────────────────────────────────────────────────────────────────────────────
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##   
-   checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp0L2Hzp/om..raxml/DESCRIPTION’ ...
   
-✔  checking for file ‘/private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml/DESCRIPTION’ (406ms)
+✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp0L2Hzp/om..raxml/DESCRIPTION’
 ## 
   
 ─  preparing ‘om..raxml’:
@@ -222,7 +229,7 @@ raxml &lt;-<span class="st"> </span><span class="cf">function</span>(<span class
   
    checking DESCRIPTION meta-information ...
   
-✔  checking DESCRIPTION meta-information
+✓  checking DESCRIPTION meta-information
 ## 
   
 ─  checking for LF line-endings in source and make files and shell scripts
@@ -234,16 +241,12 @@ raxml &lt;-<span class="st"> </span><span class="cf">function</span>(<span class
 ─  building ‘om..raxml_0.0.1.tar.gz’
 ## 
   
-   Warning: invalid uid value replaced by that for user 'nobody'
-##    Warning: invalid gid value replaced by that for user 'nobody'
-## 
-  
    
 ## 
 Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T//RtmpcjHsxm/om..raxml_0.0.1.tar.gz \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//Rtmp0L2Hzp/om..raxml_0.0.1.tar.gz \
 ##   --install-tests 
-## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp8IKuDm/temp_libpath21c268b17096’
 ## * installing *source* package ‘om..raxml’ ...
 ## ** using staged installation
 ## ** R
@@ -256,23 +259,124 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## ** testing if installed package can be loaded from final location
 ## ** testing if installed package keeps a record of temporary installation path
 ## * DONE (om..raxml)
-## ────────────────────────────────────────────────────────────────────────────────────
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Running docker_build()
-## ────────────────────────────────────────────────────────────────────────────────────
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Command:
-## docker build -t dombennett/om_raxml:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..raxml/dockerfiles/latest
-## ....................................................................................
+## docker build -t dombennett/om_raxml:latest /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp8IKuDm/temp_libpath21c268b17096/om..raxml/dockerfiles/latest
+## .....................................................................................................................
 ## Sending build context to Docker daemon  2.048kB
 
 
-## Error response from daemon: Dockerfile parse error line 4: unknown instruction: WGET</code></pre>
-<pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_test.html">module_test</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
-<pre><code>## 
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /private/var/folders/ps/g89999v12490dmp0jnsfmykm0043m3/T/RtmpcjHsxm/om..raxml \
+## Error response from daemon: Dockerfile parse error line 4: unknown instruction: WGET
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::build_readme() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
+<pre><code>## Building om..raxml readme</code></pre>
+<pre><code>##   
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp0L2Hzp/om..raxml/DESCRIPTION’ ...
+  
+[32m✓[39m  [90mchecking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp0L2Hzp/om..raxml/DESCRIPTION’[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mpreparing ‘om..raxml’:[39m[36m[39m
+## 
+  
+   checking DESCRIPTION meta-information ...
+  
+[32m✓[39m  [90mchecking DESCRIPTION meta-information[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mchecking for LF line-endings in source and make files and shell scripts[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mchecking for empty or unneeded directories[39m[36m[39m
+## 
+  
+[90m─[39m[90m  [39m[90mbuilding ‘om..raxml_0.0.1.tar.gz’[39m[36m[39m
+## 
+  
+   
+## 
+Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpSc9WA0/om..raxml_0.0.1.tar.gz \
 ##   --install-tests 
-## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## [31m* installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpSc9WA0/temp_libpath322537b1757e’
+## [39m[31m* installing *source* package ‘om..raxml’ ...
+## [39m[31m** using staged installation
+## [39m[31m** R
+## [39m[31m** inst
+## [39m[31m** byte-compile and prepare package for lazy loading
+## [39m[31m** help
+## [39m[31m*** installing help indices
+## [39m[31m** building package indices
+## [39m[31m** testing if installed package can be loaded from temporary location
+## [39m[31m** testing if installed package can be loaded from final location
+## [39m[31m** testing if installed package keeps a record of temporary installation path
+## [39m[31m* DONE (om..raxml)
+## [39m
+## 
+## processing file: README.Rmd
+## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |..........                                                            |  14%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |....................                                                  |  29%
+## label: unnamed-chunk-1 (with options) 
+## List of 1
+##  $ echo: logi FALSE
+## 
+## 
+  |                                                                            
+  |..............................                                        |  43%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |........................................                              |  57%
+## label: install-snippet (with options) 
+## List of 2
+##  $ eval   : logi FALSE
+##  $ include: logi TRUE
+## 
+## 
+  |                                                                            
+  |..................................................                    |  71%
+##   ordinary text without R code
+## 
+## 
+  |                                                                            
+  |............................................................          |  86%
+## label: detailed-example (with options) 
+## List of 2
+##  $ eval   : logi FALSE
+##  $ include: logi TRUE
+## 
+## 
+  |                                                                            
+  |......................................................................| 100%
+##   ordinary text without R code
+## 
+## 
+## output file: README.knit.md
+## 
+## /Applications/RStudio.app/Contents/MacOS/pandoc/pandoc +RTS -K512m -RTS README.utf8.md --to gfm --from markdown+autolink_bare_uris+tex_math_single_backslash --output README.md --standalone --template /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/default.md 
+## /Applications/RStudio.app/Contents/MacOS/pandoc/pandoc +RTS -K512m -RTS README.md --to html4 --from gfm --output README.html --standalone --self-contained --highlight-style pygments --template /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/preview.html --variable 'github-markdown-css:/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rmarkdown/rmarkdown/templates/github_document/resources/github.css' --email-obfuscation none --metadata pagetitle=PREVIEW 
+## 
+## Preview created: README.html
+## 
+## Output created: README.md</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="../reference/module_test.html">module_test</a></span>(<span class="dt">flpth =</span> flpth)</a></code></pre></div>
+<pre><code>## Skipping 1 packages not available: outsider.base</code></pre>
+<pre><code>## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp0L2Hzp/om..raxml \
+##   --install-tests 
+## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp8IKuDm/temp_libpath21c268b17096’
 ## * installing *source* package ‘om..raxml’ ...
 ## ** using staged installation
 ## ** R
@@ -289,6 +393,7 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## outsider v 0.1.0
 ## ----------------
 ## - Security notice: be sure of which modules you install</code></pre>
+<pre><code>## No Docker image found for 'om..raxml' -- attempting to pull/build image with tag 'latest'</code></pre>
 <pre><code>## 
 ## 
 ## This is RAxML version 8.2.12 released by Alexandros Stamatakis on May 2018.
@@ -854,12 +959,12 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ##                   undetermined columns removed, but without removing exactly identical sequences
 ## 
 ##                   DEFAULT: identical sequences will also be removed in the .reduced file</code></pre>
-<pre><code>## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
+<pre><code>## Removing package from '/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp8IKuDm/temp_libpath21c268b17096'
 ## (as 'lib' is unspecified)</code></pre>
-<pre><code>## Bumbling bumblebees! The module is not working....
-## But keep on brewing! You're doing cautiously!</code></pre>
+<pre><code>## Tsk. Nasty eels. The module is not working....
+## But keep on planning! You're doing brightly!</code></pre>
 <p>And then upload ….</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div id="continuous-integration-github-only" class="section level3">
 <h3 class="hasAnchor">
 <a href="#continuous-integration-github-only" class="anchor"></a>Continuous Integration (GitHub only)</h3>
@@ -867,7 +972,7 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 <p>Travis is a free service that monitors your GitHub for updates and then runs a series of tests on a remote server to determine whether it passes its tests or not. The result of these tests can be added to a repo’s README in form of an image badge: e.g. “Tests Passing”.</p>
 <p>To set-up travis for your repo, visit the webiste <a href="https://travis-ci.org/" class="uri">https://travis-ci.org/</a>, sign in with your GitHub account and then activate the service your repo of choice, e.g. <code>om..raxml</code>.</p>
 <p>Then we need to provide the test instructions for Travis in the form of a YAML file called <code>.travis.yml</code> and upload this to our GitHub repo. The <code>.travis.yml</code> can be created for <code>outsider</code> modules so:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/module_travis.html">module_travis</a></span>(<span class="dt">flpth =</span> flpth)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="../reference/module_travis.html">module_travis</a></span>(<span class="dt">flpth =</span> flpth)</a></code></pre></div>
 <p>Then simply update the repo on GitHub!</p>
 </div>
 </div>
@@ -879,14 +984,14 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 <li>
 <strong>Update the <code>om.yml</code></strong> Add a more detailed description</li>
 <li>
-<strong>Update the README</strong> The default <code>README.md</code> is very bland. Maybe it needs more examples for your module? Also, shouldn’t you have a link to the original program?</li>
+<strong>Update the README</strong> The default README is very bland. It provides a template for what sorts of things a good README should contain: installation, how to run, where to get more help. Remember to only edit the <code>README.Rmd</code>. To update the <code>README.md</code> for GitHub, you need to “knit” the <code>.Rmd</code> file by running <code><a href="https://rdrr.io/pkg/devtools/man/build_readme.html">devtools::build_readme()</a></code> – this is the function <code><a href="../reference/module_build.html">module_build()</a></code> runs.</li>
 <li>
 <strong>Ensure discoverability</strong> <code><a href="https://rdrr.io/pkg/outsider/man/module_search.html">outsider::module_search</a></code> can find <code>outsider</code> module repos on GitHub if they have and <code>om.yml</code>, have name in the form <code>om..</code> and have the phrase <code>outsider-module:</code> in their description.</li>
 </ul>
 <hr>
 <p><strong>Delete it all</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">module_uninstall</span>(<span class="dt">repo =</span> <span class="st">'om..raxml'</span>)
-<span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">module_uninstall</span>(<span class="dt">repo =</span> <span class="st">'om..raxml'</span>)</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <hr>
 </div>
 </div>
@@ -897,26 +1002,24 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 <li>The best way to learn how to build your own module is to look at how others have created modules for programs you are familiar with. Check out the list of already available modules at this <a href="https://antonellilab.github.io/outsider/articles/available.html">page</a>.</li>
 <li>If you find issues with the docker image build step, you can try “logging into” a container and running the installation steps to test out what works. At the terminal, use</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># run an ubuntu container</span>
-<span class="ex">docker</span> run -t -d --name test ubuntu:latest
-<span class="co"># iteractively run bash</span>
-<span class="ex">docker</span> exec -it test bash
-<span class="co"># when finished, list all running containers and stop/rm</span>
-<span class="ex">docker</span> ps -a
-<span class="ex">docker</span> stop test
-<span class="ex">docker</span> rm test</code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># run an ubuntu container</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="ex">docker</span> run -t -d --name test ubuntu:latest</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co"># iteractively run bash</span></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="ex">docker</span> exec -it test bash</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co"># when finished, list all running containers and stop/rm</span></a>
+<a class="sourceLine" id="cb28-6" data-line-number="6"><span class="ex">docker</span> ps -a</a>
+<a class="sourceLine" id="cb28-7" data-line-number="7"><span class="ex">docker</span> stop test</a>
+<a class="sourceLine" id="cb28-8" data-line-number="8"><span class="ex">docker</span> rm test</a></code></pre></div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#raxml"></a><a href="https://cme-h-its-org/exelixis/web/software/raxml/"><code>RAxML</code></a>
-</li>
+<li><a href="#raxml"><span><code>RAxML</code></span></a></li>
       <li>
 <a href="#walkthrough">Walkthrough</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#building">Building</a></li>
@@ -937,7 +1040,7 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
 </div>
 
       </footer>
