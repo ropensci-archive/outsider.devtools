@@ -48,7 +48,7 @@ module_help(repo = "%repo%")
 <!-- Note: set eval=TRUE to run example and show output -->
 ```{r detailed-example, eval=FALSE, include=TRUE}
 library(outsider)
-%cmd% <- module_import(repo = "%repo%")
+%cmd% <- module_import(fname = '%cmd%', repo = "%repo%")
 %cmd%(arglist = c('--a', '-more=10', '-complicated=a', 'example.txt'))
 ```
 
