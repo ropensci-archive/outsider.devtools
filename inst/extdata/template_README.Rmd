@@ -28,6 +28,7 @@ knitr::opts_chunk$set(
 ```
 
 # Run `%program_name%` with `outsider` in R
+
 [![Build Status](https://travis-ci.org/%repo%.svg?branch=master)](https://travis-ci.org/%repo%)
 
 > Summary line of what the program does.
@@ -70,7 +71,8 @@ Describe key arguments and show program output. E.g. in table format.
 
 ## Links
 
-Find out more by visiting the [%program_name%'s homepage](www.external_program.org)
+Find out more by visiting the
+[%program_name%'s homepage](www.external_program.org).
 
 ## Please cite
 
@@ -87,4 +89,5 @@ inside of R. *Journal of Open Source Software*, In review
 
 **An `outsider` module**
 
-Learn more at [outsider website](https://antonellilab.github.io/outsider/). Want to build your own module? Check out [`outsider.devtools` website](https://antonellilab.github.io/outsider.devtools/).
+Learn more at [outsider website](https://antonellilab.github.io/outsider/).
+Want to build your own module? Check out [`outsider.devtools` website](https://antonellilab.github.io/outsider.devtools/).
