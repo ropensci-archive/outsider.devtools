@@ -43,6 +43,7 @@ Imports:
     outsider,
     outsider.base,
     withr (>= 2.0),
+    usethis,
     praise,
     yaml,
     httr,

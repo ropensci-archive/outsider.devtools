@@ -1,7 +1,9 @@
 Aotus
+appveyor
 arglist
 bamm
 basenames
+bitbucket
 com
 cytb
 CytB
@@ -13,6 +15,7 @@ dockerfiles
 DockerHub
 dombennett
 github
+gitlab
 kickstart
 mafft
 om
@@ -22,6 +25,7 @@ pkgnm
 prgm
 pyrate
 raxml
+RAxML
 STDERR
 STDOUT
 tbl

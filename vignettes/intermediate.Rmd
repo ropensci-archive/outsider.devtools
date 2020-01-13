@@ -189,7 +189,7 @@ file.remove(c(input_file, output_file))
 ## Check, test and deploy
 
 Ok! So we have a functioning module. But how do we know it's a functioning
-module? To check our module structre, configuration and functioning we have a 
+module? To check our module structure, configuration and functioning we have a 
 few helpful functions.
 
 ```{r check-and-test}

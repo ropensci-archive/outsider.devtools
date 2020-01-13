@@ -13,14 +13,22 @@
 #' @param module_name Name of the module, if NULL rendered as
 #' "om..[program_name]"
 #' @param cmd Command-line call for program, default [program_name]
+#' @param full_name Your full name (for authorship)
+#' @param email Your email (for authorship)
 #' @param service Code-sharing site.
+#' @param overwrite Automatically overwrite pre-exisiting files? If FALSE,
+#' user is queried whether to overwrite for each pre-exisiting file.
+#' @details If \code{full_name} and \code{email} are provided, then new lines
+#' are added to DESCRIPTION specifying the author and maintainer of the package.
 #' @return Character
 #' @family build
+#' @example examples/module_skeleton_identities.R
 #' @export
 module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
                             flpth = getwd(), module_name = NULL,
-                            cmd = program_name, service = c('github', 'gitlab',
-                                                            'bitbucket')) {
+                            cmd = program_name, full_name = NULL, email = NULL,
+                            service = c('github', 'gitlab', 'bitbucket'),
+                            overwrite = FALSE) {
   service <- match.arg(service)
   if (is.null(module_name)) {
     mdlnm <- paste0('om..', gsub(pattern = '[^a-zA-z0-9\\.]', replacement = '.',
@@ -58,14 +66,26 @@ module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
     repo_info <- paste0(service, ': ', repo_user, '\nurl: ', url)
     repo <- paste0(repo_user, '/', package_name)
   }
+  if (!is.null(full_name)) {
+    author <- paste0('\nAuthor: ', full_name)
+  } else {
+    author <- ''
+  }
+  if (!is.null(full_name) & !is.null(email)) {
+    maintainer <- paste0('\nMaintainer: ', full_name, ' <', email, '>')
+  } else {
+    maintainer <- ''
+  }
   values <- mget(c('repo_info', 'package_name', 'r_version', 'docker_info',
-                   'program_name', 'cmd', 'repo', 'url'))
+                   'program_name', 'cmd', 'repo', 'url', 'author',
+                   'maintainer'))
   patterns <- paste0('%', names(values), '%')
   templates <- templates_get()
   for (i in seq_along(templates)) {
     x <- string_replace(string = templates[[i]], patterns = patterns,
                         values = values)
-    file_create(x = x, flpth = file.path(flpth, mdlnm, names(templates)[[i]]))
+    file_create(x = x, flpth = file.path(flpth, mdlnm, names(templates)[[i]]),
+                overwrite = overwrite)
   }
   file.path(flpth, mdlnm)
 }
@@ -74,17 +94,19 @@ module_skeleton <- function(program_name, repo_user = NULL, docker_user = NULL,
 #' @title Generate Travis-CI file (GitHub only)
 #' @description Write .travis.yml to working directory.
 #' @details Validated outsider modules must have a .travis.yml in their
-#' repository. These .travis.yml are created with \link{module_skeleton} but
-#' can also be generated using this function.
+#' repository. These \code{.travis.yml} are created with \link{module_skeleton}
+#' but can also be generated using this function.
 #' @param flpth Directory in which to create .travis.yml
 #' @return Logical
 #' @family build
+#' @example examples/module_travis.R
 #' @export
 module_travis <- function(flpth = getwd()) {
   travis_flpth <- system.file("extdata", 'template_.travis.yml',
                               package = "outsider.devtools")
   travis_text <- paste0(readLines(travis_flpth), collapse = '\n')
-  write(x = travis_text, file = file.path(flpth, '.travis.yml'))
+  usethis::write_over(lines = travis_text, path = file.path(flpth,
+                                                            '.travis.yml'))
   invisible(file.exists(file.path(flpth, '.travis.yml')))
 }
 
@@ -96,6 +118,7 @@ module_travis <- function(flpth = getwd()) {
 #' @param flpth File path to location of module
 #' @return Logical
 #' @family build
+#' @example examples/module_skeleton_identities.R
 #' @export
 module_identities <- function(flpth = getwd()) {
   res <- list()
@@ -151,6 +174,9 @@ module_check <- function(flpth = getwd()) {
   msg(res2, 'R folder with files')
   res3 <- 'inst' %in% fls
   msg(res3, 'inst')
+  if (!res3) {
+    return(invisible(FALSE))
+  }
   fls <- list.files(file.path(flpth, 'inst'))
   res4 <- 'om.yml' %in% fls
   msg(res4, file.path('inst', 'om.yml'))
@@ -269,12 +295,15 @@ module_test <- function(flpth = getwd(), verbose = FALSE, pull = FALSE) {
 #' @description Look up usernames and other information contained in
 #' "om.yml" to upload module to a code sharing site (github, gitlab or
 #' bitbucket) and/or DockerHub.
+#' @details This function runs \code{\link{git_upload}} and
+#' \code{\link{docker_push}}.
 #' @param flpth File path to location of module
 #' @param code_sharing Upload to code sharing service?
 #' @param dockerhub Upload to DockerHub?
 #' @param verbose Print docker and program info to console
 #' @return Logical
 #' @family build
+#' @example examples/module_upload.R
 #' @export
 module_upload <- function(flpth = getwd(), code_sharing = TRUE,
                           dockerhub = TRUE, verbose = TRUE) {

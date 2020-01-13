@@ -17,6 +17,25 @@ Returns a list of the identities (GitHub repo, Package name,
 Docker images) for an outsider module. Works for modules in development.
 Requires module to have a file path.
 }
+\examples{
+library(outsider)
+
+# build file structure for an example module
+module_path <- module_skeleton(program_name = "goldenhind",
+                               repo_user = "drake_on_github",
+                               docker_user = "drake_on_docker",
+                               full_name = 'Sir Francis Drake',
+                               email = 'f.drake@goldenhind.gov.uk',
+                               service = 'github',
+                               flpth = tempdir())
+# new path created 
+(module_path)
+# check the generated names and links
+module_identities(flpth = module_path)
+
+# clean-up
+unlink(x = module_path, recursive = TRUE, force = TRUE)
+}
 \seealso{
 Other build: 
 \code{\link{module_build}()},

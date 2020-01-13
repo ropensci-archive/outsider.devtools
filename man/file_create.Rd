@@ -4,12 +4,14 @@
 \alias{file_create}
 \title{Create file}
 \usage{
-file_create(x, flpth)
+file_create(x, flpth, overwrite)
 }
 \arguments{
 \item{x}{Text for writing to file}
 
 \item{flpth}{File path to be created}
+
+\item{overwrite}{Overwrite pre-exisiting file? Logical.}
 }
 \description{
 Write x to a filepath. Forces creation of directories.

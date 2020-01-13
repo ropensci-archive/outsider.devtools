@@ -25,12 +25,14 @@ remote_git_exists <- function(url) {
 #' a git repo, add core module files, commit and push to remote.
 #' @details Remote URL is determined to be: code sharing URL + username + R
 #' package name.
+#' Git must be configured on a user's system before this function can be run.
 #' @param flpth File path to module.
 #' @param username Username for code-sharing service.
 #' @param service Code-sharing service
 #' @return Logical
 #' @family git
 #' @export
+#' @example examples/git_upload.R
 git_upload <- function(flpth, username, service = c('github', 'gitlab',
                                                     'bitbucket')) {
   repo <- file.path(flpth, '.git')

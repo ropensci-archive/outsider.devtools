@@ -142,7 +142,7 @@ function into things like `arglist` and `outdir`. In some instances, you may
 be calling a program where additional information can be provided outside of
 remit of the main program being emulated. For example in our last example we had
 `input_file` and `output_file`. Other examples include, number of threads,
-memmory allocation for the program, etc.
+memory allocation for the program, etc.
 
 OK! So that's what the function looks like. Let's write it to file.
 
@@ -194,7 +194,7 @@ a series of tests on a remote server to determine whether it passes its tests or
 not. The result of these tests can be added to a repo's README in form of an
 image badge: e.g. "Tests Passing".
 
-To set-up travis for your repo, visit the webiste https://travis-ci.org/, sign
+To set-up travis for your repo, visit the website https://travis-ci.org/, sign
 in with your GitHub account and then activate the service your repo of choice,
 e.g. `om..raxml`.
 

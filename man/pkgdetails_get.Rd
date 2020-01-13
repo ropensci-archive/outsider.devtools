@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{pkgdetails_get}
 \alias{pkgdetails_get}
-\title{Read the package description}
+\title{Read the details of module's R package}
 \usage{
 pkgdetails_get(flpth)
 }
@@ -14,7 +14,7 @@ list
 }
 \description{
 Return a list of all package details based on a package's
-DESCRIPTION file.
+DESCRIPTION file plus its \code{om.yml}.
 }
 \seealso{
 Other utils: 

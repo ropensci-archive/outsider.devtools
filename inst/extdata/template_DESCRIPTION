@@ -1,6 +1,6 @@
 Package: %package_name%
 Type: Package
-Version: 0.0.1
+Version: 0.0.1%author%%maintainer%
 Title: Outsider module for running %program_name%
 Description: Install and run %program_name% from within R.
 Encoding: UTF-8

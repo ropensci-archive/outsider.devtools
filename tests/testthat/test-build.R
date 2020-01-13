@@ -6,7 +6,7 @@ test_that('module_skeleton() works', {
 })
 test_that('module_travis() works', {
   flpth <- file.path('travis_test', '.travis.yml')
-  outsider.devtools:::file_create(x = '', flpth = flpth)
+  outsider.devtools:::file_create(x = '', flpth = flpth, overwrite = TRUE)
   expect_true(module_travis(flpth = 'travis_test'))
   unlink(x = 'travis_test', recursive = TRUE, force = TRUE)
 })

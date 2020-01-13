@@ -11,7 +11,10 @@ module_skeleton(
   flpth = getwd(),
   module_name = NULL,
   cmd = program_name,
-  service = c("github", "gitlab", "bitbucket")
+  full_name = NULL,
+  email = NULL,
+  service = c("github", "gitlab", "bitbucket"),
+  overwrite = FALSE
 )
 }
 \arguments{
@@ -31,7 +34,14 @@ current working directory.}
 
 \item{cmd}{Command-line call for program, default [program_name]}
 
+\item{full_name}{Your full name (for authorship)}
+
+\item{email}{Your email (for authorship)}
+
 \item{service}{Code-sharing site.}
+
+\item{overwrite}{Automatically overwrite pre-exisiting files? If FALSE,
+user is queried whether to overwrite for each pre-exisiting file.}
 }
 \value{
 Character
@@ -39,6 +49,29 @@ Character
 \description{
 Create all the base files and folders to kickstart the
 development of a new outsider module. Returns file path to new module.
+}
+\details{
+If \code{full_name} and \code{email} are provided, then new lines
+are added to DESCRIPTION specifying the author and maintainer of the package.
+}
+\examples{
+library(outsider)
+
+# build file structure for an example module
+module_path <- module_skeleton(program_name = "goldenhind",
+                               repo_user = "drake_on_github",
+                               docker_user = "drake_on_docker",
+                               full_name = 'Sir Francis Drake',
+                               email = 'f.drake@goldenhind.gov.uk',
+                               service = 'github',
+                               flpth = tempdir())
+# new path created 
+(module_path)
+# check the generated names and links
+module_identities(flpth = module_path)
+
+# clean-up
+unlink(x = module_path, recursive = TRUE, force = TRUE)
 }
 \seealso{
 Other build: 

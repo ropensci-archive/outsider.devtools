@@ -15,6 +15,7 @@ Logical
 \description{
 Login to docker using username. User is prompted to provide
 password.
+Returns TRUE if no errors are raised.
 }
 \seealso{
 Other docker-private: 

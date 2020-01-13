@@ -8,7 +8,8 @@ Development tools package for `outsider` <img src="https://raw.githubusercontent
 
 This package aims to make life easier for  those who wish to build their own
 `outsider` modules. In just a few function calls: build a module skeleton,
-check the file structures, test the module and upload it online! Top banana! :banana:
+check the file structures, test the module and upload it online!
+Top banana! :banana:
 
 Acquaint yourself better with all these steps by reading up on:
 
@@ -20,17 +21,18 @@ Happy building! :wrench:
 
 ## Install
 
-The [`outsider`](https://github.com/AntonelliLab/outsider#readme) packages are all available via GitHub.
+Install via GitHub ....
 
 ```r
 # install.packages("remotes")
-# requires outsider.base, outsider -- in that order!
-remotes::install_github("AntonelliLab/outsider.base")
-remotes::install_github("AntonelliLab/outsider")
 remotes::install_github("AntonelliLab/outsider.devtools")
 ```
 
-(Read up on [`remotes`](https://github.com/r-lib/remotes))
+In addition to installing `outsider.devtools`, the above code will also install
+the key dependency packages
+[`outsider.base`](https://github.com/AntonelliLab/outsider.base#readme) and 
+[`outsider`](https://github.com/AntonelliLab/outsider#readme). (Read up on
+[`remotes`](https://github.com/r-lib/remotes))
 
 ## Quick guide
 
@@ -38,15 +40,20 @@ Build an [`outsider`](https://github.com/AntonelliLab/outsider#readme) module to
 
 ```r
 # make my own quick package
-library(outsider.devtools)
+library(outsider.devtools)\
+
 # construct a skeleton file structure for the module
 module_path <- module_skeleton(program_name = 'echo', flpth = getwd())
+
 # check the file structure
 module_check(flpth = module_path)
+
 # look-up key identifying names: R package name, Docker image name
 module_identities(flpth = module_path)
+
 # build the R package and Docker image
 module_build(flpth = module_path, tag = 'latest')
+
 # test the module
 module_test(flpth = module_path)
 ```

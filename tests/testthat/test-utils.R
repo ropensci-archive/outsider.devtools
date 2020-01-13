@@ -44,7 +44,7 @@ test_that('string_replace() works', {
 })
 test_that('file_create() works', {
   flpth <- file.path('dir1', 'dir2', 'testfile')
-  outsider.devtools:::file_create(x = 'test', flpth = flpth)
+  outsider.devtools:::file_create(x = 'test', flpth = flpth, overwrite = TRUE)
   expect_true(file.exists(flpth))
   unlink(x = 'dir1', recursive = TRUE, force = TRUE)
 })

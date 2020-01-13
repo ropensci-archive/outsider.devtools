@@ -17,8 +17,23 @@ Write .travis.yml to working directory.
 }
 \details{
 Validated outsider modules must have a .travis.yml in their
-repository. These .travis.yml are created with \link{module_skeleton} but
-can also be generated using this function.
+repository. These \code{.travis.yml} are created with \link{module_skeleton}
+but can also be generated using this function.
+}
+\examples{
+library(outsider)
+
+# a skeleton already comes with a .travis.yml
+module_path <- module_skeleton(program_name = "goldenhind",
+                               repo_user = "drake_on_github",
+                               docker_user = "drake_on_docker",
+                               service = 'github',
+                               flpth = tempdir())
+(file.exists(file.path(module_path, '.travis.yml')))
+# but if it were deleted, needs updating or mistakenly edited ...
+file.remove(file.path(module_path, '.travis.yml'))
+# a new one can generated
+module_travis(flpth = module_path)
 }
 \seealso{
 Other build: 

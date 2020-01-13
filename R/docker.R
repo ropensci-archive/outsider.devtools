@@ -25,6 +25,7 @@ docker_cmd <- function(args, std_out = TRUE, std_err = TRUE) {
 #' @title Login to Docker
 #' @description Login to docker using username. User is prompted to provide
 #' password.
+#' Returns TRUE if no errors are raised.
 #' @param username Username for Docker-Hub.
 #' @return Logical
 #' @family docker-private
@@ -52,7 +53,8 @@ docker_login <- function(username) {
 # Public ----
 #' @name docker_build
 #' @title Build a Docker image
-#' @description Build a Docker image through system call.
+#' @description Build a Docker image through a system call. Returns TRUE if
+#' no errors are raised.
 #' @param img Image name
 #' @param tag Tag, e.g. 'latest'
 #' @param url_or_path URL or file path to Dockerfile
@@ -60,6 +62,7 @@ docker_login <- function(username) {
 #' @return Logical
 #' @family docker
 #' @export
+#' @example examples/docker_build.R
 docker_build <- function(img, tag, url_or_path, verbose) {
   args <- c('build', '-t', paste0(img, ':', tag), url_or_path)
   docker_cmd(args = args, std_out = verbose, std_err = verbose)
@@ -69,6 +72,7 @@ docker_build <- function(img, tag, url_or_path, verbose) {
 #' @title Push a Docker image to Docker Hub
 #' @description Push a Docker image to Docker Hub. Requires a user to have login
 #' details for Docker Hub, \url{https://hub.docker.com/}.
+#' Returns TRUE if no errors are raised.
 #' @param username Login username for Docker Hub.
 #' @param img Image name
 #' @param tag Tag, e.g. 'latest'
@@ -76,6 +80,7 @@ docker_build <- function(img, tag, url_or_path, verbose) {
 #' @return Logical
 #' @family docker
 #' @export
+#' @example examples/docker_push.R
 docker_push <- function(username, img, tag, verbose) {
   if (!docker_login(username = username)) {
     stop(paste0('Unable to login to DockerHub with username ', char(username)),

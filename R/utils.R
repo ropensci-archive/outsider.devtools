@@ -64,9 +64,9 @@ description_get <- function(flpth) {
 }
 
 #' @name pkgdetails_get
-#' @title Read the package description
+#' @title Read the details of module's R package
 #' @description Return a list of all package details based on a package's
-#' DESCRIPTION file.
+#' DESCRIPTION file plus its \code{om.yml}.
 #' @param flpth Path to package
 #' @return list
 #' @family utils
@@ -120,13 +120,19 @@ string_replace <- function(string, patterns, values) {
 #' @description Write x to a filepath. Forces creation of directories.
 #' @param x Text for writing to file
 #' @param flpth File path to be created
+#' @param overwrite Overwrite pre-exisiting file? Logical.
 #' @return NULL
 #' @family utils
-file_create <- function(x, flpth) {
+file_create <- function(x, flpth, overwrite) {
   basefl <- basename(path = flpth)
   dirpth <- sub(pattern = basefl, replacement = '', x = flpth)
   suppressWarnings(dir.create(path = dirpth, recursive = TRUE))
-  write(x = x, file = flpth)
+  if (overwrite) {
+    usethis::write_over(lines = x, path = flpth, quiet = FALSE)
+  } else {
+    write(x = x, file = flpth)
+  }
+  invisible(NULL)
 }
 
 # Defunct ----

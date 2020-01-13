@@ -19,7 +19,29 @@ docker_build(img, tag, url_or_path, verbose)
 Logical
 }
 \description{
-Build a Docker image through system call.
+Build a Docker image through a system call. Returns TRUE if
+no errors are raised.
+}
+\examples{
+library(outsider.devtools)
+
+# simplest possible Dockerfile
+df_text <- "
+FROM ubuntu:latest
+"
+
+# create dir to host Dockerfile
+flpth <- file.path(tempdir(), 'test_docker_build')
+if(!dir.exists(flpth)) {
+  dir.create(flpth)
+}
+
+# write to file
+write(x = df_text, file = file.path(flpth, 'Dockerfile'))
+
+# run docker_build from flpth
+docker_build(img = 'test_docker_build', tag = 'latest', verbose = TRUE,
+             url_or_path = flpth)
 }
 \seealso{
 Other docker: 
