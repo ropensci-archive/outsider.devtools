@@ -54,7 +54,7 @@ library(outsider)
 ```
 
 <!-- Remove module after running above example -->
-```{r uninstall-snippet, eval=TRUE, include=FALSE}
+```{r uninstall-snippet, eval=FALSE, include=FALSE}
 module_uninstall(repo = "%repo%")
 ```
 

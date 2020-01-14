@@ -108,14 +108,26 @@ work for you, you will need to change "dombennett" to your own usernames.
 
 ```{r skeleton}
 library(outsider.devtools)
-flpth <- module_skeleton(repo_user = 'dombennett', program_name = 'echo',
+# the file location of where the module is saved is returned to "module_path"
+module_path <- module_skeleton(repo_user = 'dombennett', program_name = 'echo',
                          docker_user = 'dombennett', flpth = tempdir(),
                          service = 'github')
 # folder name where module is stored
-print(basename(flpth))
+print(basename(module_path))
 ```
 
-The above code will create an `outsider` module with the name `om..echo`.
+**File tree `module_path`**
+
+```{r skeleton-filetree, echo=FALSE}
+treelines <- system(command = paste0("tree ", module_path), intern = TRUE)
+# drop first and last lines
+treelines <- treelines[-1]
+treelines <- treelines[-1*length(treelines)]
+cat(treelines, sep = '\n')
+```
+
+The above code will create an `outsider` module with the module and directory
+name `om..echo` at the file location `module_path`.
 After running the above code, you should take a minute to inspect the generated
 files. In particular you should look at the `DESCRIPTION` file, the `Dockerfile`
 and `functions.R`.
@@ -160,8 +172,19 @@ which are likely to be already documented; viewable through commands like
 With the skeleton set-up, we can now install the R package using `module_build()`.
 
 ```{r build-package}
-module_build(flpth = flpth, build_documents = TRUE, build_package = TRUE,
+module_build(flpth = module_path, build_documents = TRUE, build_package = TRUE,
              build_image = FALSE, build_readme = TRUE)
+```
+
+**File tree `module_path`**
+
+```{r build-filetree, echo=FALSE}
+treelines <- system(command = paste0("tree ", module_path), intern = TRUE)
+# drop first and last lines
+treelines <- treelines[-1]
+treelines <- treelines[-1*length(treelines)]
+cat('`module_path`/', sep = '\n')
+cat(treelines, sep = '\n')
 ```
 
 > **What does `build_documents = TRUE` do?** In addition to the core files
@@ -170,7 +193,8 @@ stored in `man/` -- these provide the `?[function]` utility. The above
 function generates these files via
 [`roxygen`](https://github.com/klutometis/roxygen) comments and
 tags located in the R scripts that make up the package, i.e. all comments that
-begin `#'`. For more information, look up "object documentation in R".
+begin `#'`. For more information, look up
+["object documentation in R"](http://r-pkgs.had.co.nz/man.html).
 
 ## Creating/Building the Docker image
 
@@ -217,8 +241,9 @@ combine steps 2 and 3 by calling `module_build` and setting all the build
 arguments to TRUE.)
 
 ```{r docker-build}
-module_build(flpth = flpth, tag = 'latest', build_image = TRUE,
-             build_documents = FALSE, build_package = FALSE)
+module_build(flpth = module_path, tag = 'latest', build_image = TRUE,
+             build_documents = FALSE, build_package = FALSE,
+             build_readme = FALSE)
 ```
 
 > **What is a tag?** A Docker tag is akin to the version number of the image.
@@ -254,7 +279,7 @@ Docker-Hub.)
 ```{R upload, eval=FALSE, include=TRUE}
 # based on the module details, the function will determine which code-sharing
 # service to upload to
-module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
+module_upload(flpth = module_path, code_sharing = TRUE, dockerhub = TRUE)
 ```
 
 ---
@@ -267,7 +292,7 @@ Don't want `om..echo` on your computer? Delete it so ...
 # to delete the Docker image and uninstall the R package
 module_uninstall(repo = 'dombennett/om..echo')
 # to delete the repo folder
-unlink(x = flpth, recursive = TRUE, force = TRUE)
+unlink(x = module_path, recursive = TRUE, force = TRUE)
 ```
 
 

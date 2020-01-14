@@ -18,23 +18,22 @@ outsider module are correct.
 }
 \examples{
 library(outsider)
-# build a skeleton package
-flpth <- tempdir()
-mdl_pth <- module_skeleton(program_name = 'example', repo_user = 'github_user',
-                           docker_user = 'docker_user', flpth = flpth)
-# look-up module user and program name/ids
-# note: "om.." is added to the beginning of the program name
-# mdl_pth <- file.path(flpth, 'om..example')
-# (ids <- module_identities(flpth = mdl_pth))
-# # generate .travis.yml
-# module_travis(repo = ids$`GitHub repo`, flpth = mdl_pth)
-# cat(readLines(file.path(mdl_pth, '.travis.yml')), sep = '\n')
-# # check the package is formatted correctly
-# module_check(flpth = mdl_pth)
+
+# NOT RUN
+# # build a skeleton package
+# module_path <- module_skeleton(program_name = 'echo', flpth = getwd())
+# # check the file structure
+# module_check(flpth = module_path)
+# # look-up key identifying names: R package name, Docker image name
+# module_identities(flpth = module_path)
+# # build the R package and Docker image
+# module_build(flpth = module_path, tag = 'latest')
+# # test the module
+# module_test(flpth = module_path)
 
 
 # clean-up
-unlink(x = mdl_pth, recursive = TRUE)
+unlink(x = module_path, recursive = TRUE)
 }
 \seealso{
 Other build: 
