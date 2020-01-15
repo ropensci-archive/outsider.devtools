@@ -84,7 +84,25 @@ Requires module to have a file path." />
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Module Building
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/basic.html">Basic</a>
+    </li>
+    <li>
+      <a href="../articles/intermediate.html">Intermediate</a>
+    </li>
+    <li>
+      <a href="../articles/advanced.html">Advanced</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -93,7 +111,6 @@ Requires module to have a file path." />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -162,7 +179,7 @@ Requires module to have a file path.</p>
                                <span class='kw'>service</span> <span class='kw'>=</span> <span class='st'>'github'</span>,
                                <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 <span class='co'># new path created </span>
-(<span class='no'>module_path</span>)</div><div class='output co'>#&gt; [1] "/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpJgFWhg/om..goldenhind"</div><div class='input'><span class='co'># check the generated names and links</span>
+(<span class='no'>module_path</span>)</div><div class='output co'>#&gt; [1] "/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpMOkwAi/om..goldenhind"</div><div class='input'><span class='co'># check the generated names and links</span>
 <span class='fu'>module_identities</span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; R package name: <span style='color: #00BB00;'>'om..goldenhind'</span><span>
 #&gt; URL: </span><span style='color: #00BB00;'>'https://github.com/drake_on_github/om..goldenhind'</span><span>
 #&gt; Docker images: </span><span style='color: #00BB00;'>'drake_on_docker/om_goldenhind:latest'</span><span></div><div class='input'><span class='co'># check the files are in the right locations</span>

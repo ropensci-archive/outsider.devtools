@@ -83,7 +83,25 @@ no errors are raised." />
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Module Building
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/basic.html">Basic</a>
+    </li>
+    <li>
+      <a href="../articles/intermediate.html">Intermediate</a>
+    </li>
+    <li>
+      <a href="../articles/advanced.html">Advanced</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -92,7 +110,6 @@ no errors are raised." />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -175,7 +192,7 @@ FROM ubuntu:latest
 <span class='co'># run docker_build from flpth</span>
 <span class='fu'>docker_build</span>(<span class='kw'>img</span> <span class='kw'>=</span> <span class='st'>'test_docker_build'</span>, <span class='kw'>tag</span> <span class='kw'>=</span> <span class='st'>'latest'</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
              <span class='kw'>url_or_path</span> <span class='kw'>=</span> <span class='no'>flpth</span>)</div><div class='output co'>#&gt; <span style='font-weight: bold;'>Command:
-#&gt; </span><span style='color: #555555;'>docker build -t test_docker_build:latest /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpJgFWhg/test_docker_build</span><span>
+#&gt; </span><span style='color: #555555;'>docker build -t test_docker_build:latest /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpMOkwAi/test_docker_build</span><span>
 #&gt; </span><span style='color: #555555;'>.....................................................................................................................</span><span>
 #&gt; Sending build context to Docker daemon  2.048kB
 #&gt; Step 1/1 : FROM ubuntu:latest

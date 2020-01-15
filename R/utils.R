@@ -120,7 +120,7 @@ string_replace <- function(string, patterns, values) {
 #' @description Write x to a filepath. Forces creation of directories.
 #' @param x Text for writing to file
 #' @param flpth File path to be created
-#' @param overwrite Overwrite pre-exisiting file? Logical.
+#' @param overwrite Overwrite pre-existing file? Logical.
 #' @return NULL
 #' @family utils
 file_create <- function(x, flpth, overwrite) {

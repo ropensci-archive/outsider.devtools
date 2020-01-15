@@ -43,6 +43,24 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Module Building
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/basic.html">Basic</a>
+    </li>
+    <li>
+      <a href="../articles/intermediate.html">Intermediate</a>
+    </li>
+    <li>
+      <a href="../articles/advanced.html">Advanced</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
@@ -52,7 +70,6 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li class="dropdown-header">Module Building</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -179,7 +196,7 @@
 <li>Upload to GitHub and Docker Hub</li>
 </ol>
 <blockquote>
-<p><strong>What’s “Docker Hub”?</strong> Docker Hub is service that hosts Docker images. It can simplify Dockerfile creation as image layers can be sourced from pre-exisiting images available via Docker Hub. Additionally, by sharing your images generated from your module Dockerfile on Docker Hub, you will be speeding up the installtion step for end-users.</p>
+<p><strong>What’s “Docker Hub”?</strong> Docker Hub is service that hosts Docker images. It can simplify Dockerfile creation as image layers can be sourced from pre-existing images available via Docker Hub. Additionally, by sharing your images generated from your module Dockerfile on Docker Hub, you will be speeding up the installation step for end-users.</p>
 </blockquote>
 <div id="generate-the-files-and-folders" class="section level2">
 <h2 class="hasAnchor">
@@ -217,15 +234,15 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># The echo function in om..echo</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">echo &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="co"># convert the ... into an argument list</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  arglist &lt;-<span class="st"> </span><span class="kw">arglist_get</span>(...)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  arglist &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/outsider.base/man/arglist_get.html">arglist_get</a></span>(...)</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="co"># create an outsider object: describe the arguments and program</span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..echo'</span>,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  otsdr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/outsider.devtools/man/reexports.html">outsider_init</a></span>(<span class="dt">pkgnm =</span> <span class="st">'om..echo'</span>,</a>
 <a class="sourceLine" id="cb5-7" data-line-number="7">                         <span class="dt">cmd =</span> <span class="st">'echo'</span>, <span class="dt">arglist =</span> arglist)</a>
 <a class="sourceLine" id="cb5-8" data-line-number="8">  <span class="co"># run the command</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">  <span class="kw">run</span>(otsdr)</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  <span class="kw"><a href="https://rdrr.io/pkg/outsider.devtools/man/reexports.html">run</a></span>(otsdr)</a>
 <a class="sourceLine" id="cb5-10" data-line-number="10">}</a></code></pre></div>
 <blockquote>
-<p><strong>What’s <code>...</code>?</strong> In function calls in R, <code>...</code> indicate that any number of arguments can be provided to a function. The <code>arglist_get</code> function will take the <code>...</code> and convert them into a character vector that can be parsed. <code>outsider</code> recommends module functions make use of this feature so that any number of arguments can be passed to external programs. Additionally, this has the advantage that the developer would then not need to document all the arguments of the external program. For many external programs there may be hundreds of arguments, all of which are likely to be already documented; viewable through commands like <code>-h</code> or <code>--help</code>. For programs with few arguments or where the execution of the external program requries additional setting-up (input files, environment settings, etc.) or where argument definitions cannot be displayed with <code>-h</code> or <code>--help</code> then it is best to provide richer documentation at the R level. In these instances, the specific arguments to the external program can either be separate R arguments, <code>function(arg1, arg2)</code>, or they can be a character vector along with other arguments, <code>function(arglist=arglist_get(...), input=NULL, memmory="1GB")</code>.</p>
+<p><strong>What’s <code>...</code>?</strong> In function calls in R, <code>...</code> indicate that any number of arguments can be provided to a function. The <code>arglist_get</code> function will take the <code>...</code> and convert them into a character vector that can be parsed. <code>outsider</code> recommends module functions make use of this feature so that any number of arguments can be passed to external programs. Additionally, this has the advantage that the developer would then not need to document all the arguments of the external program. For many external programs there may be hundreds of arguments, all of which are likely to be already documented; viewable through commands like <code>-h</code> or <code>--help</code>. For programs with few arguments or where the execution of the external program requires additional setting-up (input files, environment settings, etc.) or where argument definitions cannot be displayed with <code>-h</code> or <code>--help</code> then it is best to provide richer documentation at the R level. In these instances, the specific arguments to the external program can either be separate R arguments, <code>function(arg1, arg2)</code>, or they can be a character vector along with other arguments, <code>function(arglist=arglist_get(...), input=NULL, memmory="1GB")</code>.</p>
 </blockquote>
 </div>
 <div id="building-the-r-package" class="section level2">
@@ -236,7 +253,7 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2">             <span class="dt">build_image =</span> <span class="ot">FALSE</span>, <span class="dt">build_readme =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Updating om..echo documentation</code></pre>
 <pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
-<pre><code>## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmpptk59k/om..echo/DESCRIPTION</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmppnNMRV/om..echo/DESCRIPTION</code></pre>
 <pre><code>## Loading om..echo</code></pre>
 <pre><code>## Building om..echo readme</code></pre>
 <pre><code>## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -249,9 +266,9 @@
 ## Running devtools::install() ...
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##   
-   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmpptk59k/om..echo/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmppnNMRV/om..echo/DESCRIPTION’ ...
   
-✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmpptk59k/om..echo/DESCRIPTION’
+✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmppnNMRV/om..echo/DESCRIPTION’
 ## 
   
 ─  preparing ‘om..echo’:
@@ -274,9 +291,9 @@
    
 ## 
 Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//Rtmpptk59k/om..echo_0.0.1.tar.gz \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmppnNMRV/om..echo_0.0.1.tar.gz \
 ##   --install-tests 
-## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp7Tg1C5/temp_libpath6ed5212e6f3’
+## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpYNPd44/temp_libpath4158de18c53’
 ## * installing *source* package ‘om..echo’ ...
 ## ** using staged installation
 ## ** R
@@ -293,9 +310,9 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## Running devtools::build_readme() ...
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##   
-   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmpptk59k/om..echo/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmppnNMRV/om..echo/DESCRIPTION’ ...
   
-[32m✓[39m  [90mchecking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmpptk59k/om..echo/DESCRIPTION’[39m[36m[39m
+[32m✓[39m  [90mchecking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmppnNMRV/om..echo/DESCRIPTION’[39m[36m[39m
 ## 
   
 [90m─[39m[90m  [39m[90mpreparing ‘om..echo’:[39m[36m[39m
@@ -318,9 +335,9 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
    
 ## 
 Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//Rtmpwsag7I/om..echo_0.0.1.tar.gz \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//Rtmp2fJfFI/om..echo_0.0.1.tar.gz \
 ##   --install-tests 
-## [31m* installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmpwsag7I/temp_libpath1045792d3eae’
+## [31m* installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp2fJfFI/temp_libpath610c3d7e8be4’
 ## [39m[31m* installing *source* package ‘om..echo’ ...
 ## [39m[31m** using staged installation
 ## [39m[31m** R
@@ -454,7 +471,7 @@ WORKDIR /working_dir</code></pre>
 ## Running docker_build()
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Command:
-## docker build -t dombennett/om_echo:latest /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp7Tg1C5/temp_libpath6ed5212e6f3/om..echo/dockerfiles/latest
+## docker build -t dombennett/om_echo:latest /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpYNPd44/temp_libpath4158de18c53/om..echo/dockerfiles/latest
 ## .....................................................................................................................
 ## Sending build context to Docker daemon  2.048kB
 
@@ -462,14 +479,14 @@ WORKDIR /working_dir</code></pre>
 ## Step 1/3 : FROM ubuntu:latest
 ##  ---&gt; 549b9b86cb8d
 ## Step 2/3 : RUN mkdir /working_dir
-##  ---&gt; Running in 465b9e2ed798
-## Removing intermediate container 465b9e2ed798
-##  ---&gt; 6fd035b38bd2
+##  ---&gt; Running in 890d1aee27fc
+## Removing intermediate container 890d1aee27fc
+##  ---&gt; be58c4d5739d
 ## Step 3/3 : WORKDIR /working_dir
-##  ---&gt; Running in 6d96611cf948
-## Removing intermediate container 6d96611cf948
-##  ---&gt; 738096699792
-## Successfully built 738096699792
+##  ---&gt; Running in 13162971bc66
+## Removing intermediate container 13162971bc66
+##  ---&gt; fad08cc89b99
+## Successfully built fad08cc89b99
 ## Successfully tagged dombennett/om_echo:latest</code></pre>
 <blockquote>
 <p><strong>What is a tag?</strong> A Docker tag is akin to the version number of the image. By default, if no tag is provided, Docker will use ‘latest’.</p>
@@ -506,7 +523,7 @@ WORKDIR /working_dir</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># to delete the Docker image and uninstall the R package</span></a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'dombennett/om..echo'</span>)</a></code></pre></div>
 <pre><code>## Removing 'om..echo'</code></pre>
-<pre><code>## Removing package from '/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp7Tg1C5/temp_libpath6ed5212e6f3'
+<pre><code>## Removing package from '/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpYNPd44/temp_libpath4158de18c53'
 ## (as 'lib' is unspecified)</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># to delete the repo folder</span></a>
 <a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> module_path, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</a></code></pre></div>

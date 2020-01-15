@@ -133,9 +133,9 @@ v. Upload to GitHub and Docker Hub
 
 > **What's "Docker Hub"?** Docker Hub is service that hosts Docker images. It
 can simplify Dockerfile creation as image layers can be sourced from
-pre-exisiting images available via Docker Hub. Additionally, by sharing your
+pre-existing images available via Docker Hub. Additionally, by sharing your
 images generated from your module Dockerfile on Docker Hub, you will be
-speeding up the installtion step for end-users.
+speeding up the installation step for end-users.
 
 ## Generate the files and folders
 
@@ -213,7 +213,7 @@ the advantage that the developer would then not need to document all the
 arguments of the external program. For many external programs there may be
 hundreds of arguments, all of which are likely to be already documented;
 viewable through commands like `-h` or `--help`. For programs with few arguments
-or where the execution of the external program requries additional setting-up
+or where the execution of the external program requires additional setting-up
 (input files, environment settings, etc.) or  where argument definitions cannot
 be displayed with `-h` or `--help` then it is best to provide richer
 documentation at the R level. In these instances, the specific arguments to

@@ -16,8 +16,8 @@
 #' @param full_name Your full name (for authorship)
 #' @param email Your email (for authorship)
 #' @param service Code-sharing site.
-#' @param overwrite Automatically overwrite pre-exisiting files? If FALSE,
-#' user is queried whether to overwrite for each pre-exisiting file.
+#' @param overwrite Automatically overwrite pre-existing files? If FALSE,
+#' user is queried whether to overwrite for each pre-existing file.
 #' @details If \code{full_name} and \code{email} are provided, then new lines
 #' are added to DESCRIPTION specifying the author and maintainer of the package.
 #' @return Character

@@ -84,7 +84,25 @@ Returns TRUE if no errors are raised." />
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Module Building
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/basic.html">Basic</a>
+    </li>
+    <li>
+      <a href="../articles/intermediate.html">Intermediate</a>
+    </li>
+    <li>
+      <a href="../articles/advanced.html">Advanced</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -93,7 +111,6 @@ Returns TRUE if no errors are raised." />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -161,10 +178,12 @@ Returns TRUE if no errors are raised.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>outsider.devtools</span>)
 
 <span class='co'># NOT RUN</span>
-<span class='co'># create image from om..echo Docker file</span>
+<span class='co'># # create image from om..echo Docker file</span>
+<span class='co'># url &lt;- paste0('https://raw.githubusercontent.com/DomBennett/om..hello.world/',</span>
+<span class='co'>#               'master/inst/dockerfiles/latest/Dockerfile')</span>
 <span class='co'># docker_build(img = 'test_docker_push', tag = 'latest', verbose = TRUE,</span>
-<span class='co'>#              url_or_path = 'https://raw.githubusercontent.com/DomBennett/om..hello.world/master/inst/dockerfiles/latest/Dockerfile')</span>
-<span class='co'># push to your Docker Hub</span>
+<span class='co'>#              url_or_path = url)</span>
+<span class='co'># # push to your Docker Hub</span>
 <span class='co'># docker_push(username = '[YOUR USERNAME]', img = 'test_docker_push',</span>
 <span class='co'>#             tag = 'latest', verbose = TRUE)</span></div></pre>
   </div>

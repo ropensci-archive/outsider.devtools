@@ -43,6 +43,24 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Module Building
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/basic.html">Basic</a>
+    </li>
+    <li>
+      <a href="../articles/intermediate.html">Intermediate</a>
+    </li>
+    <li>
+      <a href="../articles/advanced.html">Advanced</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
@@ -52,7 +70,6 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li class="dropdown-header">Module Building</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -131,12 +148,12 @@
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#' @export</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">figlet &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="co"># convert the ... into a argument list</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">  arglist &lt;-<span class="st"> </span><span class="kw">arglist_get</span>(...)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">  arglist &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/outsider.base/man/arglist_get.html">arglist_get</a></span>(...)</a>
 <a class="sourceLine" id="cb4-10" data-line-number="10">  <span class="co"># create an outsider object: describe the arguments and program</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">  otsdr &lt;-<span class="st"> </span><span class="kw">outsider_init</span>(<span class="dt">pkgnm =</span> <span class="st">'om..figlet'</span>, <span class="dt">cmd =</span> <span class="st">'figlet'</span>,</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">  otsdr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/outsider.devtools/man/reexports.html">outsider_init</a></span>(<span class="dt">pkgnm =</span> <span class="st">'om..figlet'</span>, <span class="dt">cmd =</span> <span class="st">'figlet'</span>,</a>
 <a class="sourceLine" id="cb4-12" data-line-number="12">                         <span class="dt">arglist =</span> arglist)</a>
 <a class="sourceLine" id="cb4-13" data-line-number="13">  <span class="co"># run the command</span></a>
-<a class="sourceLine" id="cb4-14" data-line-number="14">  <span class="kw">run</span>(otsdr)</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">  <span class="kw"><a href="https://rdrr.io/pkg/outsider.devtools/man/reexports.html">run</a></span>(otsdr)</a>
 <a class="sourceLine" id="cb4-15" data-line-number="15">}</a></code></pre></div>
 <p>The above function would work fine. It would pass any arguments from the user in R to the <code>figlet</code> program. But because <code>figlet</code> does not come with input/output arguments, we will need to hardcode these into our function and use some if statements and bash to create this functionality. Because this will require calling several commands via the terminal, we can create a shell script that we can then pass through <code>outsider</code> to our container.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">function_text &lt;-<span class="st"> "</span></a>
@@ -202,7 +219,7 @@
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Updating om..figlet documentation</code></pre>
 <pre><code>## First time using roxygen2. Upgrading automatically...</code></pre>
-<pre><code>## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpDAanvX/om..figlet/DESCRIPTION</code></pre>
+<pre><code>## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpThdZH8/om..figlet/DESCRIPTION</code></pre>
 <pre><code>## Writing NAMESPACE</code></pre>
 <pre><code>## Loading om..figlet</code></pre>
 <pre><code>## Writing NAMESPACE
@@ -211,13 +228,15 @@
 ## Running devtools::install() ...
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ##   
-   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpDAanvX/om..figlet/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpThdZH8/om..figlet/DESCRIPTION’ ...
   
-✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpDAanvX/om..figlet/DESCRIPTION’
+✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpThdZH8/om..figlet/DESCRIPTION’
 ## 
   
 ─  preparing ‘om..figlet’:
 ## 
+  
+   checking DESCRIPTION meta-information ...
   
 ✓  checking DESCRIPTION meta-information
 ## 
@@ -234,9 +253,9 @@
    
 ## 
 Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpDAanvX/om..figlet_0.0.1.tar.gz \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpThdZH8/om..figlet_0.0.1.tar.gz \
 ##   --install-tests 
-## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp7Tg1C5/temp_libpath6ed5212e6f3’
+## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpYNPd44/temp_libpath4158de18c53’
 ## * installing *source* package ‘om..figlet’ ...
 ## ** using staged installation
 ## ** R
@@ -253,7 +272,7 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## Running docker_build()
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Command:
-## docker build -t dombennett/om_figlet:latest /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp7Tg1C5/temp_libpath6ed5212e6f3/om..figlet/dockerfiles/latest
+## docker build -t dombennett/om_figlet:latest /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpYNPd44/temp_libpath4158de18c53/om..figlet/dockerfiles/latest
 ## .....................................................................................................................
 ## Sending build context to Docker daemon  2.048kB
 
@@ -261,26 +280,26 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## Step 1/4 : FROM ubuntu:latest
 ##  ---&gt; 549b9b86cb8d
 ## Step 2/4 : RUN apt-get update &amp;&amp; apt-get install -y figlet
-##  ---&gt; Running in b50b48949da6
+##  ---&gt; Running in 5605d3340c9a
 ## Get:1 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
 ## Get:2 http://security.ubuntu.com/ubuntu bionic-security InRelease [88.7 kB]
 ## Get:3 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [88.7 kB]
-## Get:4 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
-## Get:5 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1344 kB]
-## Get:6 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB]
-## Get:7 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB]
-## Get:8 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB]
-## Get:9 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [6781 B]
-## Get:10 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [804 kB]
-## Get:11 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1074 kB]
-## Get:12 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [10.8 kB]
-## Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [35.5 kB]
-## Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1330 kB]
-## Get:15 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [4241 B]
-## Get:16 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [2496 B]
-## Get:17 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [777 kB]
-## Get:18 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [21.8 kB]
-## Fetched 17.4 MB in 3s (6236 kB/s)
+## Get:4 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [777 kB]
+## Get:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [74.6 kB]
+## Get:6 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB]
+## Get:7 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [6781 B]
+## Get:8 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [804 kB]
+## Get:9 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [21.8 kB]
+## Get:10 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1344 kB]
+## Get:11 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB]
+## Get:12 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB]
+## Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [1074 kB]
+## Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [35.5 kB]
+## Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [10.8 kB]
+## Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [1329 kB]
+## Get:17 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [4241 B]
+## Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [2496 B]
+## Fetched 17.4 MB in 2s (6989 kB/s)
 ## Reading package lists...
 ## Reading package lists...
 ## Building dependency tree...
@@ -292,7 +311,7 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## After this operation, 752 kB of additional disk space will be used.
 ## Get:1 http://archive.ubuntu.com/ubuntu bionic/universe amd64 figlet amd64 2.2.5-3 [133 kB]
 ## [91mdebconf: delaying package configuration, since apt-utils is not installed
-## [0mFetched 133 kB in 0s (508 kB/s)
+## [0mFetched 133 kB in 1s (120 kB/s)
 ## Selecting previously unselected package figlet.
 ## (Reading database ... 
 (Reading database ... 5%
@@ -321,26 +340,26 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## Setting up figlet (2.2.5-3) ...
 ## update-alternatives: using /usr/bin/figlet-figlet to provide /usr/bin/figlet (figlet) in auto mode
 ## update-alternatives: warning: skip creation of /usr/share/man/man6/figlet.6.gz because associated file /usr/share/man/man6/figlet-figlet.6.gz (of link group figlet) doesn't exist
-## Removing intermediate container b50b48949da6
-##  ---&gt; 53e4f3bd95ee
+## Removing intermediate container 5605d3340c9a
+##  ---&gt; 86e99a2b85c1
 ## Step 3/4 : RUN mkdir /working_dir
-##  ---&gt; Running in e4677059f5dd
-## Removing intermediate container e4677059f5dd
-##  ---&gt; 71cc71efb8d4
+##  ---&gt; Running in 65413424544e
+## Removing intermediate container 65413424544e
+##  ---&gt; 86e824623ce5
 ## Step 4/4 : WORKDIR /working_dir
-##  ---&gt; Running in 4e3836ef68f6
-## Removing intermediate container 4e3836ef68f6
-##  ---&gt; 0f48124d68f3
-## Successfully built 0f48124d68f3
+##  ---&gt; Running in 339fdad6dfab
+## Removing intermediate container 339fdad6dfab
+##  ---&gt; f1af3a441d50
+## Successfully built f1af3a441d50
 ## Successfully tagged dombennett/om_figlet:latest
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Running devtools::build_readme() ...
 ## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</code></pre>
 <pre><code>## Building om..figlet readme</code></pre>
 <pre><code>##   
-   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpDAanvX/om..figlet/DESCRIPTION’ ...
+   checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpThdZH8/om..figlet/DESCRIPTION’ ...
   
-[32m✓[39m  [90mchecking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpDAanvX/om..figlet/DESCRIPTION’[39m[36m[39m
+[32m✓[39m  [90mchecking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpThdZH8/om..figlet/DESCRIPTION’[39m[36m[39m
 ## 
   
 [90m─[39m[90m  [39m[90mpreparing ‘om..figlet’:[39m[36m[39m
@@ -363,9 +382,9 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
    
 ## 
 Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpicLB8S/om..figlet_0.0.1.tar.gz \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpE4rVRq/om..figlet_0.0.1.tar.gz \
 ##   --install-tests 
-## [31m* installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpicLB8S/temp_libpath1151240e8ab6’
+## [31m* installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpE4rVRq/temp_libpath6218244d659d’
 ## [39m[31m* installing *source* package ‘om..figlet’ ...
 ## [39m[31m** using staged installation
 ## [39m[31m** R
@@ -590,11 +609,11 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 <pre><code>## Building om..figlet readme</code></pre>
 <p>Now re-running the test …</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw"><a href="../reference/module_test.html">module_test</a></span>(<span class="dt">flpth =</span> flpth)</a></code></pre></div>
-<pre><code>## Skipping 1 packages not available: outsider.base</code></pre>
-<pre><code>## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpDAanvX/om..figlet \
+<pre><code>## 
+## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpThdZH8/om..figlet \
 ##   --install-tests 
-## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp7Tg1C5/temp_libpath6ed5212e6f3’
+## * installing to library ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpYNPd44/temp_libpath4158de18c53’
 ## * installing *source* package ‘om..figlet’ ...
 ## ** using staged installation
 ## ** R
@@ -613,15 +632,15 @@ Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
 ## 
 ##     figlet</code></pre>
 <pre><code>## [1] "figlet hello!"</code></pre>
-<pre><code>## Removing package from '/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/Rtmp7Tg1C5/temp_libpath6ed5212e6f3'
+<pre><code>## Removing package from '/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpYNPd44/temp_libpath4158de18c53'
 ## (as 'lib' is unspecified)</code></pre>
-<pre><code>## Mmm! The module works! You are super-duper!</code></pre>
+<pre><code>## Hmm! The module works! You are mind-blowing!</code></pre>
 <p>Nice! The package passes. That means we can upload the package to GitHub and Docker-Hub using the same functions as we saw in “basic”.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw"><a href="../reference/module_upload.html">module_upload</a></span>(<span class="dt">flpth =</span> flpth, <span class="dt">code_sharing =</span> <span class="ot">TRUE</span>, <span class="dt">dockerhub =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <hr>
 <p><strong>Delete it all</strong></p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'om..figlet'</span>)</a>
-<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/outsider/man/module_uninstall.html">module_uninstall</a></span>(<span class="dt">repo =</span> <span class="st">'om..figlet'</span>)</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="dt">x =</span> flpth, <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <hr>
 </div>
 <div id="next-up-advanced" class="section level2">

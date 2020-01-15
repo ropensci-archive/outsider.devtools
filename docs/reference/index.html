@@ -80,7 +80,25 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Module Building
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/basic.html">Basic</a>
+    </li>
+    <li>
+      <a href="../articles/intermediate.html">Intermediate</a>
+    </li>
+    <li>
+      <a href="../articles/advanced.html">Advanced</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -89,7 +107,6 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -198,6 +215,20 @@
         </td>
         <td><p>Upload module to code-sharing service</p></td>
       </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-base-functions" class="hasAnchor"><a href="#section-base-functions" class="anchor"></a>Base functions</h2>
+          <p class="section-desc"><p>Reexported functions from the base package</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="reexports.html">reexports</a></code> </p>
+        </td>
+        <td><p>Objects exported from other packages</p></td>
+      </tr>
     </tbody>
     </table>
   </div>
@@ -207,6 +238,7 @@
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#section-build">Build</a></li>
       <li><a href="#section-docker-git">Docker, git</a></li>
+      <li><a href="#section-base-functions">Base functions</a></li>
     </ul>
   </div>
 </div>

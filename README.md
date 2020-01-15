@@ -40,7 +40,7 @@ Build an [`outsider`](https://github.com/AntonelliLab/outsider#readme) module to
 
 ```r
 # make my own quick package
-library(outsider.devtools)\
+library(outsider.devtools)
 
 # construct a skeleton file structure for the module
 module_path <- module_skeleton(program_name = 'echo', flpth = getwd())
