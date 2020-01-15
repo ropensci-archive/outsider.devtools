@@ -83,15 +83,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/basic.html">Basic</a>
-</li>
-<li>
-  <a href="../articles/intermediate.html">Intermediate</a>
-</li>
-<li>
-  <a href="../articles/advanced.html">Advanced</a>
-</li>
-<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -100,6 +91,7 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -190,23 +182,22 @@
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>outsider</span>)</div><div class='output co'>#&gt; <span class='message'>----------------</span>
 #&gt; <span class='message'>outsider v 0.1.0</span>
 #&gt; <span class='message'>----------------</span>
-#&gt; <span class='message'>- Security notice: be sure of which modules you install</span></div><div class='input'><span class='co'># build a skeleton package</span>
-<span class='no'>flpth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-<span class='no'>mdl_pth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='module_skeleton.html'>module_skeleton</a></span>(<span class='kw'>program_name</span> <span class='kw'>=</span> <span class='st'>'example'</span>, <span class='kw'>repo_user</span> <span class='kw'>=</span> <span class='st'>'github_user'</span>,
-                           <span class='kw'>docker_user</span> <span class='kw'>=</span> <span class='st'>'docker_user'</span>, <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>flpth</span>)
-<span class='co'># look-up module user and program name/ids</span>
-<span class='co'># note: "om.." is added to the beginning of the program name</span>
-<span class='co'># mdl_pth &lt;- file.path(flpth, 'om..example')</span>
-<span class='co'># (ids &lt;- module_identities(flpth = mdl_pth))</span>
-<span class='co'># # generate .travis.yml</span>
-<span class='co'># module_travis(repo = ids$`GitHub repo`, flpth = mdl_pth)</span>
-<span class='co'># cat(readLines(file.path(mdl_pth, '.travis.yml')), sep = '\n')</span>
-<span class='co'># # check the package is formatted correctly</span>
-<span class='co'># module_check(flpth = mdl_pth)</span>
+#&gt; <span class='message'>- Security notice: be sure of which modules you install</span></div><div class='input'>
+<span class='co'># NOT RUN</span>
+<span class='co'># # build a skeleton package</span>
+<span class='co'># module_path &lt;- module_skeleton(program_name = 'echo', flpth = getwd())</span>
+<span class='co'># # check the file structure</span>
+<span class='co'># module_check(flpth = module_path)</span>
+<span class='co'># # look-up key identifying names: R package name, Docker image name</span>
+<span class='co'># module_identities(flpth = module_path)</span>
+<span class='co'># # build the R package and Docker image</span>
+<span class='co'># module_build(flpth = module_path, tag = 'latest')</span>
+<span class='co'># # test the module</span>
+<span class='co'># module_test(flpth = module_path)</span>
 
 
 <span class='co'># clean-up</span>
-<span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>mdl_pth</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>module_path</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in unlink(x = module_path, recursive = TRUE): object 'module_path' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

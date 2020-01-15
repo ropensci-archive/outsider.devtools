@@ -30,3 +30,15 @@ Try comparing and contrasting your set-up with these repos:
 There is nothing preventing you develop an R package while enabling the
 package to also act as an `outsider` module. You do not need to call the package
 `om..`, all that is required is the `om.yml` and a functioning Dockerfile.
+
+## How do I delete an old image?
+
+Docker maintains images and containers. In the advanced vignette we showed you
+how to stop and remove containers. To delete unwanted images:
+
+```bash
+# list images
+docker image ls
+# delete an image
+docker image rm [IMAGE ID]
+```

@@ -15,20 +15,23 @@ navbar:
   type: inverse
   structure:
     structure:
-    left:  [home, basic, intermediate, advanced, faqs, reference, news]
+    left:  [home, building, faqs, reference, news]
     right: [github]
   components:
     home: ~
     articles: ~
-    basic:
-      text: Basic
-      href: articles/basic.html
-    intermediate:
-      text: Intermediate
-      href: articles/intermediate.html
-    advanced:
-      text: Advanced
-      href: articles/advanced.html
+    building:
+      text: Module Building
+      menu:
+        basic:
+          text: Basic
+          href: articles/basic.html
+        intermediate:
+          text: Intermediate
+          href: articles/intermediate.html
+        advanced:
+          text: Advanced
+          href: articles/advanced.html
     faqs:
       text: FAQs
       href: articles/faqs.html

@@ -44,15 +44,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../articles/basic.html">Basic</a>
-</li>
-<li>
-  <a href="../articles/intermediate.html">Intermediate</a>
-</li>
-<li>
-  <a href="../articles/advanced.html">Advanced</a>
-</li>
-<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -61,6 +52,7 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown-header">Module Building</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -108,6 +100,15 @@
 <a href="#can-a-module-be-an-r-package" class="anchor"></a>Can a module be an R package?</h2>
 <p>There is nothing preventing you develop an R package while enabling the package to also act as an <code>outsider</code> module. You do not need to call the package <code>om..</code>, all that is required is the <code>om.yml</code> and a functioning Dockerfile.</p>
 </div>
+<div id="how-do-i-delete-an-old-image" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-do-i-delete-an-old-image" class="anchor"></a>How do I delete an old image?</h2>
+<p>Docker maintains images and containers. In the advanced vignette we showed you how to stop and remove containers. To delete unwanted images:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># list images</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="ex">docker</span> image ls</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># delete an image</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="ex">docker</span> image rm [IMAGE ID]</a></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -118,6 +119,7 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#why-is-my-module-not-returned-by-outsidermodule_search">Why is my module not returned by <code>outsider::module_search</code>?</a></li>
       <li><a href="#can-a-module-be-an-r-package">Can a module be an R package?</a></li>
+      <li><a href="#how-do-i-delete-an-old-image">How do I delete an old image?</a></li>
       </ul>
 </div>
       </div>

@@ -83,15 +83,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/basic.html">Basic</a>
-</li>
-<li>
-  <a href="../articles/intermediate.html">Intermediate</a>
-</li>
-<li>
-  <a href="../articles/advanced.html">Advanced</a>
-</li>
-<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -100,6 +91,7 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -147,8 +139,8 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Validated outsider modules must have a .travis.yml in their
-repository. These .travis.yml are created with <a href='module_skeleton.html'>module_skeleton</a> but
-can also be generated using this function.</p>
+repository. These <code>.travis.yml</code> are created with <a href='module_skeleton.html'>module_skeleton</a>
+but can also be generated using this function.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other build: 
@@ -159,6 +151,18 @@ can also be generated using this function.</p>
 <code><a href='module_test.html'>module_test</a>()</code>,
 <code><a href='module_upload.html'>module_upload</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>outsider</span>)
+
+<span class='co'># a skeleton already comes with a .travis.yml</span>
+<span class='no'>module_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='module_skeleton.html'>module_skeleton</a></span>(<span class='kw'>program_name</span> <span class='kw'>=</span> <span class='st'>"goldenhind"</span>,
+                               <span class='kw'>repo_user</span> <span class='kw'>=</span> <span class='st'>"drake_on_github"</span>,
+                               <span class='kw'>docker_user</span> <span class='kw'>=</span> <span class='st'>"drake_on_docker"</span>,
+                               <span class='kw'>service</span> <span class='kw'>=</span> <span class='st'>'github'</span>,
+                               <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+(<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.exists</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>module_path</span>, <span class='st'>'.travis.yml'</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># but if it were deleted, needs updating or mistakenly edited ...</span>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>module_path</span>, <span class='st'>'.travis.yml'</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># a new one can generated</span>
+<span class='fu'>module_travis</span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; <span style='color: #00BB00;'>✔</span><span> Writing </span><span style='color: #0000BB;'>'/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpJgFWhg/om..goldenhind/.travis.yml'</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
@@ -167,6 +171,7 @@ can also be generated using this function.</p>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

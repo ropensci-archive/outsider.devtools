@@ -43,7 +43,8 @@
 
 
 <meta property="og:title" content="Build a Docker image — docker_build" />
-<meta property="og:description" content="Build a Docker image through system call." />
+<meta property="og:description" content="Build a Docker image through a system call. Returns TRUE if
+no errors are raised." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -83,15 +84,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/basic.html">Basic</a>
-</li>
-<li>
-  <a href="../articles/intermediate.html">Intermediate</a>
-</li>
-<li>
-  <a href="../articles/advanced.html">Advanced</a>
-</li>
-<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -100,6 +92,7 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -127,7 +120,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Build a Docker image through system call.</p>
+    <p>Build a Docker image through a system call. Returns TRUE if
+no errors are raised.</p>
     </div>
 
     <pre class="usage"><span class='fu'>docker_build</span>(<span class='no'>img</span>, <span class='no'>tag</span>, <span class='no'>url_or_path</span>, <span class='no'>verbose</span>)</pre>
@@ -161,6 +155,33 @@
     <div class='dont-index'><p>Other docker: 
 <code><a href='docker_push.html'>docker_push</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>outsider.devtools</span>)
+
+<span class='co'># simplest possible Dockerfile</span>
+<span class='no'>df_text</span> <span class='kw'>&lt;-</span> <span class='st'>"
+FROM ubuntu:latest
+"</span>
+
+<span class='co'># create dir to host Dockerfile</span>
+<span class='no'>flpth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>'test_docker_build'</span>)
+<span class='kw'>if</span>(!<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span>(<span class='no'>flpth</span>)) {
+  <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>flpth</span>)
+}
+
+<span class='co'># write to file</span>
+<span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>df_text</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>flpth</span>, <span class='st'>'Dockerfile'</span>))
+
+<span class='co'># run docker_build from flpth</span>
+<span class='fu'>docker_build</span>(<span class='kw'>img</span> <span class='kw'>=</span> <span class='st'>'test_docker_build'</span>, <span class='kw'>tag</span> <span class='kw'>=</span> <span class='st'>'latest'</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+             <span class='kw'>url_or_path</span> <span class='kw'>=</span> <span class='no'>flpth</span>)</div><div class='output co'>#&gt; <span style='font-weight: bold;'>Command:
+#&gt; </span><span style='color: #555555;'>docker build -t test_docker_build:latest /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpJgFWhg/test_docker_build</span><span>
+#&gt; </span><span style='color: #555555;'>.....................................................................................................................</span><span>
+#&gt; Sending build context to Docker daemon  2.048kB
+#&gt; Step 1/1 : FROM ubuntu:latest
+#&gt;  ---&gt; 549b9b86cb8d
+#&gt; Successfully built 549b9b86cb8d
+#&gt; Successfully tagged test_docker_build:latest</div><div class='output co'>#&gt; [1] TRUE</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
@@ -168,6 +189,7 @@
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

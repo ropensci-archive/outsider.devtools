@@ -84,15 +84,6 @@ development of a new outsider module. Returns file path to new module." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/basic.html">Basic</a>
-</li>
-<li>
-  <a href="../articles/intermediate.html">Intermediate</a>
-</li>
-<li>
-  <a href="../articles/advanced.html">Advanced</a>
-</li>
-<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -101,6 +92,7 @@ development of a new outsider module. Returns file path to new module." />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -139,7 +131,10 @@ development of a new outsider module. Returns file path to new module.</p>
   <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
   <span class='kw'>module_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>cmd</span> <span class='kw'>=</span> <span class='no'>program_name</span>,
-  <span class='kw'>service</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"github"</span>, <span class='st'>"gitlab"</span>, <span class='st'>"bitbucket"</span>)
+  <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>service</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"github"</span>, <span class='st'>"gitlab"</span>, <span class='st'>"bitbucket"</span>),
+  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -174,14 +169,31 @@ current working directory.</p></td>
       <td><p>Command-line call for program, default [program_name]</p></td>
     </tr>
     <tr>
+      <th>full_name</th>
+      <td><p>Your full name (for authorship)</p></td>
+    </tr>
+    <tr>
+      <th>email</th>
+      <td><p>Your email (for authorship)</p></td>
+    </tr>
+    <tr>
       <th>service</th>
       <td><p>Code-sharing site.</p></td>
+    </tr>
+    <tr>
+      <th>overwrite</th>
+      <td><p>Automatically overwrite pre-exisiting files? If FALSE,
+user is queried whether to overwrite for each pre-exisiting file.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Character</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If <code>full_name</code> and <code>email</code> are provided, then new lines
+are added to DESCRIPTION specifying the author and maintainer of the package.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other build: 
@@ -192,13 +204,43 @@ current working directory.</p></td>
 <code><a href='module_travis.html'>module_travis</a>()</code>,
 <code><a href='module_upload.html'>module_upload</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>outsider</span>)
+
+<span class='co'># build file structure for an example module</span>
+<span class='no'>module_path</span> <span class='kw'>&lt;-</span> <span class='fu'>module_skeleton</span>(<span class='kw'>program_name</span> <span class='kw'>=</span> <span class='st'>"goldenhind"</span>,
+                               <span class='kw'>repo_user</span> <span class='kw'>=</span> <span class='st'>"drake_on_github"</span>,
+                               <span class='kw'>docker_user</span> <span class='kw'>=</span> <span class='st'>"drake_on_docker"</span>,
+                               <span class='kw'>full_name</span> <span class='kw'>=</span> <span class='st'>'Sir Francis Drake'</span>,
+                               <span class='kw'>email</span> <span class='kw'>=</span> <span class='st'>'f.drake@goldenhind.gov.uk'</span>,
+                               <span class='kw'>service</span> <span class='kw'>=</span> <span class='st'>'github'</span>,
+                               <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
+<span class='co'># new path created </span>
+(<span class='no'>module_path</span>)</div><div class='output co'>#&gt; [1] "/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpJgFWhg/om..goldenhind"</div><div class='input'><span class='co'># check the generated names and links</span>
+<span class='fu'><a href='module_identities.html'>module_identities</a></span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; R package name: <span style='color: #00BB00;'>'om..goldenhind'</span><span>
+#&gt; URL: </span><span style='color: #00BB00;'>'https://github.com/drake_on_github/om..goldenhind'</span><span>
+#&gt; Docker images: </span><span style='color: #00BB00;'>'drake_on_docker/om_goldenhind:latest'</span><span></div><div class='input'><span class='co'># check the files are in the right locations</span>
+<span class='fu'><a href='module_check.html'>module_check</a></span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>DESCRIPTION found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>R folder with files found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst/om.yml found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst/dockerfiles found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst/dockerfiles/latest with one Dockerfile found ✓</span><span></div><div class='input'><span class='co'># deliberately break: delete a folder and check again</span>
+<span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>module_path</span>, <span class='st'>'inst'</span>), <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='module_check.html'>module_check</a></span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; </span><span style='color: #00BB00;'>DESCRIPTION found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>R folder with files found ✓</span><span>
+#&gt; </span><span style='color: #BB0000;'>inst not found x</span><span></div><div class='input'>
+<span class='co'># clean-up</span>
+<span class='fu'><a href='https://rdrr.io/r/base/unlink.html'>unlink</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>module_path</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>force</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

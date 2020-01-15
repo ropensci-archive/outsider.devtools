@@ -23,7 +23,7 @@ well the typical program which `outsider` aims to bring into the R environment:
 lots of arguments, complex algorithm developed in an alternative language.
 
 
-To demonstrate the program's complexity, here is the command's signature:
+To demonstrate the program's complexity, here is the command's syntax:
 
 ```
 raxmlHPC[-SSE3|-AVX|-PTHREADS|-PTHREADS-SSE3|-PTHREADS-AVX|-HYBRID|-HYBRID-SSE3|HYBRID-AVX]
@@ -127,7 +127,8 @@ a normal argument, we have `filestosend_get`. This function goes through all the
 provided arguments to check for any files (it tests whether they are valid file
 paths) and returns them as a character vector to `files_to_send`. Then we have
 `arglist_parse`, this converts all given arguments to their basename so that
-absolute filepaths are dropped. All input files will be passed to the containers `working_dir/` and therefore no parental file path are required. This function
+absolute filepaths are dropped. All input files will be passed to the containers
+`working_dir/` and therefore no parental file path are required. This function
 has additional functions for dropping irrelevant arguments in the context of an
 `outsider` module (e.g. no need to specify an output directory at the 
 command-line, this would need to be done at the initiation of the `outsider`
@@ -137,9 +138,8 @@ object.)
 files. To ensure they are all returned in a convenient location, we have
 created an additional argument to the `raxml()` function called `outdir`. It can
 be good practice to break-up information that needs to be processed by the
-module
-function into things like `arglist` and `outdir`. In some instances, you may
-be calling a program where additional information can be provided outside of
+module function into things like `arglist` and `outdir`. In some instances, you
+may be calling a program where additional information can be provided outside of
 remit of the main program being emulated. For example in our last example we had
 `input_file` and `output_file`. Other examples include, number of threads,
 memory allocation for the program, etc.
@@ -208,7 +208,7 @@ module_travis(flpth = flpth)
 
 Then simply update the repo on GitHub!
 
-## Dotting the Is and crossing the Ts
+## Taking the module forward
 
 After you have built a module that passes its tests and is available for
 download, there are a few extra things to consider:
@@ -220,8 +220,8 @@ where to get more help. Remember to only edit the `README.Rmd`. To update the
 `README.md` for GitHub, you need to "knit" the `.Rmd` file by running
 `devtools::build_readme()` -- this is the function `module_build()` runs.
 * **Ensure discoverability** `outsider::module_search` can find `outsider`
-module repos on GitHub if they have and `om.yml`, have name in the form `om..`
-and have the phrase `outsider-module: ` in their description.
+module repos on GitHub if they have and `om.yml`, have their name in the form
+`om..` and have the phrase `outsider-module: ` in their description.
 
 ---
 
@@ -243,6 +243,7 @@ already available modules at this
 * If you find issues with the docker image build step, you can try "logging
 into" a container and running the installation steps to test out what works.
 At the terminal, use
+
 ```{bash docker-build, eval=FALSE, include=TRUE}
 # run an ubuntu container
 docker run -t -d --name test ubuntu:latest

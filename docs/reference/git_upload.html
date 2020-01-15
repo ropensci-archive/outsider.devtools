@@ -84,15 +84,6 @@ a git repo, add core module files, commit and push to remote." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../articles/basic.html">Basic</a>
-</li>
-<li>
-  <a href="../articles/intermediate.html">Intermediate</a>
-</li>
-<li>
-  <a href="../articles/advanced.html">Advanced</a>
-</li>
-<li>
   <a href="../articles/faqs.html">FAQs</a>
 </li>
 <li>
@@ -101,6 +92,7 @@ a git repo, add core module files, commit and push to remote." />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown-header">Module Building</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -157,12 +149,33 @@ a git repo, add core module files, commit and push to remote.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Remote URL is determined to be: code sharing URL + username + R
-package name.</p>
+package name.
+Git must be configured on a user's system before this function can be run.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other git: 
 <code><a href='remote_git_exists.html'>remote_git_exists</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Git must be configured before function can be run.</span>
+<span class='co'># To configure, provide your name and email via the command-line, e.g.</span>
+<span class='co'># git config --global user.name "John Doe"</span>
+<span class='co'># git config --global user.email johndoe@example.com</span>
+<span class='co'># To check your username and email, try:</span>
+<span class='co'># git config --list</span>
+
+<span class='co'># NOT RUN</span>
+<span class='co'># construct a simple module</span>
+<span class='no'>module_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='module_skeleton.html'>module_skeleton</a></span>(<span class='kw'>program_name</span> <span class='kw'>=</span> <span class='st'>'echo'</span>, <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>())
+<span class='fu'><a href='module_check.html'>module_check</a></span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; <span style='color: #00BB00;'>DESCRIPTION found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>R folder with files found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst/om.yml found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst/dockerfiles found ✓</span><span>
+#&gt; </span><span style='color: #00BB00;'>inst/dockerfiles/latest with one Dockerfile found ✓</span><span></div><div class='input'><span class='fu'><a href='module_identities.html'>module_identities</a></span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; R package name: </span><span style='color: #00BB00;'>'om..echo'</span><span>
+#&gt; Docker images: </span><span style='color: #00BB00;'>'/om_echo:latest'</span><span></div><div class='input'><span class='co'># after these steps all files are built, to upload to git use:</span>
+<span class='fu'>git_upload</span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>, <span class='kw'>username</span> <span class='kw'>=</span> <span class='st'>'[YOUR USERNAME]'</span>,
+           <span class='kw'>service</span> <span class='kw'>=</span> <span class='st'>'[SERVICE]'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in match.arg(service): 'arg' should be one of “github”, “gitlab”, “bitbucket”</span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
@@ -171,6 +184,7 @@ package name.</p>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

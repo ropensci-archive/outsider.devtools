@@ -252,7 +252,8 @@ module_build <- function(flpth = getwd(), tag = 'latest',
     cat_line(cli::rule())
     cat_line('Running ', func('devtools::build_readme'), ' ...')
     cat_line(cli::rule())
-    devtools::build_readme(path = flpth, quiet = !verbose)
+    devtools::build_readme(path = flpth, quiet = !verbose,
+                           output_format = 'github_document')
   }
   invisible(TRUE)
 }
