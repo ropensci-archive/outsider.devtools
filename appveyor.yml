@@ -1,4 +1,5 @@
 # DO NOT CHANGE the "init" and "install" sections below
+image: Windows Server 2019
 
 # Download script file from GitHub
 init:
@@ -32,6 +33,17 @@ build_script:
   - travis-tool.sh install_github AntonelliLab/outsider.base
   - travis-tool.sh install_github AntonelliLab/outsider
   - travis-tool.sh install_deps
+  - ps: Write-host "`n*** VM CONFIGURATION ***`n" -foregroundcolor yellow
+  - ps: Write-host "`nCheck number of logical CPUs" -foregroundcolor green
+  - ps: gcim Win32_Processor | % { "$($_.NumberOfLogicalProcessors) logical CPUs" }
+  - ps: Write-host "`nCheck memory size" -foregroundcolor green
+  - ps: gcim Win32_OperatingSystem | % { "$([int]($_.TotalVisibleMemorySize/1mb)) Gb" }
+  - ps: Write-host "`n*** DOCKER ***`n" -foregroundcolor yellow
+  - ps: Write-host "`nSwitch to linux engine"  -foregroundcolor green
+  - docker-switch-linux
+  - ps: Write-host "`nList local docker linux images"  -foregroundcolor green
+  - docker images
+  - docker run --rm busybox echo hello_world_busybox
 
 test_script:
   - travis-tool.sh run_tests
