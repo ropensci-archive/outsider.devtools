@@ -8,4 +8,5 @@
 ^.travis.yml$
 ^appveyor.yml$
 ^_pkgdown.yml$
+^om..echo$
 ^CONTRIBUTING\.md$

@@ -34,13 +34,13 @@ Git must be configured on a user's system before this function can be run.
 # git config --list
 
 # NOT RUN
-# construct a simple module
-module_path <- module_skeleton(program_name = 'echo', flpth = getwd())
-module_check(flpth = module_path)
-module_identities(flpth = module_path)
-# after these steps all files are built, to upload to git use:
-git_upload(flpth = module_path, username = '[YOUR USERNAME]',
-           service = '[SERVICE]')
+# # construct a simple module
+# module_path <- module_skeleton(program_name = 'echo', flpth = getwd())
+# module_check(flpth = module_path)
+# module_identities(flpth = module_path)
+# # after these steps all files are built, to upload to git use:
+# git_upload(flpth = module_path, username = '[YOUR USERNAME]',
+#            service = '[SERVICE]')
 }
 \seealso{
 Other git: 

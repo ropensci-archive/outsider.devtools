@@ -11,7 +11,5 @@ library(outsider)
 # module_build(flpth = module_path, tag = 'latest')
 # # test the module
 # module_test(flpth = module_path)
-
-
-# clean-up
-unlink(x = module_path, recursive = TRUE)
+# # clean-up
+# unlink(x = module_path, recursive = TRUE)
