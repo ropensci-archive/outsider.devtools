@@ -6,8 +6,10 @@ test_that('om..echo can be built', {
   expect_true(module_check(flpth = module_path))
   expect_true(inherits(module_identities(flpth = module_path), 'identities'))
   # TODO: Can't build readme on traivs?
-  expect_true(module_build(flpth = module_path, tag = 'latest',
-                           build_readme=FALSE))
+  with_mock(
+    `devtools::build_readme` = function(...) TRUE,
+    expect_true(module_build(flpth = module_path, tag = 'latest'))
+  )
   expect_true(module_test(flpth = module_path))
   expect_true(outsider::module_uninstall('om..echo'))
 })

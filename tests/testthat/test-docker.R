@@ -12,6 +12,11 @@ test_that('docker_login() works', {
     `getPass::getPass` = function(...) 'password',
     expect_true(outsider.devtools:::docker_login(username = 'user'))
   )
+  with_mock(
+    `sys::exec_internal` = function(...) list('status' = 1),
+    `getPass::getPass` = function(...) 'password',
+    expect_false(outsider.devtools:::docker_login(username = 'user'))
+  )
 })
 # not really tests ....
 test_that('docker_build() works', {
