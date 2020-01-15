@@ -40,8 +40,8 @@ current working directory.}
 
 \item{service}{Code-sharing site.}
 
-\item{overwrite}{Automatically overwrite pre-exisiting files? If FALSE,
-user is queried whether to overwrite for each pre-exisiting file.}
+\item{overwrite}{Automatically overwrite pre-existing files? If FALSE,
+user is queried whether to overwrite for each pre-existing file.}
 }
 \value{
 Character

@@ -9,7 +9,10 @@ reference:
     - docker_build
     - docker_push
     - git_upload
-# ignore private
+- title: Base functions
+  desc: Reexported functions from the base package
+  contents:
+    - arglist_get
 
 navbar:
   type: inverse

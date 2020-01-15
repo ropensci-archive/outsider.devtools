@@ -11,7 +11,7 @@ file_create(x, flpth, overwrite)
 
 \item{flpth}{File path to be created}
 
-\item{overwrite}{Overwrite pre-exisiting file? Logical.}
+\item{overwrite}{Overwrite pre-existing file? Logical.}
 }
 \description{
 Write x to a filepath. Forces creation of directories.
