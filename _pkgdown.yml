@@ -40,7 +40,7 @@ navbar:
       href: articles/faqs.html
   right:
     - icon: fa-github
-      href: https://github.com/antonellilab/outsider.devtools
+      href: https://github.com/ropensci/outsider.devtools
         
 #template:
 #  params:

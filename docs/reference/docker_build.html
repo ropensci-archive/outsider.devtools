@@ -113,7 +113,7 @@ no errors are raised." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/antonellilab/outsider.devtools">
+  <a href="https://github.com/ropensci/outsider.devtools">
     <span class="fa fa-github"></span>
      
   </a>
@@ -132,7 +132,7 @@ no errors are raised." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Build a Docker image</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/outsider.devtools/blob/master/R/docker.R'><code>R/docker.R</code></a></small>
     <div class="hidden name"><code>docker_build.Rd</code></div>
     </div>
 
@@ -175,30 +175,25 @@ no errors are raised.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>outsider.devtools</span>)
 
-<span class='co'># simplest possible Dockerfile</span>
-<span class='no'>df_text</span> <span class='kw'>&lt;-</span> <span class='st'>"
-FROM ubuntu:latest
-"</span>
-
-<span class='co'># create dir to host Dockerfile</span>
-<span class='no'>flpth</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>'test_docker_build'</span>)
-<span class='kw'>if</span>(!<span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span>(<span class='no'>flpth</span>)) {
-  <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span>(<span class='no'>flpth</span>)
-}
-
-<span class='co'># write to file</span>
-<span class='fu'><a href='https://rdrr.io/r/base/write.html'>write</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>df_text</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>flpth</span>, <span class='st'>'Dockerfile'</span>))
-
-<span class='co'># run docker_build from flpth</span>
-<span class='fu'>docker_build</span>(<span class='kw'>img</span> <span class='kw'>=</span> <span class='st'>'test_docker_build'</span>, <span class='kw'>tag</span> <span class='kw'>=</span> <span class='st'>'latest'</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-             <span class='kw'>url_or_path</span> <span class='kw'>=</span> <span class='no'>flpth</span>)</div><div class='output co'>#&gt; <span style='font-weight: bold;'>Command:
-#&gt; </span><span style='color: #555555;'>docker build -t test_docker_build:latest /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpMOkwAi/test_docker_build</span><span>
-#&gt; </span><span style='color: #555555;'>.....................................................................................................................</span><span>
-#&gt; Sending build context to Docker daemon  2.048kB
-#&gt; Step 1/1 : FROM ubuntu:latest
-#&gt;  ---&gt; 549b9b86cb8d
-#&gt; Successfully built 549b9b86cb8d
-#&gt; Successfully tagged test_docker_build:latest</div><div class='output co'>#&gt; [1] TRUE</div></span></pre>
+<span class='co'># # NOT RUN</span>
+<span class='co'># </span>
+<span class='co'># # simplest possible Dockerfile</span>
+<span class='co'># df_text &lt;- "</span>
+<span class='co'># FROM ubuntu:latest</span>
+<span class='co'># "</span>
+<span class='co'># </span>
+<span class='co'># # create dir to host Dockerfile</span>
+<span class='co'># flpth &lt;- file.path(tempdir(), 'test_docker_build')</span>
+<span class='co'># if(!dir.exists(flpth)) {</span>
+<span class='co'>#   dir.create(flpth)</span>
+<span class='co'># }</span>
+<span class='co'># </span>
+<span class='co'># # write to file</span>
+<span class='co'># write(x = df_text, file = file.path(flpth, 'Dockerfile'))</span>
+<span class='co'># </span>
+<span class='co'># # run docker_build from flpth</span>
+<span class='co'># docker_build(img = 'test_docker_build', tag = 'latest', verbose = TRUE,</span>
+<span class='co'>#              url_or_path = flpth)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>

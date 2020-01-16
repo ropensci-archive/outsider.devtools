@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In [intermediate](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
+In [intermediate](https://docs.ropensci.org/outsider.devtools/articles/intermediate.html)
 we demonstrated how a complex, command-line program with input and output files
 (that we partly developed) can be cast as an `outsider` module.
 
@@ -239,7 +239,7 @@ unlink(x = flpth, recursive = TRUE, force = TRUE)
 * The best way to learn how to build your own module is to look at how others
 have created modules for programs you are familiar with. Check out the list of
 already available modules at this
-[page](https://antonellilab.github.io/outsider/articles/available.html).
+[page](https://docs.ropensci.org/outsider/articles/available.html).
 * If you find issues with the docker image build step, you can try "logging
 into" a container and running the installation steps to test out what works.
 At the terminal, use

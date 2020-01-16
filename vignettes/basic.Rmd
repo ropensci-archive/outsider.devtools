@@ -367,4 +367,4 @@ unlink(x = module_path, recursive = TRUE, force = TRUE)
 
 ---
 
-## Next-up: [Intermediate](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
+## Next-up: [Intermediate](https://docs.ropensci.org/outsider.devtools/articles/intermediate.html)

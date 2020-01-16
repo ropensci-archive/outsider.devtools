@@ -30,12 +30,14 @@ Authors@R: c(
                     email = "bob@rud.is"))
 Maintainer: Dom Bennett <dominic.john.bennett@gmail.com>
 Description: Developer functions and resources for building 'outsider' modules.
+ This package has been peer-reviewed by rOpenSci (v. 0.1.0).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 SystemRequirements: docker (>=18.0.0)
-URL: https://antonellilab.github.io/outsider.devtools
-BugReports: https://github.com/antonellilab/outsider.devtools/issues
+URL: https://docs.ropensci.org/outsider.devtools,
+    https://github.com/ropensci/outsider.devtools#readme
+BugReports: https://github.com/ropensci/outsider.devtools/issues
 Language: en-GB
 Depends:
     R (>= 3.3.0)
@@ -60,6 +62,6 @@ Suggests:
     rmarkdown,
     roxygen2
 Remotes:
-    AntonelliLab/outsider.base,
-    AntonelliLab/outsider
+    ropensci/outsider.base,
+    ropensci/outsider
 RoxygenNote: 7.0.2

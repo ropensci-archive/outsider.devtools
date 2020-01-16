@@ -7,7 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In [basics](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
+In [basics](https://docs.ropensci.org/outsider.devtools/articles/intermediate.html)
 we introduced the essential elements that make up a module and then built a
 super simple module.
 
@@ -243,6 +243,6 @@ unlink(x = flpth, recursive = TRUE, force = TRUE)
 
 ---
 
-## Next-up: [Advanced](https://antonellilab.github.io/outsider.devtools/articles/advanced.html)
+## Next-up: [Advanced](https://docs.ropensci.org/outsider.devtools/articles/advanced.html)
 
 

@@ -30,8 +30,8 @@ environment:
     - R_VERSION: devel
 
 build_script:
-  - travis-tool.sh install_github AntonelliLab/outsider.base
-  - travis-tool.sh install_github AntonelliLab/outsider
+  - travis-tool.sh install_github ropensci/outsider.base
+  - travis-tool.sh install_github ropensci/outsider
   - travis-tool.sh install_deps
   - ps: Write-host "`n*** VM CONFIGURATION ***`n" -foregroundcolor yellow
   - ps: Write-host "`nCheck number of logical CPUs" -foregroundcolor green

@@ -1,10 +1,10 @@
 
-Development tools package for `outsider` <img src="https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/logo_devtools.png" height="200" align="right"/>
+Development tools package for `outsider` <img src="https://raw.githubusercontent.com/ropensci/outsider.devtools/master/other/logo_devtools.png" height="200" align="right"/>
 ----
 
-[![Build Status](https://travis-ci.org/AntonelliLab/outsider.devtools.svg?branch=master)](https://travis-ci.org/AntonelliLab/outsider.base) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/AntonelliLab/outsider.devtools?branch=master&svg=true)](https://ci.appveyor.com/project/DomBennett/outsider-devtools) [![Coverage Status](https://coveralls.io/repos/github/AntonelliLab/outsider.devtools/badge.svg?branch=master)](https://coveralls.io/github/AntonelliLab/outsider.devtools?branch=master)
+[![Build Status](https://travis-ci.org/ropensci/outsider.devtools.svg?branch=master)](https://travis-ci.org/ropensci/outsider.base) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/ropensci/outsider.devtools?branch=master&svg=true)](https://ci.appveyor.com/project/DomBennett/outsider-devtools) [![Coverage Status](https://coveralls.io/repos/github/ropensci/outsider.devtools/badge.svg?branch=master)](https://coveralls.io/github/ropensci/outsider.devtools?branch=master)
 
-## Build [`outsider`](https://github.com/AntonelliLab/outsider#readme) modules!
+## Build [`outsider`](https://github.com/ropensci/outsider#readme) modules!
 
 This package aims to make life easier for  those who wish to build their own
 `outsider` modules. In just a few function calls: build a module skeleton,
@@ -13,9 +13,9 @@ Top banana! :banana:
 
 Acquaint yourself better with all these steps by reading up on:
 
-* ["Basic: Module Building"](https://antonellilab.github.io/outsider.devtools/articles/basic.html)
-* ["Intermediate: Module Building"](https://antonellilab.github.io/outsider.devtools/articles/intermediate.html)
-* ["Advanced: Module Building"](https://antonellilab.github.io/outsider.devtools/articles/advanced.html)
+* ["Basic: Module Building"](https://docs.ropensci.org/outsider.devtools/articles/basic.html)
+* ["Intermediate: Module Building"](https://docs.ropensci.org/outsider.devtools/articles/intermediate.html)
+* ["Advanced: Module Building"](https://docs.ropensci.org/outsider.devtools/articles/advanced.html)
 
 Happy building! :wrench:
 
@@ -25,18 +25,18 @@ Install via GitHub ....
 
 ```r
 # install.packages("remotes")
-remotes::install_github("AntonelliLab/outsider.devtools")
+remotes::install_github("ropensci/outsider.devtools")
 ```
 
 In addition to installing `outsider.devtools`, the above code will also install
 the key dependency packages
-[`outsider.base`](https://github.com/AntonelliLab/outsider.base#readme) and 
-[`outsider`](https://github.com/AntonelliLab/outsider#readme). (Read up on
+[`outsider.base`](https://github.com/ropensci/outsider.base#readme) and 
+[`outsider`](https://github.com/ropensci/outsider#readme). (Read up on
 [`remotes`](https://github.com/r-lib/remotes))
 
 ## Quick guide
 
-Build an [`outsider`](https://github.com/AntonelliLab/outsider#readme) module to run [`echo`](https://en.wikipedia.org/wiki/Echo_(command)) via the [Linux distribution Ubuntu](https://en.wikipedia.org/wiki/Ubuntu) in just a few function calls.
+Build an [`outsider`](https://github.com/ropensci/outsider#readme) module to run [`echo`](https://en.wikipedia.org/wiki/Echo_(command)) via the [Linux distribution Ubuntu](https://en.wikipedia.org/wiki/Ubuntu) in just a few function calls.
 
 ```r
 # make my own quick package
@@ -58,13 +58,13 @@ module_build(flpth = module_path, tag = 'latest')
 module_test(flpth = module_path)
 ```
 
-![](https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/build_example.gif)
+![](https://raw.githubusercontent.com/ropensci/outsider.devtools/master/other/build_example.gif)
 
-Visit the webpage ["The Basics"](https://antonellilab.github.io/outsider.devtools/articles/basic.html) to find out more.
+Visit the webpage ["The Basics"](https://docs.ropensci.org/outsider.devtools/articles/basic.html) to find out more.
 
 ## How do the `outsider` packages interact?
 
-![](https://raw.githubusercontent.com/AntonelliLab/outsider.devtools/master/other/package_structures.png)
+![](https://raw.githubusercontent.com/ropensci/outsider.devtools/master/other/package_structures.png)
 
 ## Citation
 
@@ -75,3 +75,6 @@ Bennett et al. (2019). outsider: Install and run programs, outside of R, inside 
 
 [Dom Bennett](https://github.com/dombennett/)
 
+---
+
+[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)

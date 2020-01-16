@@ -113,7 +113,7 @@ development of a new outsider module. Returns file path to new module." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/antonellilab/outsider.devtools">
+  <a href="https://github.com/ropensci/outsider.devtools">
     <span class="fa fa-github"></span>
      
   </a>
@@ -132,7 +132,7 @@ development of a new outsider module. Returns file path to new module." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate a skeleton for a module</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/outsider.devtools/blob/master/R/build.R'><code>R/build.R</code></a></small>
     <div class="hidden name"><code>module_skeleton.Rd</code></div>
     </div>
 
@@ -233,7 +233,7 @@ are added to DESCRIPTION specifying the author and maintainer of the package.</p
                                <span class='kw'>service</span> <span class='kw'>=</span> <span class='st'>'github'</span>,
                                <span class='kw'>flpth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>())
 <span class='co'># new path created </span>
-(<span class='no'>module_path</span>)</div><div class='output co'>#&gt; [1] "/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpMOkwAi/om..goldenhind"</div><div class='input'><span class='co'># check the generated names and links</span>
+(<span class='no'>module_path</span>)</div><div class='output co'>#&gt; [1] "/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//Rtmp1l3kJA/om..goldenhind"</div><div class='input'><span class='co'># check the generated names and links</span>
 <span class='fu'><a href='module_identities.html'>module_identities</a></span>(<span class='kw'>flpth</span> <span class='kw'>=</span> <span class='no'>module_path</span>)</div><div class='output co'>#&gt; R package name: <span style='color: #00BB00;'>'om..goldenhind'</span><span>
 #&gt; URL: </span><span style='color: #00BB00;'>'https://github.com/drake_on_github/om..goldenhind'</span><span>
 #&gt; Docker images: </span><span style='color: #00BB00;'>'drake_on_docker/om_goldenhind:latest'</span><span></div><div class='input'><span class='co'># check the files are in the right locations</span>

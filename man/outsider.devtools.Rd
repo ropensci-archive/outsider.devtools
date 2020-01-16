@@ -10,5 +10,5 @@ outsider modules.
 }
 \details{
 For more information visit the outsider website
-(\url{https://antonellilab.github.io/outsider.devtools/}).
+(\url{https://docs.ropensci.org/outsider.devtools/}).
 }
