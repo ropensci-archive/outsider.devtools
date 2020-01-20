@@ -3,7 +3,9 @@ title: "Basic: Module Building"
 output: html_document
 ---
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 `outsider` allows users to install and run programs on their own computer
 without the need to leave the R environment. If there is a command-line program
@@ -149,8 +151,7 @@ the usernames are of the `outsider` maintainer. In order for these examples to
 work for you, you will need to change "dombennett" to your own usernames.
 (Note, your usernames may differ for GitHub and Docker Hub).
 
-
-```r
+```{r skeleton}
 library(outsider.devtools)
 # the file location of where the module is saved is returned to "module_path"
 module_path <- module_skeleton(repo_user = 'dombennett', program_name = 'echo',
@@ -162,10 +163,6 @@ module_path <- module_skeleton(repo_user = 'dombennett', program_name = 'echo',
 print(basename(module_path))
 ```
 
-```
-## [1] "om..echo"
-```
-
 The above code will create an `outsider` module with the module and directory
 name `om..echo` at the file location `module_path`.
 After running the above code, you should take a minute to inspect the generated
@@ -174,20 +171,12 @@ and `functions.R`.
 
 **File tree `module_path` (before build)**
 
-
-```
-## ├── DESCRIPTION
-## ├── R
-## │   ├── functions.R
-## │   └── import.R
-## ├── README.Rmd
-## ├── examples
-## │   └── example.R
-## └── inst
-##     ├── dockerfiles
-##     │   └── latest
-##     │       └── Dockerfile
-##     └── om.yml
+```{r skeleton-filetree, echo=FALSE}
+treelines <- system(command = paste0("tree ", module_path), intern = TRUE)
+# drop first and last lines
+treelines <- treelines[-1]
+treelines <- treelines[-1*length(treelines)]
+cat(treelines, sep = '\n')
 ```
 
 > **Why `om..echo`?** All modules must start with "om.." in order for them to
@@ -202,8 +191,7 @@ is based on Ubuntu which ships with `echo` and our starting function in
 `functions.R` is based around running `echo`: it parses the arguments, creates
 an outsider object, and then launches the object.
 
-
-```r
+```{r echo-function, echo=TRUE, eval=FALSE}
 # The echo function in om..echo
 echo <- function(...) {
   # convert the ... into an argument list
@@ -240,67 +228,9 @@ With the skeleton set-up, we can now install the R package using
 not the Docker image, so we can set all build options to TRUE except for the
 `build_image` option.
 
-
-```r
+```{r build-package, results='hold'}
 module_build(flpth = module_path, build_documents = TRUE, build_package = TRUE,
              build_image = FALSE, build_readme = TRUE)
-```
-
-```
-## Updating om..echo documentation
-```
-
-```
-## First time using roxygen2. Upgrading automatically...
-```
-
-```
-## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..echo/DESCRIPTION
-```
-
-```
-## Loading om..echo
-```
-
-```
-## Building om..echo readme
-```
-
-```
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running devtools::document() ...
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Writing NAMESPACE
-## Writing NAMESPACE
-## Writing echo.Rd
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running devtools::install() ...
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-##      checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..echo/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..echo/DESCRIPTION’
-##   ─  preparing ‘om..echo’:
-##      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
-##   ─  checking for LF line-endings in source and make files and shell scripts
-##   ─  checking for empty or unneeded directories
-##   ─  building ‘om..echo_0.0.1.tar.gz’
-##      
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpquGDgt/om..echo_0.0.1.tar.gz --install-tests 
-## -* installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
-## |* installing *source* package ‘om..echo’ ...
-## -** using staged installation
-## |** R
-## -** inst
-## |** byte-compile and prepare package for lazy loading
-## -|** help
-## -*** installing help indices
-## |** building package indices
-## -** testing if installed package can be loaded from temporary location
-## |** testing if installed package can be loaded from final location
-## -** testing if installed package keeps a record of temporary installation path
-## |* DONE (om..echo)
-## -| ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running devtools::build_readme() ...
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ```
 
 > **What does `build_documents = TRUE` do?** In addition to the core files
@@ -320,25 +250,12 @@ as the homepage to the module on GitHub.
 
 **File tree `module_path` (after build)**
 
-
-```
-## ├── DESCRIPTION
-## ├── NAMESPACE
-## ├── R
-## │   ├── functions.R
-## │   └── import.R
-## ├── README.Rmd
-## ├── README.html
-## ├── README.md
-## ├── examples
-## │   └── example.R
-## ├── inst
-## │   ├── dockerfiles
-## │   │   └── latest
-## │   │       └── Dockerfile
-## │   └── om.yml
-## └── man
-##     └── echo.Rd
+```{r build-filetree, echo=FALSE}
+treelines <- system(command = paste0("tree ", module_path), intern = TRUE)
+# drop first and last lines
+treelines <- treelines[-1]
+treelines <- treelines[-1*length(treelines)]
+cat(treelines, sep = '\n')
 ```
 
 ## Creating/Building the Docker image
@@ -389,20 +306,10 @@ the Docker image is stored. With an existing image that is associated with the
 module, when the module's code is called a new container is created from the
 image and commands are passed to the container from R.
 
-
-```r
+```{r docker-build}
 module_build(flpth = module_path, tag = 'latest', build_image = TRUE,
              build_documents = FALSE, build_package = FALSE,
              build_readme = FALSE)
-```
-
-```
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running docker_build()
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Command:
-## docker build -t dombennett/om_echo:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..echo/dockerfiles/latest
-## .....................................................................................................................
 ```
 
 > **What is a tag?** A Docker tag is akin to the version number of the image.
@@ -420,19 +327,8 @@ image for module, create a new container, run the command and then shut-down the
 container. (If no associated image can be found, it will attempt to pull one
 from Docker Hub.)
 
-
-```r
+```{r test-package}
 library(outsider)
-```
-
-```
-## ----------------
-## outsider v 0.1.0
-## ----------------
-## - Security notice: be sure of which modules you install
-```
-
-```r
 # the repo always refers to the future github repo
 echo <- module_import('echo', repo = 'dombennett/om..echo')
 echo('hello world!')
@@ -449,8 +345,7 @@ Visit your GitHub account and then create a new repository by clicking
 your module, i.e. `om..echo`. (No initial steps are required to upload to
 Docker-Hub.)
 
-
-```r
+```{R upload, eval=FALSE, include=TRUE}
 # based on the module details, the function will determine which code-sharing
 # service to upload to
 module_upload(flpth = module_path, code_sharing = TRUE, dockerhub = TRUE)
@@ -462,22 +357,9 @@ module_upload(flpth = module_path, code_sharing = TRUE, dockerhub = TRUE)
 
 Don't want `om..echo` on your computer? Delete it so ...
 
-
-```r
+```{r clean-up}
 # to delete the Docker image and uninstall the R package
 module_uninstall(repo = 'dombennett/om..echo')
-```
-
-```
-## Removing 'om..echo'
-```
-
-```
-## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
-## (as 'lib' is unspecified)
-```
-
-```r
 # to delete the repo folder
 unlink(x = module_path, recursive = TRUE, force = TRUE)
 ```

@@ -3,9 +3,7 @@ title: "Intermediate: Module Building"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 In [basics](https://docs.ropensci.org/outsider.devtools/articles/intermediate.html)
 we introduced the essential elements that make up a module and then built a
@@ -38,7 +36,8 @@ encapsulate the program in module form.
 
 To get started, we will first need our module skeleton.
 
-```{r skeleton}
+
+```r
 library(outsider.devtools)
 flpth <- module_skeleton(repo_user = 'dombennett', program_name = 'figlet',
                          docker_user = 'dombennett', flpth = tempdir(),
@@ -47,12 +46,17 @@ flpth <- module_skeleton(repo_user = 'dombennett', program_name = 'figlet',
 print(basename(flpth))
 ```
 
+```
+## [1] "om..figlet"
+```
+
 Next we will need to develop the Dockerfile! `figlet` is easy enough to install
 on Ubuntu Linux, we can just use the "apt-get" system to install it. (Here I'm
 editing the file from within R to make the process reproducible, you can edit
 the file directly with a text editor.)
 
-```{r dockerfile}
+
+```r
 dockerfile_text <- "
 # select Ubuntu Linux image
 FROM ubuntu:latest
@@ -70,7 +74,8 @@ cat(dockerfile_text, file = file.path(flpth, 'inst', 'dockerfiles', 'latest',
 Now, we have our Dockerfile set-up and our module skeleton, we must develop the
 R code. The skeleton code for our `figlet`-module is currently:
 
-```{r skeleton-function, echo=TRUE, eval=FALSE}
+
+```r
 #' @name figlet
 #' @title figlet
 #' @description Run figlet
@@ -94,7 +99,8 @@ use some if statements and bash to create this functionality. Because this will
 require calling several commands via the terminal, we can create a shell script
 that we can then pass through `outsider` to our container.
 
-```{r rfunction}
+
+```r
 function_text <- "
 #' @name figlet
 #' @title figlet
@@ -159,31 +165,190 @@ documentation of the function. See
 
 Ok, let's build the module!
 
-```{r build-package}
+
+```r
 module_build(flpth = flpth)
+```
+
+```
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::document() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+```
+
+```
+## Updating om..figlet documentation
+```
+
+```
+## First time using roxygen2. Upgrading automatically...
+```
+
+```
+## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..figlet/DESCRIPTION
+```
+
+```
+## Writing NAMESPACE
+```
+
+```
+## Loading om..figlet
+```
+
+```
+## Writing NAMESPACE
+## Writing figlet.Rd
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::install() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+##      checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..figlet/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..figlet/DESCRIPTION’
+##   ─  preparing ‘om..figlet’:
+##    checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
+##   ─  checking for LF line-endings in source and make files and shell scripts
+##   ─  checking for empty or unneeded directories
+##   ─  building ‘om..figlet_0.0.1.tar.gz’
+##      
+## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpquGDgt/om..figlet_0.0.1.tar.gz --install-tests 
+## -* installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## |* installing *source* package ‘om..figlet’ ...
+## -** using staged installation
+## |** R
+## -** inst
+## |** byte-compile and prepare package for lazy loading
+## -|** help
+## -*** installing help indices
+## |** building package indices
+## -** testing if installed package can be loaded from temporary location
+## |** testing if installed package can be loaded from final location
+## -** testing if installed package keeps a record of temporary installation path
+## |* DONE (om..figlet)
+## -| ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running docker_build()
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Command:
+## docker build -t dombennett/om_figlet:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..figlet/dockerfiles/latest
+## .....................................................................................................................
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::build_readme() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+```
+
+```
+## Building om..figlet readme
 ```
 
 Does it work?
 
-```{r does-it-work}
+
+```r
 library(outsider)
 figlet <- module_import('figlet', repo = 'dombennett/om..figlet')
 # without files
 figlet(arglist = 'hello!')
+```
+
+```
+## [1] "figlet hello!"
+```
+
+```r
 # with input file
 input_file <- file.path(tempdir(), 'input_figlet.txt')
 cat('This is from the input text file!', file = input_file)
 figlet(arglist = '', input_file = input_file)
+```
+
+```
+## [1] "cat input_figlet.txt | figlet "
+```
+
+```r
 # with output file
 output_file <- file.path(tempdir(), 'output_figlet.txt')
 figlet(arglist = 'Into the output file', output_file = output_file)
+```
+
+```
+## [1] "figlet Into the output file > output_figlet.txt"
+```
+
+```r
 cat(readLines(con = output_file), sep = '\n')
+```
+
+```
+##  ___       _          _   _                        _               _   
+## |_ _|_ __ | |_ ___   | |_| |__   ___    ___  _   _| |_ _ __  _   _| |_ 
+##  | || '_ \| __/ _ \  | __| '_ \ / _ \  / _ \| | | | __| '_ \| | | | __|
+##  | || | | | || (_) | | |_| | | |  __/ | (_) | |_| | |_| |_) | |_| | |_ 
+## |___|_| |_|\__\___/   \__|_| |_|\___|  \___/ \__,_|\__| .__/ \__,_|\__|
+##                                                       |_|              
+##   __ _ _      
+##  / _(_) | ___ 
+## | |_| | |/ _ \
+## |  _| | |  __/
+## |_| |_|_|\___|
+## 
+```
+
+```r
 # from input file to output file... with font block!
 figlet(arglist = c('-f', 'block'), input_file = input_file,
        output_file = output_file)
+```
+
+```
+## [1] "cat input_figlet.txt | figlet -f block > output_figlet.txt"
+```
+
+```r
 cat(readLines(con = output_file), sep = '\n')
+```
+
+```
+##                                                       
+## _|_|_|_|_|  _|        _|                _|            
+##     _|      _|_|_|          _|_|_|            _|_|_|  
+##     _|      _|    _|  _|  _|_|          _|  _|_|      
+##     _|      _|    _|  _|      _|_|      _|      _|_|  
+##     _|      _|    _|  _|  _|_|_|        _|  _|_|_|    
+##                                                       
+##                                                       
+##                                               
+##     _|_|                                      
+##   _|      _|  _|_|    _|_|    _|_|_|  _|_|    
+## _|_|_|_|  _|_|      _|    _|  _|    _|    _|  
+##   _|      _|        _|    _|  _|    _|    _|  
+##   _|      _|          _|_|    _|    _|    _|  
+##                                               
+##                                               
+##                                                                               
+##   _|      _|                      _|                                  _|      
+## _|_|_|_|  _|_|_|      _|_|            _|_|_|    _|_|_|    _|    _|  _|_|_|_|  
+##   _|      _|    _|  _|_|_|_|      _|  _|    _|  _|    _|  _|    _|    _|      
+##   _|      _|    _|  _|            _|  _|    _|  _|    _|  _|    _|    _|      
+##     _|_|  _|    _|    _|_|_|      _|  _|    _|  _|_|_|      _|_|_|      _|_|  
+##                                                 _|                            
+##                                                 _|                            
+##                                                                             
+##   _|                            _|              _|_|  _|  _|            _|  
+## _|_|_|_|    _|_|    _|    _|  _|_|_|_|        _|          _|    _|_|    _|  
+##   _|      _|_|_|_|    _|_|      _|          _|_|_|_|  _|  _|  _|_|_|_|  _|  
+##   _|      _|        _|    _|    _|            _|      _|  _|  _|            
+##     _|_|    _|_|_|  _|    _|      _|_|        _|      _|  _|    _|_|_|  _|  
+##                                                                             
+## 
+```
+
+```r
 # clean-up
 file.remove(c(input_file, output_file))
+```
+
+```
+## [1] TRUE TRUE
 ```
 
 ## Check, test and deploy
@@ -192,11 +357,33 @@ Ok! So we have a functioning module. But how do we know it's a functioning
 module? To check our module structure, configuration and functioning we have a 
 few helpful functions.
 
-```{r check-and-test}
+
+```r
 # make sure the folder structure is correct
 module_check(flpth = flpth)
+```
+
+```
+## DESCRIPTION found ✓
+## R folder with files found ✓
+## inst found ✓
+## inst/om.yml found ✓
+## inst/dockerfiles found ✓
+## inst/dockerfiles/latest with one Dockerfile found ✓
+```
+
+```r
 # check are the names of the module components
 module_identities(flpth = flpth)
+```
+
+```
+## R package name: 'om..figlet'
+## URL: 'https://github.com/dombennett/om..figlet'
+## Docker images: 'dombennett/om_figlet:latest'
+```
+
+```r
 # test that the module works
 # module_test(flpth = flpth)
 ```
@@ -206,7 +393,8 @@ Running `module_test` we will find that there is an issue with the module.
 current example tries to call `-h` with `figlet` -- which is
 an invalid argument. To correct this we can simply updated our example.
 
-```{r update-example}
+
+```r
 example_text <- "
 library(outsider)
 figlet <- module_import('figlet', repo = 'dombennett/om..figlet')
@@ -218,17 +406,109 @@ cat(example_text, file = file.path(flpth, 'examples', 'example.R'))
 module_build(flpth = flpth, build_image = FALSE, verbose = FALSE)
 ```
 
+```
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::document() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+```
+
+```
+## Updating om..figlet documentation
+```
+
+```
+## Writing NAMESPACE
+```
+
+```
+## Loading om..figlet
+```
+
+```
+## Writing NAMESPACE
+## Writing figlet.Rd
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::install() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+```
+
+```
+## 
+## Attaching package: 'om..figlet'
+```
+
+```
+## The following object is masked _by_ '.GlobalEnv':
+## 
+##     figlet
+```
+
+```
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## Running devtools::build_readme() ...
+## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+```
+
+```
+## Building om..figlet readme
+```
+
 Now re-running the test ...
 
-```{r module_test}
+
+```r
 module_test(flpth = flpth)
+```
+
+```
+## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
+##   /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..figlet --install-tests 
+## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
+## -* installing *source* package ‘om..figlet’ ...
+## |** using staged installation
+## -** R
+## |** inst
+## -** byte-compile and prepare package for lazy loading
+## |-** help
+## |*** installing help indices
+## -** building package indices
+## |** testing if installed package can be loaded from temporary location
+## -** testing if installed package can be loaded from final location
+## |** testing if installed package keeps a record of temporary installation path
+## -* DONE (om..figlet)
+## |- 
+```
+
+```
+## 
+## Attaching package: 'om..figlet'
+```
+
+```
+## The following object is masked _by_ '.GlobalEnv':
+## 
+##     figlet
+```
+
+```
+## [1] "figlet hello!"
+```
+
+```
+## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
+## (as 'lib' is unspecified)
+```
+
+```
+## Yikes! The module works! You are super-excellent!
 ```
 
 
 Nice! The package passes. That means we can upload the package to GitHub and
 Docker-Hub using the same functions as we saw in "basic".
 
-```{R upload, eval=FALSE, include=TRUE}
+
+```r
 module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
 ```
 
@@ -236,7 +516,8 @@ module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
 
 **Delete it all**
 
-```{r clean-up}
+
+```r
 module_uninstall(repo = 'om..figlet')
 unlink(x = flpth, recursive = TRUE, force = TRUE)
 ```

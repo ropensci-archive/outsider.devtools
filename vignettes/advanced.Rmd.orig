@@ -3,7 +3,9 @@ title: "Advanced: Building a module"
 output: html_document
 ---
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 In [intermediate](https://docs.ropensci.org/outsider.devtools/articles/intermediate.html)
 we demonstrated how a complex, command-line program with input and output files
@@ -63,18 +65,13 @@ arguments?
 
 As before, let's just jump right in with the module skeleton.
 
-
-```r
+```{r skeleton}
 library(outsider.devtools)
 flpth <- module_skeleton(repo_user = 'dombennett', program_name = 'raxml',
                          docker_user = 'dombennett', flpth = tempdir(),
                          service = 'github')
 # folder name where module is stored
 print(basename(flpth))
-```
-
-```
-## [1] "om..raxml"
 ```
 
 Next, the Dockerfile. This is a much more complicated installation process.
@@ -84,8 +81,7 @@ The majority of the Dockerfile contents can be found in the installation
 instructions of the
 [RAxML GitHub site](https://github.com/stamatak/standard-RAxML#readme).
 
-
-```r
+```{r dockerfile}
 dockerfile_text <- "
 FROM ubuntu:latest
 RUN apt-get update && apt-get install -y \
@@ -107,8 +103,7 @@ cat(dockerfile_text, file = file.path(flpth, 'inst', 'dockerfiles', 'latest',
 
 Dockerfile defined. What should our R function be?
 
-
-```r
+```{r function-definition, eval=FALSE, include=TRUE}
 #' @name raxml
 #' @title raxml
 #' @description Run raxml
@@ -151,8 +146,7 @@ memory allocation for the program, etc.
 
 OK! So that's what the function looks like. Let's write it to file.
 
-
-```r
+```{r write-function-to-file}
 function_text <- "
 #' @name raxml
 #' @title raxml
@@ -179,121 +173,14 @@ Let's check the setup.
 Ok, let's build, test and upload the module! (The test should pass because by
 default, `-h` is used in the example and this is a valid argument for RAxML.)
 
-
-```r
+```{r build-package}
 module_build(flpth = flpth)
-```
-
-```
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running devtools::document() ...
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-```
-
-```
-## Updating om..raxml documentation
-```
-
-```
-## First time using roxygen2. Upgrading automatically...
-```
-
-```
-## Updating roxygen version in /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..raxml/DESCRIPTION
-```
-
-```
-## Writing NAMESPACE
-```
-
-```
-## Loading om..raxml
-```
-
-```
-## Writing NAMESPACE
-## Writing raxml.Rd
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running devtools::install() ...
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-##      checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..raxml/DESCRIPTION’ ...  ✓  checking for file ‘/private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..raxml/DESCRIPTION’
-##   ─  preparing ‘om..raxml’:
-##      checking DESCRIPTION meta-information ...  ✓  checking DESCRIPTION meta-information
-##   ─  checking for LF line-endings in source and make files and shell scripts
-##   ─  checking for empty or unneeded directories
-##   ─  building ‘om..raxml_0.0.1.tar.gz’
-##      
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T//RtmpquGDgt/om..raxml_0.0.1.tar.gz --install-tests 
-## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
-## -* installing *source* package ‘om..raxml’ ...
-## |** using staged installation
-## -** R
-## |** inst
-## -** byte-compile and prepare package for lazy loading
-## |-** help
-## |*** installing help indices
-## -** building package indices
-## |** testing if installed package can be loaded from temporary location
-## -** testing if installed package can be loaded from final location
-## |** testing if installed package keeps a record of temporary installation path
-## -* DONE (om..raxml)
-## |- ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running docker_build()
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Command:
-## docker build -t dombennett/om_raxml:latest /Library/Frameworks/R.framework/Versions/3.6/Resources/library/om..raxml/dockerfiles/latest
-## .....................................................................................................................
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## Running devtools::build_readme() ...
-## ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-```
-
-```
-## Building om..raxml readme
-```
-
-```r
 module_test(flpth = flpth)
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD INSTALL \
-##   /private/var/folders/x9/m8kwpxps2v93xk52zqzm5lkh0000gp/T/RtmpquGDgt/om..raxml --install-tests 
-## * installing to library ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library’
-## -* installing *source* package ‘om..raxml’ ...
-## |** using staged installation
-## -** R
-## |** inst
-## -** byte-compile and prepare package for lazy loading
-## |-** help
-## |*** installing help indices
-## -** building package indices
-## |** testing if installed package can be loaded from temporary location
-## -** testing if installed package can be loaded from final location
-## |** testing if installed package keeps a record of temporary installation path
-## -* DONE (om..raxml)
-## |- 
-```
-
-```
-## No Docker image found for 'om..raxml' -- attempting to pull/build image with tag 'latest'
-```
-
-```
-## Removing package from '/Library/Frameworks/R.framework/Versions/3.6/Resources/library'
-## (as 'lib' is unspecified)
-```
-
-```
-## The gloating goat got away! The module is not working....
-## But keep on forming! You're doing correctly!
 ```
 
 And then upload ....
 
-
-```r
+```{r upload, eval=FALSE, include=TRUE}
 module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
 ```
 
@@ -315,8 +202,7 @@ Then we need to provide the test instructions for Travis in the form of a YAML
 file called `.travis.yml` and upload this to our GitHub repo. The `.travis.yml`
 can be created for `outsider` modules so:
 
-
-```r
+```{r travis-file, eval=FALSE}
 module_travis(flpth = flpth)
 ```
 
@@ -341,8 +227,7 @@ module repos on GitHub if they have and `om.yml`, have their name in the form
 
 **Delete it all**
 
-
-```r
+```{r clean-up}
 module_uninstall(repo = 'om..raxml')
 unlink(x = flpth, recursive = TRUE, force = TRUE)
 ```
@@ -359,8 +244,7 @@ already available modules at this
 into" a container and running the installation steps to test out what works.
 At the terminal, use
 
-
-```bash
+```{bash docker-build, eval=FALSE, include=TRUE}
 # run an ubuntu container
 docker run -t -d --name test ubuntu:latest
 # iteractively run bash

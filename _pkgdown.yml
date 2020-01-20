@@ -15,13 +15,11 @@ reference:
     - arglist_get
 
 navbar:
-  type: inverse
   structure:
     structure:
     left:  [home, building, faqs, reference, news]
     right: [github]
   components:
-    home: ~
     articles: ~
     building:
       text: Module Building

@@ -1,0 +1,248 @@
+---
+title: "Intermediate: Module Building"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In [basics](https://docs.ropensci.org/outsider.devtools/articles/intermediate.html)
+we introduced the essential elements that make up a module and then built a
+super simple module.
+
+On this page, we will build a module for a slightly more complex program while
+introducing some more functionalities of `outsider`.
+
+## `figlet`
+
+For this walkthrough, we will be creating a slightly more sophisticated module
+than `om..echo` by building a module for [`figlet`](http://www.figlet.org/),
+a program that takes textual input and returns ASCII art.
+
+The program itself only takes text input and returns text output. We, however,
+will use `outsider` to create a module that can either take an input file or
+text and then return ASCII art to either the console or to an output file.
+
+Not all command-line programs follow the same standards (different input/output
+file arguments, different help pages ...), so `outsider` comes with a series of
+functions to provide options for developers for how best they want to
+encapsulate the program in module form.
+
+(For reference, this module does already exist in the wild:
+[dombennett/om..figlet](https://github.com/DomBennett/om..figlet))
+
+# Walkthrough
+
+## Building
+
+To get started, we will first need our module skeleton.
+
+```{r skeleton}
+library(outsider.devtools)
+flpth <- module_skeleton(repo_user = 'dombennett', program_name = 'figlet',
+                         docker_user = 'dombennett', flpth = tempdir(),
+                         service = 'github')
+# folder name where module is stored
+print(basename(flpth))
+```
+
+Next we will need to develop the Dockerfile! `figlet` is easy enough to install
+on Ubuntu Linux, we can just use the "apt-get" system to install it. (Here I'm
+editing the file from within R to make the process reproducible, you can edit
+the file directly with a text editor.)
+
+```{r dockerfile}
+dockerfile_text <- "
+# select Ubuntu Linux image
+FROM ubuntu:latest
+# Use the 'apt-get' system to install figlet
+RUN apt-get update && apt-get install -y figlet
+# set the working_dir/
+RUN mkdir /working_dir
+WORKDIR /working_dir
+"
+# write to latest Dockerfile
+cat(dockerfile_text, file = file.path(flpth, 'inst', 'dockerfiles', 'latest',
+                                      'Dockerfile'))
+```
+
+Now, we have our Dockerfile set-up and our module skeleton, we must develop the
+R code. The skeleton code for our `figlet`-module is currently:
+
+```{r skeleton-function, echo=TRUE, eval=FALSE}
+#' @name figlet
+#' @title figlet
+#' @description Run figlet
+#' @param ... Arguments
+#' @example /examples/example.R
+#' @export
+figlet <- function(...) {
+  # convert the ... into a argument list
+  arglist <- arglist_get(...)
+  # create an outsider object: describe the arguments and program
+  otsdr <- outsider_init(pkgnm = 'om..figlet', cmd = 'figlet',
+                         arglist = arglist)
+  # run the command
+  run(otsdr)
+}
+```
+
+The above function would work fine. It would pass any arguments from the user
+in R to the `figlet` program. But because `figlet` does not come with input/output arguments, we will need to hardcode these into our function and
+use some if statements and bash to create this functionality. Because this will
+require calling several commands via the terminal, we can create a shell script
+that we can then pass through `outsider` to our container.
+
+```{r rfunction}
+function_text <- "
+#' @name figlet
+#' @title figlet
+#' @description Run figlet with input and output files.
+#' @param arglist Arguments for figlet
+#' @param input_file Text input file
+#' @param output_file ASCII art output file
+#' @details If no input_file, will use arglist argument.
+#' If no output_file, will print to console.
+#' @example /examples/example.R
+#' @export
+figlet <- function(arglist = arglist_get(...), input_file = NULL,
+                   output_file = NULL) {
+  wd <- NULL
+  # construct shell script from arglist
+  arglist <- c('figlet', arglist)
+  if (!is.null(input_file)) {
+      # cat the input_file contents to figlet
+      # (basename is used because on the container,
+      #  filepaths cannot be used.)
+      arglist <- c('cat', basename(input_file), '|', arglist)
+  }
+  if (!is.null(output_file)) {
+      # write out the results of figlet to output_file
+      arglist <- c(arglist, '>', basename(output_file))
+      # determine where returned files should be sent
+      wd <- dirpath_get(output_file)
+  }
+  # write arglist to temp file
+  script <- file.path(tempdir(), 'script.sh')
+  on.exit(file.remove(script))
+  # ensure script is written in binary format
+  script_cnntn <- file(script, 'wb')
+  cmds <- paste(arglist, collapse = ' ')
+  # debug print
+  print(cmds)
+  write(x = cmds, file = script_cnntn)
+  close(script_cnntn)
+  # initialise outsider container by specifying the command,
+  # the arguments, the files to be sent, and the directory to where
+  # returned files should be sent
+  otsdr <- outsider_init(pkgnm = 'om..figlet', cmd = 'bash',
+                         arglist = 'script.sh', wd = wd,
+                         files_to_send = c(script, input_file))
+  # run the command
+  run(otsdr)
+}
+"
+# write to R/functions.R
+cat(function_text, file = file.path(flpth, 'R', 'functions.R'))
+```
+
+> **What does `arglist` do?** This function takes R objects and converts them
+into character strings that then be passed to a command-line program. It can
+take as many arguments as you want. For example, with `figlet` you may want to
+convert the value of `a` to ASCII art. In this way, you would simply be able to
+pass `a` to the `figlet` function rather than spell it out again.
+
+> **What's with the `#'@`?** These are the roxygen tags. They determine the
+documentation of the function. See
+["Object documentation"](http://r-pkgs.had.co.nz/man.html) for more details.
+
+Ok, let's build the module!
+
+```{r build-package}
+module_build(flpth = flpth)
+```
+
+Does it work?
+
+```{r does-it-work}
+library(outsider)
+figlet <- module_import('figlet', repo = 'dombennett/om..figlet')
+# without files
+figlet(arglist = 'hello!')
+# with input file
+input_file <- file.path(tempdir(), 'input_figlet.txt')
+cat('This is from the input text file!', file = input_file)
+figlet(arglist = '', input_file = input_file)
+# with output file
+output_file <- file.path(tempdir(), 'output_figlet.txt')
+figlet(arglist = 'Into the output file', output_file = output_file)
+cat(readLines(con = output_file), sep = '\n')
+# from input file to output file... with font block!
+figlet(arglist = c('-f', 'block'), input_file = input_file,
+       output_file = output_file)
+cat(readLines(con = output_file), sep = '\n')
+# clean-up
+file.remove(c(input_file, output_file))
+```
+
+## Check, test and deploy
+
+Ok! So we have a functioning module. But how do we know it's a functioning
+module? To check our module structure, configuration and functioning we have a 
+few helpful functions.
+
+```{r check-and-test}
+# make sure the folder structure is correct
+module_check(flpth = flpth)
+# check are the names of the module components
+module_identities(flpth = flpth)
+# test that the module works
+# module_test(flpth = flpth)
+```
+
+Running `module_test` we will find that there is an issue with the module.
+`module_test` checks the functioning of the code by running the example; our
+current example tries to call `-h` with `figlet` -- which is
+an invalid argument. To correct this we can simply updated our example.
+
+```{r update-example}
+example_text <- "
+library(outsider)
+figlet <- module_import('figlet', repo = 'dombennett/om..figlet')
+figlet('hello!')
+"
+# write to examples/example.R
+cat(example_text, file = file.path(flpth, 'examples', 'example.R'))
+# re-build package
+module_build(flpth = flpth, build_image = FALSE, verbose = FALSE)
+```
+
+Now re-running the test ...
+
+```{r module_test}
+module_test(flpth = flpth)
+```
+
+
+Nice! The package passes. That means we can upload the package to GitHub and
+Docker-Hub using the same functions as we saw in "basic".
+
+```{R upload, eval=FALSE, include=TRUE}
+module_upload(flpth = flpth, code_sharing = TRUE, dockerhub = TRUE)
+```
+
+---
+
+**Delete it all**
+
+```{r clean-up}
+module_uninstall(repo = 'om..figlet')
+unlink(x = flpth, recursive = TRUE, force = TRUE)
+```
+
+---
+
+## Next-up: [Advanced](https://docs.ropensci.org/outsider.devtools/articles/advanced.html)
+
+
