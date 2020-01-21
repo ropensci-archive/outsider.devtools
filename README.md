@@ -2,7 +2,8 @@
 Development tools package for `outsider` <img src="https://raw.githubusercontent.com/ropensci/outsider.devtools/master/other/logo_devtools.png" height="200" align="right"/>
 ----
 
-[![Build Status](https://travis-ci.org/ropensci/outsider.devtools.svg?branch=master)](https://travis-ci.org/ropensci/outsider.base) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/ropensci/outsider.devtools?branch=master&svg=true)](https://ci.appveyor.com/project/DomBennett/outsider-devtools) [![Coverage Status](https://coveralls.io/repos/github/ropensci/outsider.devtools/badge.svg?branch=master)](https://coveralls.io/github/ropensci/outsider.devtools?branch=master)
+[![Build Status](https://travis-ci.org/ropensci/outsider.devtools.svg?branch=master)](https://travis-ci.org/ropensci/outsider.base) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/ropensci/outsider.devtools?branch=master&svg=true)](https://ci.appveyor.com/project/DomBennett/outsider-devtools) [![Coverage Status](https://coveralls.io/repos/github/ropensci/outsider.devtools/badge.svg?branch=master)](https://coveralls.io/github/ropensci/outsider.devtools?branch=master) 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3615074.svg)](https://doi.org/10.5281/zenodo.3615074)
 
 ## Build [`outsider`](https://github.com/ropensci/outsider#readme) modules!
 
